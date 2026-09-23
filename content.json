@@ -4,34 +4,31 @@
       "id": 1,
       "title": "Quick Self-Defense Tip",
       "thumbnail": "images/short1.jpg",
-      "youtubeId": "xxxxxx"
+      "youtubeId": "உங்களது_யூடியூப்_ஷார்ட்ஸ்_ஐடி"
     }
-
     
   ],
   
   "videos": [
     {
       "id": 1,
-      "title": "3 Seconds Street Self-Defense Techniques",
+      "title": "3 Seconds Street Self-Defense",
       "thumbnail": "images/video1.jpg",
-      "youtubeId": "xxxxxx",
+      "youtubeId": "உங்களது_யூடியூப்_வீடியோ_ஐடி",
       "category": "Martial Arts"
     }
-
     
   ],
   
-
   "articles": [
     {
       "id": 1,
       "title": "தற்காப்புக் கலைகளின் அறிவியல் முறைகள்",
       "thumbnail": "images/article1.jpg",
-      "file": "article-1.html"
+      "file": "article-1.html",
+      "category": "Fitness & Training"
     }
+    
   ]
-
-
-
+  
 }
