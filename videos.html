@@ -58,6 +58,16 @@
         .videos-container {
             padding: 0 16px;
         }
+        .category-section {
+            margin-bottom: 24px;
+        }
+        .category-title {
+            font-size: 11pt;
+            color: var(--accent);
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 4px;
+        }
         .video-card {
             background: var(--card-bg);
             border-radius: 10px;
@@ -148,19 +158,38 @@
             .then(res => res.json())
             .then(data => {
                 const container = document.getElementById('all-videos');
-                // உங்களது content.json அமைப்பில் உள்ள 'videos' பகுதியிலிருந்து தரவுகளை எடுக்கிறது
                 if (data.videos && data.videos.length > 0) {
                     container.innerHTML = '';
-                    data.videos.forEach(item => {
-                        container.innerHTML += `
-                            <div class="video-card" onclick="window.location='video-view.html?id=${item.id}'">
-                                <img src="${item.thumbnail}" alt="Video Thumbnail">
-                                <div class="video-info">
-                                    <div class="video-title">${item.title}</div>
-                                </div>
-                            </div>
-                        `;
+                    
+                    // கேட்டகரி வாரியாக வீடியோக்களைப் பிரிப்பது
+                    let categories = {};
+                    data.videos.forEach(video => {
+                        let cat = video.category || "General";
+                        if (!categories[cat]) {
+                            categories[cat] = [];
+                        }
+                        categories[cat].push(video);
                     });
+
+                    // ஒவ்வொரு கேட்டகரியாகக் காட்டுவது
+                    for (let cat in categories) {
+                        let sectionHtml = `
+                            <div class="category-section">
+                                <div class="category-title">${cat}</div>
+                        `;
+                        categories[cat].forEach(item => {
+                            sectionHtml += `
+                                <div class="video-card" onclick="window.location='video-view.html?id=${item.id}'">
+                                    <img src="${item.thumbnail}" alt="Video Thumbnail">
+                                    <div class="video-info">
+                                        <div class="video-title">${item.title}</div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        sectionHtml += `</div>`;
+                        container.innerHTML += sectionHtml;
+                    }
                 } else {
                     container.innerHTML = '<p style="text-align:center; color:#94a3b8;">வீடியோக்கள் எதுவும் கிடைக்கவில்லை.</p>';
                 }
