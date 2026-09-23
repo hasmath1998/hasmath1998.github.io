@@ -1,0 +1,26 @@
+{
+  "shorts": [
+    {
+      "id": 1,
+      "thumbnail": "images/short1.jpg",
+      "videoUrl": "https://www.youtube.com/embed/xxxxxx"
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "type": "video",
+      "title": "3 Seconds Street Self-Defense Techniques",
+      "thumbnail": "images/video1.jpg",
+      "youtubeId": "xxxxxx",
+      "category": "Martial Arts"
+    },
+    {
+      "id": 2,
+      "type": "article",
+      "title": "EPS-TOPIK கொரிய மொழித் தேர்வு வழிகாட்டி",
+      "thumbnail": "images/article1.jpg",
+      "content": "கொரியா நாட்டிற்கு வேலைவாய்ப்பு பெற விரும்பும் பல இளைஞர்களுக்கு EPS-TOPIK தேர்வு மிக முக்கியமானது..."
+    }
+  ]
+}
