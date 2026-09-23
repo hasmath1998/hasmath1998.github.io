@@ -90,6 +90,53 @@
             backdrop-filter: blur(4px);
         }
 
+        /* Reels Fullscreen Overlay View */
+        #reels-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            z-index: 2000;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .reel-item {
+            width: 100%;
+            height: 100vh;
+            scroll-snap-align: start;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+        }
+
+        .reel-item iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .reels-back-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 9pt;
+            cursor: pointer;
+            z-index: 2010;
+            backdrop-filter: blur(4px);
+        }
+
         .footer-policy {
             text-align: center;
             padding: 20px 16px;
@@ -137,6 +184,12 @@
         <p style="grid-column: 1 / -1; text-align:center; color:var(--text-muted); padding:30px;">ஷார்ட்ஸ் ஏற்றப்படுகின்றன...</p>
     </div>
 
+    <!-- Reels Fullscreen Viewer Container -->
+    <div id="reels-overlay">
+        <button class="reels-back-btn" onclick="closeReels()">← Back</button>
+        <div id="reels-feed-container"></div>
+    </div>
+
     <div class="footer-policy">
         <a href="about.html">About</a> | <a href="contact.html">Contact</a> | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms</a> | <a href="disclaimer.html">Disclaimer</a>
     </div>
@@ -149,16 +202,18 @@
     </nav>
 
     <script>
+        let allShorts = [];
+
         fetch('content.json')
             .then(res => res.json())
             .then(data => {
                 const container = document.getElementById('shorts-container');
-                const shorts = data.shorts || [];
-                if(shorts.length > 0) {
+                allShorts = data.shorts || [];
+                if(allShorts.length > 0) {
                     container.innerHTML = '';
-                    shorts.forEach(item => {
+                    allShorts.forEach((item, index) => {
                         container.innerHTML += `
-                            <div class="short-card" onclick="window.location='short-view.html?id=${item.id}'">
+                            <div class="short-card" onclick="openReels(${index})">
                                 <img src="${item.thumbnail}" alt="Short">
                                 <div class="short-views">▶ ${item.views || '15K'}</div>
                             </div>
@@ -168,6 +223,41 @@
                     container.innerHTML = "<p style='grid-column: 1 / -1; text-align:center; color:var(--text-muted);'>ஷார்ட்ஸ் எதுவும் இல்லை.</p>";
                 }
             });
+
+        function openReels(startIndex) {
+            const overlay = document.getElementById('reels-overlay');
+            const reelsFeed = document.getElementById('reels-feed-container');
+            
+            reelsFeed.innerHTML = '';
+            
+            // Generate vertical snap items for all shorts
+            allShorts.forEach((item, index) => {
+                // Autoplay only the selected video, others load when scrolled
+                let autoplay = (index === startIndex) ? '?autoplay=1' : '';
+                reelsFeed.innerHTML += `
+                    <div class="reel-item">
+                        <iframe src="https://www.youtube.com/embed/${item.youtubeId}${autoplay}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                `;
+            });
+
+            overlay.style.display = 'block';
+
+            // Scroll smoothly to the clicked video index
+            setTimeout(() => {
+                const reelItems = document.querySelectorAll('.reel-item');
+                if(reelItems[startIndex]) {
+                    reelItems[startIndex].scrollIntoView({ behavior: 'instant' });
+                }
+            }, 50);
+        }
+
+        function closeReels() {
+            const overlay = document.getElementById('reels-overlay');
+            const reelsFeed = document.getElementById('reels-feed-container');
+            overlay.style.display = 'none';
+            reelsFeed.innerHTML = ''; // Stop video playback on close
+        }
     </script>
 </body>
 </html>
