@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles - Fighter Hasmathullah</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #161e2e;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --nav-bg: #070a12;
+            --border-color: #1e293b;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding-bottom: 75px;
+        }
+        .top-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 10px 16px;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .header-logo {
+            position: absolute;
+            left: 16px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1.5px solid var(--accent);
+            object-fit: cover;
+        }
+        .header-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10pt;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+        .page-heading {
+            font-size: 12pt;
+            margin: 16px;
+            color: var(--accent);
+            font-weight: bold;
+        }
+        .articles-container {
+            padding: 0 16px;
+        }
+        .article-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            margin-bottom: 14px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        .article-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+        .article-info {
+            padding: 12px;
+        }
+        .article-title {
+            font-size: 11pt;
+            font-weight: bold;
+            color: #f1f5f9;
+        }
+        /* Bottom Navigation Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--nav-bg);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid var(--border-color);
+            z-index: 1000;
+        }
+        .nav-item {
+            text-align: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 8.5pt;
+        }
+        .nav-item.active {
+            color: var(--accent);
+        }
+        .nav-item svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <header class="top-header">
+        <img src="logo.jpg" alt="Logo" class="header-logo">
+        <h1 class="header-title">Fighter Hasmathullah</h1>
+    </header>
+
+    <div class="page-heading">Articles Collection</div>
+    <div class="articles-container" id="all-articles">
+        <!-- JSON மூலமாக ஆர்டிக்கிள் வரும் -->
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <div>Home</div>
+        </a>
+        <a href="shorts.html" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+            <div>Shorts</div>
+        </a>
+        <a href="videos.html" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+            <div>Videos</div>
+        </a>
+        <a href="articles.html" class="nav-item active">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            <div>Articles</div>
+        </a>
+    </nav>
+
+    <script>
+        fetch('content.json')
+            .then(res => res.json())
+            .then(data => {
+                const container = document.getElementById('all-articles');
+                data.posts.filter(item => item.type === 'article').forEach(item => {
+                    container.innerHTML += `
+                        <div class="article-card" onclick="window.location='article-view.html?id=${item.id}'">
+                            <img src="${item.thumbnail}" alt="Article">
+                            <div class="article-info">
+                                <div class="article-title">${item.title}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+            });
+    </script>
+</body>
+</html>
