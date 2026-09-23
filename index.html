@@ -23,7 +23,6 @@
             padding-bottom: 75px;
         }
         
-        /* Top Header: Left Logo & Smaller, Professional Center Name */
         .top-header {
             display: flex;
             align-items: center;
@@ -44,7 +43,7 @@
         }
         .header-title {
             font-family: 'Montserrat', sans-serif;
-            font-size: 10pt; /* எழுத்தின் அளவு குறைக்கப்பட்டு நேர்த்தியாக்கப்பட்டுள்ளது */
+            font-size: 10pt;
             font-weight: 700;
             color: #ffffff;
             letter-spacing: 1px;
@@ -52,7 +51,6 @@
             margin: 0;
         }
 
-        /* Feed Sections */
         .section-title {
             font-size: 11pt;
             margin: 16px 16px 8px 16px;
@@ -69,6 +67,7 @@
             margin-bottom: 14px;
             overflow: hidden;
             border: 1px solid var(--border-color);
+            cursor: pointer;
         }
         .feed-card img {
             width: 100%;
@@ -84,7 +83,6 @@
             color: #f1f5f9;
         }
 
-        /* Horizontal Shorts Slider */
         .shorts-section {
             margin: 15px 0;
         }
@@ -104,6 +102,7 @@
             overflow: hidden;
             flex-shrink: 0;
             border: 1px solid var(--border-color);
+            cursor: pointer;
         }
         .short-card img {
             width: 100%;
@@ -111,7 +110,6 @@
             object-fit: cover;
         }
 
-        /* Footer Menu */
         .site-footer {
             text-align: center;
             padding: 20px 15px;
@@ -126,7 +124,6 @@
             margin: 0 6px;
         }
 
-        /* Bottom Navigation Bar */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -158,39 +155,34 @@
 </head>
 <body>
 
-    <!-- Top Header -->
     <header class="top-header">
         <img src="logo.jpg" alt="Logo" class="header-logo">
         <h1 class="header-title">Fighter Hasmathullah</h1>
     </header>
 
-    <!-- Main Feed Part 1 -->
     <div class="section-title">Latest Feeds</div>
     <div class="feed-container" id="feed-part1"></div>
 
-    <!-- Shorts Section in-between -->
     <div class="shorts-section">
         <div class="section-title">Shorts</div>
-        <div class="shorts-container" id="shorts-feed"></div>
+        <div class="shorts-container" id="shorts-feed">
+            <p style="color:var(--text-muted); font-size:9pt; margin:0;">ஏற்றப்படுகிறது...</p>
+        </div>
     </div>
 
-    <!-- Main Feed Part 2 -->
     <div class="feed-container" id="feed-part2"></div>
 
-    <!-- Footer Menu -->
     <footer class="site-footer">
-    <p>&copy; 2026 Ak Hasmathullah. All Rights Reserved.</p>
-    <div>
-        <a href="about.html">About Us</a> | 
-        <a href="contact.html">Contact</a> | 
-        <a href="privacy.html">Privacy Policy</a> | 
-        <a href="terms.html">Terms</a> | 
-        <a href="disclaimer.html">Disclaimer</a>
-    </div>
-</footer>
+        <p>&copy; 2026 Ak Hasmathullah. All Rights Reserved.</p>
+        <div>
+            <a href="about.html">About Us</a> | 
+            <a href="contact.html">Contact</a> | 
+            <a href="privacy.html">Privacy Policy</a> | 
+            <a href="terms.html">Terms</a> | 
+            <a href="disclaimer.html">Disclaimer</a>
+        </div>
+    </footer>
 
-
-    <!-- Bottom Navigation Bar -->
     <nav class="bottom-nav">
         <a href="index.html" class="nav-item active">
             <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -212,35 +204,53 @@
 
     <script>
         fetch('content.json')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
             .then(data => {
+                // 1. Shorts லோட் செய்தல்
                 const shortsContainer = document.getElementById('shorts-feed');
-                data.shorts.forEach(item => {
-                    shortsContainer.innerHTML += `
-                        <div class="short-card" onclick="window.location='short-player.html?id=${item.id}'">
-                            <img src="${item.thumbnail}" alt="Short">
-                        </div>
-                    `;
-                });
+                if (data.shorts && data.shorts.length > 0) {
+                    shortsContainer.innerHTML = '';
+                    data.shorts.forEach(item => {
+                        shortsContainer.innerHTML += `
+                            <div class="short-card" onclick="window.location='short-player.html?id=${item.id}'">
+                                <img src="${item.thumbnail}" alt="Short">
+                            </div>
+                        `;
+                    });
+                } else {
+                    shortsContainer.innerHTML = '<p style="color:var(--text-muted); font-size:9pt; margin:0;">ஷார்ட்ஸ் எதுவும் இல்லை.</p>';
+                }
 
+                // 2. Feeds / Posts லோட் செய்தல்
                 const feedPart1 = document.getElementById('feed-part1');
                 const feedPart2 = document.getElementById('feed-part2');
                 
-                data.posts.forEach((item, index) => {
-                    let cardHTML = `
-                        <div class="feed-card" onclick="window.location='${item.type}-view.html?id=${item.id}'">
-                            <img src="${item.thumbnail}" alt="Thumbnail">
-                            <div class="feed-content">
-                                <div class="feed-title">${item.title}</div>
+                if (data.posts && data.posts.length > 0) {
+                    data.posts.forEach((item, index) => {
+                        let cardHTML = `
+                            <div class="feed-card" onclick="window.location='${item.type}-view.html?id=${item.id}'">
+                                <img src="${item.thumbnail}" alt="Thumbnail">
+                                <div class="feed-content">
+                                    <div class="feed-title">${item.title}</div>
+                                </div>
                             </div>
-                        </div>
-                    `;
-                    if (index < 2) {
-                        feedPart1.innerHTML += cardHTML;
-                    } else {
-                        feedPart2.innerHTML += cardHTML;
-                    }
-                });
+                        `;
+                        if (index < 2) {
+                            feedPart1.innerHTML += cardHTML;
+                        } else {
+                            feedPart2.innerHTML += cardHTML;
+                        }
+                    });
+                } else {
+                    feedPart1.innerHTML = '<p style="color:var(--text-muted); font-size:9pt;">பதிவுகள் எதுவும் இல்லை.</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Error loading content:', error);
+                document.getElementById('shorts-feed').innerHTML = '<p style="color:#ef4444; font-size:9pt; margin:0;">பிழை: தரவு கிடைக்கவில்லை.</p>';
             });
     </script>
 </body>
