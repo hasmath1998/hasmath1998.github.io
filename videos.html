@@ -4,77 +4,156 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Videos - Fighter Hasmathullah</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-        body { background-color: #0f0f0f; color: #ffffff; padding-bottom: 70px; }
-        header { background-color: #212121; padding: 15px 20px; border-bottom: 1px solid #383838; position: sticky; top: 0; z-index: 100; }
-        header h1 { font-size: 1.2rem; color: #ff0000; }
-        .container { max-width: 800px; margin: 0 auto; padding: 15px; }
-        .category-tabs { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px; }
-        .category-tabs button { background-color: #272727; color: #ffffff; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; white-space: nowrap; font-size: 0.9rem; }
-        .category-tabs button.active { background-color: #ffffff; color: #000000; }
-        .card { background-color: #1f1f1f; margin-bottom: 20px; border-radius: 12px; overflow: hidden; border: 1px solid #272727; cursor: pointer; }
-        .media-container { position: relative; width: 100%; padding-bottom: 56.25%; background-color: #000; }
-        .media-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; pointer-events: none; }
-        .card-content { padding: 12px 15px; }
-        .card-title { font-size: 1rem; margin-bottom: 6px; color: #f1f1f1; font-weight: bold; }
-        .card-desc { font-size: 0.85rem; color: #aaa; }
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background-color: #121212; border-top: 1px solid #272727; display: flex; justify-content: space-around; padding: 10px 0; z-index: 1000; }
-        .nav-item { text-align: center; color: #aaa; text-decoration: none; font-size: 0.75rem; flex: 1; }
-        .nav-item svg { width: 24px; height: 24px; fill: currentColor; margin: 0 auto 2px auto; display: block; }
-        .nav-item.active { color: #ffffff; }
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #161e2e;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --nav-bg: #070a12;
+            --border-color: #1e293b;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding-bottom: 75px;
+        }
+        .top-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 10px 16px;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .header-logo {
+            position: absolute;
+            left: 16px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1.5px solid var(--accent);
+            object-fit: cover;
+        }
+        .header-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10pt;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+        .page-heading {
+            font-size: 12pt;
+            margin: 16px;
+            color: var(--accent);
+            font-weight: bold;
+        }
+        .videos-container {
+            padding: 0 16px;
+        }
+        .video-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            margin-bottom: 14px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        .video-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        .video-info {
+            padding: 12px;
+        }
+        .video-title {
+            font-size: 11pt;
+            font-weight: bold;
+            color: #f1f5f9;
+        }
+        /* Bottom Navigation Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--nav-bg);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid var(--border-color);
+            z-index: 1000;
+        }
+        .nav-item {
+            text-align: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 8.5pt;
+        }
+        .nav-item.active {
+            color: var(--accent);
+        }
+        .nav-item svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+            margin-bottom: 2px;
+        }
     </style>
 </head>
 <body>
-    <header><h1>Full Videos</h1></header>
-    <div class="container">
-        <div class="category-tabs">
-            <button class="cat-btn active" onclick="filterVideos('all', event)">All</button>
-            <button class="cat-btn" onclick="filterVideos('martial-arts', event)">Martial Arts & Conditioning</button>
-            <button class="cat-btn" onclick="filterVideos('korean', event)">Korean Language</button>
-        </div>
-        <div id="videos-feed"></div>
+    <header class="top-header">
+        <img src="logo.jpg" alt="Logo" class="header-logo">
+        <h1 class="header-title">Fighter Hasmathullah</h1>
+    </header>
+
+    <div class="page-heading">All Videos & Playlists</div>
+    <div class="videos-container" id="all-videos">
+        <!-- JSON மூலமாக வீடியோக்கள் வரும் -->
     </div>
+
     <nav class="bottom-nav">
-        <a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Home</a>
-        <a href="shorts.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M17.77 10.32l-1.2-.5L18 9.06c1.84-.96 2.53-3.23 1.56-5.07s-3.23-2.53-5.07-1.56l-10 5.22c-1.37.72-2.12 2.26-1.87 3.79.25 1.53 1.45 2.74 2.99 2.97l1.2.18-1.47 1.25c-1.6 1.37-1.82 3.73-.49 5.35 1.34 1.63 3.75 1.83 5.33.43l10-8.9c1.07-.95 1.48-2.43 1.05-3.79z"/></svg>Shorts</a>
-        <a href="videos.html" class="nav-item active"><svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0-2-.9-2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM8 15l6-5-6-5v10z"/></svg>Videos</a>
-        <a href="articles.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>Articles</a>
+        <a href="index.html" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <div>Home</div>
+        </a>
+        <a href="shorts.html" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+            <div>Shorts</div>
+        </a>
+        <a href="videos.html" class="nav-item active">
+            <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+            <div>Videos</div>
+        </a>
+        <a href="articles.html" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            <div>Articles</div>
+        </a>
     </nav>
+
     <script>
-        let allVideos = [];
-        fetch('data.json')
+        fetch('content.json')
             .then(res => res.json())
             .then(data => {
-                allVideos = data.videos;
-                renderList(allVideos);
-            });
-
-        function renderList(videos) {
-            let html = '';
-            videos.forEach(video => {
-                html += `
-                    <div class="card" onclick="window.location.href='watch.html?id=${video.id}'">
-                        <div class="media-container"><iframe src="${video.embed}"></iframe></div>
-                        <div class="card-content">
-                            <div class="card-title">${video.title}</div>
-                            <div class="card-desc">${video.desc}</div>
+                const container = document.getElementById('all-videos');
+                data.posts.filter(item => item.type === 'video').forEach(item => {
+                    container.innerHTML += `
+                        <div class="video-card" onclick="window.location='video-view.html?id=${item.id}'">
+                            <img src="${item.thumbnail}" alt="Video">
+                            <div class="video-info">
+                                <div class="video-title">${item.title}</div>
+                            </div>
                         </div>
-                    </div>
-                `;
+                    `;
+                });
             });
-            document.getElementById('videos-feed').innerHTML = html;
-        }
-
-        function filterVideos(category, event) {
-            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-            if (category === 'all') {
-                renderList(allVideos);
-            } else {
-                renderList(allVideos.filter(v => v.category === category));
-            }
-        }
     </script>
 </body>
 </html>
