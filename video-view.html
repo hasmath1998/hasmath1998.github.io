@@ -71,7 +71,7 @@
             border: 1px solid var(--border);
         }
 
-        .media-box video, .media-box iframe {
+        .media-box iframe {
             width: 100%;
             height: 100%;
             border: none;
@@ -96,6 +96,57 @@
             margin-bottom: 16px;
         }
 
+        .related-section-title {
+            font-size: 10pt;
+            font-weight: 600;
+            color: var(--accent);
+            margin: 20px 0 10px 0;
+            border-top: 1px solid var(--border);
+            padding-top: 12px;
+        }
+
+        .related-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .related-item {
+            display: flex;
+            gap: 8px;
+            background: var(--card-bg);
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .related-thumb {
+            width: 100px;
+            min-width: 100px;
+            height: 56px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .related-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .related-title {
+            font-size: 8.5pt;
+            font-weight: 600;
+            color: var(--text-main);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.3;
+        }
+
         .back-btn {
             display: inline-block;
             background: var(--card-bg);
@@ -105,6 +156,7 @@
             text-decoration: none;
             font-size: 9pt;
             border: 1px solid var(--border);
+            margin-top: 16px;
         }
 
         .footer-policy {
@@ -154,9 +206,11 @@
         <div class="media-box" id="media-player-box">
             <p style="color:var(--text-muted); font-size:9pt;">வீடியோ ஏற்றப்படுகிறது...</p>
         </div>
-        <div class="video-info" id="video-info-box">
-            <!-- Details will load via JS -->
-        </div>
+        <div class="video-info" id="video-info-box"></div>
+
+        <div class="related-section-title">மற்ற வீடியோக்கள் (More Videos)</div>
+        <div class="related-list" id="related-videos-container"></div>
+
         <a href="index.html" class="back-btn">← முகப்புக்குத் திரும்பு</a>
     </div>
 
@@ -178,18 +232,42 @@
         fetch('content.json')
             .then(res => res.json())
             .then(data => {
-                const allItems = [...(data.posts || []), ...(data.shorts || [])];
+                const videos = data.videos || [];
+                const shorts = data.shorts || [];
+                const allItems = [...videos, ...shorts];
                 const item = allItems.find(p => p.id == videoId);
                 
                 const playerBox = document.getElementById('media-player-box');
                 const infoBox = document.getElementById('video-info-box');
+                const relatedContainer = document.getElementById('related-videos-container');
 
                 if(item) {
-                    playerBox.innerHTML = `<video src="${item.videoUrl || ''}" poster="${item.thumbnail}" controls autoplay style="width:100%; height:100%; object-fit:contain;"></video>`;
+                    // YouTube Iframe Embed
+                    playerBox.innerHTML = `<iframe src="https://www.youtube.com/embed/${item.youtubeId}?autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+                    
                     infoBox.innerHTML = `
                         <div class="video-title">${item.title}</div>
-                        <div class="video-meta">${item.views || '1K'} views • ${item.time || 'Recently'}</div>
+                        <div class="video-meta">1K views • Recently</div>
                     `;
+
+                    // Render Other Videos Below (YouTube style)
+                    const otherItems = allItems.filter(p => p.id != videoId);
+                    if(otherItems.length > 0) {
+                        relatedContainer.innerHTML = '';
+                        otherItems.forEach(oth => {
+                            relatedContainer.innerHTML += `
+                                <div class="related-item" onclick="window.location='video-view.html?id=${oth.id}'">
+                                    <img src="${oth.thumbnail}" class="related-thumb" alt="Thumbnail">
+                                    <div class="related-details">
+                                        <div class="related-title">${oth.title}</div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        relatedContainer.innerHTML = "<p style='font-size:8.5pt; color:var(--text-muted);'>வேறு வீடியோக்கள் இல்லை.</p>";
+                    }
+
                 } else {
                     playerBox.innerHTML = `<p style="color:#ef4444; font-size:9pt;">வீடியோ கிடைக்கவில்லை.</p>`;
                 }
