@@ -4,94 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ak Hasmathullah - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
+            --bg-color: #0b0f19;
+            --card-bg: #161e2e;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --accent: #38bdf8;
-            --nav-bg: #090d16;
+            --nav-bg: #070a12;
+            --border-color: #1e293b;
         }
         body {
             font-family: 'Segoe UI', Tahoma, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
-            padding-bottom: 70px;
+            padding-bottom: 75px;
         }
         
-        /* Top Header: Profile Photo & Styled Centered Name */
-        .profile-header {
-            text-align: center;
-            padding: 20px 15px;
-            background: linear-gradient(to bottom, #1e293b, var(--bg-color));
-            border-bottom: 1px solid #334155;
+        /* Top Header: Left Logo & Smaller, Professional Center Name */
+        .top-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 10px 16px;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
         }
-        .profile-pic {
-            width: 70px;
-            height: 70px;
+        .header-logo {
+            position: absolute;
+            left: 16px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            border: 2px solid var(--accent);
+            border: 1.5px solid var(--accent);
             object-fit: cover;
-            margin-bottom: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
         }
-        .profile-name {
-            font-size: 13pt;
-            font-weight: bold;
-            color: #ef4444; /* நீங்கள் விரும்பும் ஸ்டைலிஷ் கலர் (சிவப்பு/பிரைட் நிறம்) */
+        .header-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10pt; /* எழுத்தின் அளவு குறைக்கப்பட்டு நேர்த்தியாக்கப்பட்டுள்ளது */
+            font-weight: 700;
+            color: #ffffff;
             letter-spacing: 1px;
-            margin: 0;
             text-transform: uppercase;
+            margin: 0;
         }
-        
+
+        /* Feed Sections */
         .section-title {
-            font-size: 13pt;
-            margin: 20px 15px 10px 15px;
+            font-size: 11pt;
+            margin: 16px 16px 8px 16px;
             color: var(--accent);
             font-weight: bold;
         }
 
-        /* Horizontal Scrolling Shorts Section (Youtube/TikTok style) */
-        .shorts-container {
-            display: flex;
-            overflow-x: auto;
-            gap: 12px;
-            padding: 0 15px;
-            scrollbar-width: none;
-        }
-        .shorts-container::-webkit-scrollbar { display: none; }
-        .short-card {
-            min-width: 120px;
-            height: 200px;
-            background: var(--card-bg);
-            border-radius: 8px;
-            overflow: hidden;
-            flex-shrink: 0;
-            position: relative;
-            border: 1px solid #334155;
-        }
-        .short-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Main Feed (Videos & Articles from JSON) */
         .feed-container {
-            padding: 0 15px;
+            padding: 0 16px;
         }
         .feed-card {
             background: var(--card-bg);
-            border-radius: 8px;
-            margin-bottom: 15px;
+            border-radius: 10px;
+            margin-bottom: 14px;
             overflow: hidden;
-            border: 1px solid #334155;
+            border: 1px solid var(--border-color);
         }
         .feed-card img {
             width: 100%;
-            height: 170px;
+            height: 180px;
             object-fit: cover;
         }
         .feed-content {
@@ -100,25 +81,52 @@
         .feed-title {
             font-size: 11pt;
             font-weight: bold;
-            margin-bottom: 6px;
+            color: #f1f5f9;
         }
 
-        /* Footer / Hidden Menu for AdSense Approval */
+        /* Horizontal Shorts Slider */
+        .shorts-section {
+            margin: 15px 0;
+        }
+        .shorts-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding: 0 16px;
+            scrollbar-width: none;
+        }
+        .shorts-container::-webkit-scrollbar { display: none; }
+        .short-card {
+            min-width: 110px;
+            height: 190px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 1px solid var(--border-color);
+        }
+        .short-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Footer Menu */
         .site-footer {
             text-align: center;
-            padding: 20px;
+            padding: 20px 15px;
             font-size: 8.5pt;
             color: var(--text-muted);
-            border-top: 1px solid #334155;
+            border-top: 1px solid var(--border-color);
             margin-top: 30px;
         }
         .site-footer a {
             color: var(--text-muted);
             text-decoration: none;
-            margin: 0 8px;
+            margin: 0 6px;
         }
 
-        /* Bottom Navigation Bar (Matched with your screenshot) */
+        /* Bottom Navigation Bar */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -128,17 +136,17 @@
             display: flex;
             justify-content: space-around;
             padding: 10px 0;
-            border-top: 1px solid #1e293b;
+            border-top: 1px solid var(--border-color);
             z-index: 1000;
         }
         .nav-item {
             text-align: center;
             color: var(--text-muted);
             text-decoration: none;
-            font-size: 9pt;
+            font-size: 8.5pt;
         }
         .nav-item.active {
-            color: var(--text-main);
+            color: var(--accent);
         }
         .nav-item svg {
             width: 22px;
@@ -150,34 +158,34 @@
 </head>
 <body>
 
-    <!-- Top Header: Circular Logo & Styled Centered Name -->
-    <div class="profile-header">
-        <!-- உங்களது வட்ட வடிவ லோகோ / போட்டோ இங்கே கொடுக்கப்படும் -->
-        <img src="profile.jpg" alt="Fighter Hasmathullah" class="profile-pic">
-        <div class="profile-name">Fighter Hasmathullah</div>
+    <!-- Top Header -->
+    <header class="top-header">
+        <img src="logo.jpg" alt="Logo" class="header-logo">
+        <h1 class="header-title">Fighter Hasmathullah</h1>
+    </header>
+
+    <!-- Main Feed Part 1 -->
+    <div class="section-title">Latest Feeds</div>
+    <div class="feed-container" id="feed-part1"></div>
+
+    <!-- Shorts Section in-between -->
+    <div class="shorts-section">
+        <div class="section-title">Shorts</div>
+        <div class="shorts-container" id="shorts-feed"></div>
     </div>
 
-    <!-- Horizontal Scrolling Shorts Section -->
-    <div class="section-title">Shorts</div>
-    <div class="shorts-container" id="shorts-feed">
-        <!-- content.json மூலமாக ஷார்ட்ஸ் டேட்டா இங்கே ஏற்றப்படும் -->
-    </div>
+    <!-- Main Feed Part 2 -->
+    <div class="feed-container" id="feed-part2"></div>
 
-    <!-- Main Home Feed (Videos & Articles) -->
-    <div class="section-title">Home Feed</div>
-    <div class="feed-container" id="main-feed">
-        <!-- content.json மூலமாக போஸ்டர்கள் இங்கே ஏற்றப்படும் -->
-    </div>
-
-    <!-- Footer Menu (AdSense Approval-க்காக சிறியதாக வைக்கப்பட்டுள்ளது) -->
-    <div class="site-footer">
+    <!-- Footer Menu -->
+    <footer class="site-footer">
         <p>&copy; 2026 Ak Hasmathullah. All Rights Reserved.</p>
         <div>
             <a href="about.html">About</a> | 
             <a href="privacy.html">Privacy Policy</a> | 
             <a href="contact.html">Contact</a>
         </div>
-    </div>
+    </footer>
 
     <!-- Bottom Navigation Bar -->
     <nav class="bottom-nav">
@@ -200,11 +208,9 @@
     </nav>
 
     <script>
-        // content.json கோப்பில் இருந்து டேட்டாவை எடுத்து முகப்பில் காட்டுவதற்கான ஜாவாஸ்கிரிப்ட்
         fetch('content.json')
             .then(response => response.json())
             .then(data => {
-                // Shorts Load
                 const shortsContainer = document.getElementById('shorts-feed');
                 data.shorts.forEach(item => {
                     shortsContainer.innerHTML += `
@@ -214,10 +220,11 @@
                     `;
                 });
 
-                // Main Feed Load (Videos & Articles)
-                const mainFeed = document.getElementById('main-feed');
-                data.posts.forEach(item => {
-                    mainFeed.innerHTML += `
+                const feedPart1 = document.getElementById('feed-part1');
+                const feedPart2 = document.getElementById('feed-part2');
+                
+                data.posts.forEach((item, index) => {
+                    let cardHTML = `
                         <div class="feed-card" onclick="window.location='${item.type}-view.html?id=${item.id}'">
                             <img src="${item.thumbnail}" alt="Thumbnail">
                             <div class="feed-content">
@@ -225,6 +232,11 @@
                             </div>
                         </div>
                     `;
+                    if (index < 2) {
+                        feedPart1.innerHTML += cardHTML;
+                    } else {
+                        feedPart2.innerHTML += cardHTML;
+                    }
                 });
             });
     </script>
