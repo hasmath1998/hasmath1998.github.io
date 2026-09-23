@@ -20,93 +20,81 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
-            padding-bottom: 75px;
-        }
-        .top-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            padding: 10px 16px;
-            background: var(--card-bg);
-            border-bottom: 1px solid var(--border-color);
-        }
-        .header-logo {
-            position: absolute;
-            left: 16px;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: 1.5px solid var(--accent);
-            object-fit: cover;
-        }
-        .header-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 10pt;
-            font-weight: 700;
-            color: #ffffff;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin: 0;
+            padding: 20px;
+            padding-bottom: 80px;
         }
         
-        /* மேலே ஸ்கிரோல் செய்யும் கேட்டகரி பட்டன்கள் */
-        .category-tabs {
-            display: flex;
-            overflow-x: auto;
-            gap: 8px;
-            padding: 12px 16px;
-            background: var(--bg-color);
-            white-space: nowrap;
-            scrollbar-width: none;
+        /* Top Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 20px;
         }
-        .category-tabs::-webkit-scrollbar {
-            display: none;
-        }
-        .cat-btn {
-            background: var(--card-bg);
-            color: var(--text-muted);
-            border: 1px solid var(--border-color);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 8.5pt;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .cat-btn.active {
-            background: var(--accent);
-            color: var(--bg-color);
-            font-weight: bold;
-            border-color: var(--accent);
+        .page-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14pt;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
         }
 
-        .videos-container {
-            padding: 0 16px;
+        /* YouTube Style Video Grid (கச்சிதமான மற்றும் நேர்த்தியான வடிவம்) */
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            max-width: 1000px;
+            margin: 0 auto;
         }
+
         .video-card {
             background: var(--card-bg);
             border-radius: 10px;
-            margin-bottom: 14px;
             overflow: hidden;
             border: 1px solid var(--border-color);
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
+
         .video-card:hover {
-            transform: scale(1.02);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
         }
-        .video-card img {
+
+        .video-thumb-box {
+            position: relative;
             width: 100%;
-            height: 180px;
+            padding-top: 56.25%; /* 16:9 YouTube Standard Aspect Ratio */
+            background: #000;
+        }
+
+        .video-thumb {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             object-fit: cover;
         }
+
         .video-info {
             padding: 12px;
         }
+
         .video-title {
-            font-size: 11pt;
+            font-size: 10pt;
             font-weight: bold;
             color: #f1f5f9;
+            margin: 0 0 6px 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* இரண்டு வரிகளுக்கு மேல் சென்றால் சுருக்கிவிடும் */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.4;
+        }
+
+        .video-meta {
+            font-size: 8.5pt;
+            color: var(--text-muted);
         }
 
         /* Bottom Navigation Bar */
@@ -140,17 +128,17 @@
     </style>
 </head>
 <body>
-    <header class="top-header">
-        <img src="logo.jpg" alt="Logo" class="header-logo">
-        <h1 class="header-title">Fighter Hasmathullah</h1>
+
+    <header class="page-header">
+        <h1 class="page-title">Videos</h1>
     </header>
 
-    <div class="category-tabs" id="category-tabs"></div>
-
-    <div class="videos-container" id="all-videos">
-        <p style="text-align:center; color:#94a3b8;">வீடியோக்கள் ஏற்றப்படுகின்றன...</p>
+    <!-- வீடியோக்கள் பட்டியல் இங்கேயும் லோட் ஆகும் -->
+    <div class="videos-grid" id="videos-container">
+        <p style="text-align:center; color:var(--text-muted); grid-column: 1 / -1;">ஏற்றப்படுகிறது...</p>
     </div>
 
+    <!-- Bottom Navigation Bar -->
     <nav class="bottom-nav">
         <a href="index.html" class="nav-item">
             <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -162,7 +150,7 @@
         </a>
         <a href="videos.html" class="nav-item active">
             <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
-            <div>Videos</div>
+            <div>Videos</i>
         </a>
         <a href="articles.html" class="nav-item">
             <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
@@ -171,66 +159,37 @@
     </nav>
 
     <script>
-        let allVideosData = [];
-
         fetch('content.json')
             .then(res => res.json())
             .then(data => {
-                allVideosData = data.videos || [];
-                initCategories();
-                filterVideos('All');
+                const container = document.getElementById('videos-container');
+                
+                // content.json-ல் உள்ள posts அல்லது videos பிரிவிலிருந்து வீடியோக்களை வடிகட்டி எடுக்கலாம்
+                // இங்கு உதாரணத்திற்கு type 'video' உள்ளவை அல்லது பொதுவான posts எடுக்கப்பட்டுள்ளன
+                const videoList = data.posts ? data.posts.filter(item => item.type === 'video' || !item.type) : [];
+
+                if(videoList.length > 0) {
+                    container.innerHTML = '';
+                    videoList.forEach(item => {
+                        container.innerHTML += `
+                            <div class="video-card" onclick="window.location='video-view.html?id=${item.id}'">
+                                <div class="video-thumb-box">
+                                    <img src="${item.thumbnail}" class="video-thumb" alt="Thumbnail">
+                                </div>
+                                <div class="video-info">
+                                    <div class="video-title">${item.title}</div>
+                                    <div class="video-meta">Fighter Hasmathullah</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    container.innerHTML = "<p style='text-align:center; color:var(--text-muted); grid-column: 1 / -1;'>வீடியோக்கள் எதுவும் இல்லை.</p>";
+                }
             })
             .catch(err => {
-                console.error('Error loading videos:', err);
-                document.getElementById('all-videos').innerHTML = '<p style="text-align:center; color:#ef4444;">தரவுகளை ஏற்றுவதில் பிழை.</p>';
+                document.getElementById('videos-container').innerHTML = "<p style='text-align:center; color:#ef4444; grid-column: 1 / -1;'>தரவுகளை ஏற்றுவதில் பிழை.</p>";
             });
-
-        function initCategories() {
-            const tabsContainer = document.getElementById('category-tabs');
-            let categories = ['All'];
-            
-            allVideosData.forEach(video => {
-                let cat = video.category || "General";
-                if (!categories.includes(cat)) {
-                    categories.push(cat);
-                }
-            });
-
-            tabsContainer.innerHTML = '';
-            categories.forEach(cat => {
-                tabsContainer.innerHTML += `
-                    <button class="cat-btn ${cat === 'All' ? 'active' : ''}" onclick="filterVideos('${cat}', this)">${cat}</button>
-                `;
-            });
-        }
-
-        function filterVideos(categoryName, btnElement) {
-            if (btnElement) {
-                document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
-                btnElement.classList.add('active');
-            }
-
-            const container = document.getElementById('all-videos');
-            let filtered = categoryName === 'All' 
-                ? allVideosData 
-                : allVideosData.filter(v => (v.category || "General") === categoryName);
-
-            if (filtered.length > 0) {
-                container.innerHTML = '';
-                filtered.forEach(item => {
-                    container.innerHTML += `
-                        <div class="video-card" onclick="window.location='video-view.html?id=${item.id}'">
-                            <img src="${item.thumbnail}" alt="Video Thumbnail">
-                            <div class="video-info">
-                                <div class="video-title">${item.title}</div>
-                            </div>
-                        </div>
-                    `;
-                });
-            } else {
-                container.innerHTML = '<p style="text-align:center; color:#94a3b8;">இந்த கேட்டகரியில் வீடியோக்கள் இல்லை.</p>';
-            }
-        }
     </script>
 </body>
 </html>
