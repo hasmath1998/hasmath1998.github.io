@@ -6,77 +6,150 @@
     <title>Article - Fighter Hasmathullah</title>
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --card-bg: #161e2e;
+            --bg-primary: #07090e;
+            --bg-secondary: #0f172a;
+            --card-bg: #1e293b;
             --text-main: #f8fafc;
+            --text-muted: #94a3b8;
             --accent: #38bdf8;
-            --border-color: #1e293b;
+            --border: #334155;
         }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            background-color: var(--bg-color);
+            background-color: var(--bg-primary);
             color: var(--text-main);
-            margin: 0;
-            padding: 20px 16px;
-            line-height: 1.8;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            padding-bottom: 75px;
         }
-        .main-container {
-            max-width: 750px;
+
+        .site-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .site-logo {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+        }
+
+        .site-title {
+            font-size: 11pt;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .site-title span { color: var(--accent); }
+
+        .article-container {
+            max-width: 600px;
             margin: 0 auto;
-            background: var(--card-bg);
-            padding: 24px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
+            padding: 16px;
         }
+
+        .article-title {
+            font-size: 13pt;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .article-meta {
+            font-size: 8.5pt;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+        }
+
+        .article-body {
+            font-size: 10pt;
+            color: var(--text-main);
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
         .back-btn {
             display: inline-block;
-            background: transparent;
+            background: var(--card-bg);
             color: var(--accent);
-            border: 1px solid var(--accent);
-            padding: 6px 14px;
+            padding: 8px 16px;
             border-radius: 6px;
-            font-weight: bold;
             text-decoration: none;
-            margin-bottom: 20px;
             font-size: 9pt;
+            border: 1px solid var(--border);
         }
-        .back-btn:hover {
-            background: var(--accent);
-            color: var(--bg-color);
+
+        .footer-policy {
+            text-align: center;
+            padding: 20px 16px;
+            font-size: 8pt;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            margin-top: 20px;
+            background: var(--bg-secondary);
         }
-        .article-title {
-            font-size: 16pt;
-            font-weight: bold;
-            color: #ffffff;
-            margin-bottom: 15px;
-        }
-        .article-img {
+        .footer-policy a { color: var(--text-muted); text-decoration: none; margin: 0 5px; }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
             width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border-color);
+            background-color: var(--bg-secondary);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            border-top: 1px solid var(--border);
+            z-index: 1000;
         }
-        .article-body {
-            font-size: 10.5pt;
-            color: #cbd5e1;
-            text-align: justify;
+        .nav-item {
+            text-align: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 8pt;
+            font-weight: 500;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
         }
-        .article-body p {
-            margin-bottom: 16px;
-        }
+        .nav-item.active { color: var(--accent); }
     </style>
 </head>
 <body>
 
-    <div class="main-container">
-        <a href="articles.html" class="back-btn">← Back to Articles</a>
+    <header class="site-header">
+        <img src="image/logo.jpg" alt="Logo" class="site-logo">
+        <div class="site-title">Fighter <span>Hasmathullah</span></div>
+    </header>
 
-        <div id="article-container">
-            <p>கட்டுரை ஏற்றப்படுகிறது...</p>
-        </div>
+    <div class="article-container" id="article-content-box">
+        <p style="color:var(--text-muted); text-align:center;">கட்டுரை ஏற்றப்படுகிறது...</p>
     </div>
+
+    <div class="footer-policy">
+        <a href="about.html">About</a> | <a href="contact.html">Contact</a> | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms</a> | <a href="disclaimer.html">Disclaimer</a>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item"><span>🏠</span> Home</a>
+        <a href="shorts.html" class="nav-item"><span>⚡</span> Shorts</a>
+        <a href="videos.html" class="nav-item"><span>▶️</span> Videos</a>
+        <a href="articles.html" class="nav-item active"><span>📖</span> Articles</a>
+    </nav>
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
@@ -85,27 +158,19 @@
         fetch('content.json')
             .then(res => res.json())
             .then(data => {
-                const post = data.articles.find(p => p.id == articleId);
-                
-                if(post) {
-                    document.getElementById('article-container').innerHTML = `
-                        <h1 class="article-title">${post.title}</h1>
-                        <img src="${post.thumbnail}" class="article-img" alt="Cover">
-                        <div class="article-body" id="external-content">உள்ளடக்கம் ஏற்றப்படுகிறது...</div>
-                    `;
+                const articles = data.articles || data.posts || [];
+                const item = articles.find(p => p.id == articleId);
+                const container = document.getElementById('article-content-box');
 
-                    if(post.file) {
-                        fetch(post.file)
-                            .then(res => res.text())
-                            .then(htmlContent => {
-                                document.getElementById('external-content').innerHTML = htmlContent;
-                            })
-                            .catch(err => {
-                                document.getElementById('external-content').innerHTML = "<p style='color:red;'>கட்டுரை கோப்பை ஏற்றுவதில் பிழை.</p>";
-                            });
-                    }
+                if(item) {
+                    container.innerHTML = `
+                        <div class="article-title">${item.title}</div>
+                        <div class="article-meta">Category: ${item.category || 'General'} • ${item.time || 'Recently'}</div>
+                        <div class="article-body">${item.content || item.description || 'கட்டுரையின் முழு விவரங்கள் விரைவில் சேர்க்கப்படும்.'}</div>
+                        <a href="articles.html" class="back-btn">← கட்டுரைகளுக்குத் திரும்பு</a>
+                    `;
                 } else {
-                    document.getElementById('article-container').innerHTML = "<p style='color:red;'>கட்டுரை கிடைக்கவில்லை.</p>";
+                    container.innerHTML = `<p style="color:#ef4444; text-align:center;">கட்டுரை கிடைக்கவில்லை.</p>`;
                 }
             });
     </script>
