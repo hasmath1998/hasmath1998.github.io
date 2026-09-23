@@ -3,150 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shorts - Fighter Hasmathullah</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <title>Shorts Reels - Fighter Hasmathullah</title>
     <style>
         :root {
             --bg-color: #0b0f19;
             --card-bg: #161e2e;
             --text-main: #f8fafc;
-            --text-muted: #94a3b8;
             --accent: #38bdf8;
-            --nav-bg: #070a12;
             --border-color: #1e293b;
         }
         body {
             font-family: 'Segoe UI', Tahoma, sans-serif;
-            background-color: var(--bg-color);
+            background-color: var--bg-color);
+            background: var(--bg-color);
             color: var(--text-main);
             margin: 0;
-            padding-bottom: 75px;
+            padding: 20px;
         }
-        .top-header {
+        h1 {
+            text-align: center;
+            color: var(--accent);
+            font-size: 18pt;
+            margin-bottom: 20px;
+        }
+        /* செங்குத்து கட்டமைப்பு (Reels Grid) */
+        .shorts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 16px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .short-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var--border-color);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .short-card:hover {
+            transform: scale(1.03);
+        }
+        .short-thumb-box {
+            position: relative;
+            width: 100%;
+            padding-top: 177.77%; /* 9:16 Ratio */
+            background: #000;
+        }
+        .short-thumb {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+        .short-title {
+            padding: 10px;
+            font-size: 9.5pt;
+            color: var(--text-main);
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* முழுத்திரை ரீல்ஸ் ஸ்க்ரோலிங் வியூ (Full Screen Reel Scroll View) */
+        .reels-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #000;
+            z-index: 1000;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory; /* கீழே தள்ளும்போது சரியாக ஒரு ரீல்ஸ் மட்டும் நிக்கும் */
+        }
+        .reel-item {
+            width: 100%;
+            height: 100vh;
+            scroll-snap-align: start;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #0b0f19;
+        }
+        .reel-video-container {
+            width: 100%;
+            max-width: 400px; /* மொபைல் ரீல்ஸ் அகலம் */
+            height: 100%;
+            max-height: 85vh;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+        .reel-video-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .close-reels-btn {
+            position: fixed;
+            top: 20px; right: 20px;
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+            border: none;
+            font-size: 16pt;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1010;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            padding: 10px 16px;
-            background: var(--card-bg);
-            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(5px);
         }
-        .header-logo {
-            position: absolute;
-            left: 16px;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: 1.5px solid var(--accent);
-            object-fit: cover;
-        }
-        .header-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 10pt;
-            font-weight: 700;
-            color: #ffffff;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin: 0;
-        }
-        .page-heading {
-            font-size: 12pt;
-            margin: 16px;
-            color: var(--accent);
-            font-weight: bold;
-        }
-        .shorts-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            padding: 0 16px;
-        }
-        .short-item {
-            height: 250px;
-            background: var(--card-bg);
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            position: relative;
-        }
-        .short-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        /* Bottom Navigation Bar */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: var(--nav-bg);
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            border-top: 1px solid var(--border-color);
-            z-index: 1000;
-        }
-        .nav-item {
-            text-align: center;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 8.5pt;
-        }
-        .nav-item.active {
-            color: var(--accent);
-        }
-        .nav-item svg {
-            width: 22px;
-            height: 22px;
-            fill: currentColor;
-            margin-bottom: 2px;
+        .close-reels-btn:hover {
+            background: #ef4444;
         }
     </style>
 </head>
 <body>
-    <header class="top-header">
-        <img src="logo.jpg" alt="Logo" class="header-logo">
-        <h1 class="header-title">Fighter Hasmathullah</h1>
-    </header>
 
-    <div class="page-heading">All Shorts</div>
-    <div class="shorts-grid" id="all-shorts">
-        <!-- JSON மூலமாக ஷார்ட்ஸ் வரும் -->
+    <h1>Shorts & Reels</h1>
+
+    <!-- ஷார்ட்ஸ் பட்டியல் -->
+    <div class="shorts-grid" id="shorts-container">
+        <p style="text-align:center; color:#94a3b8;">ஏற்றப்படுகிறது...</p>
     </div>
 
-    <nav class="bottom-nav">
-        <a href="index.html" class="nav-item">
-            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            <div>Home</div>
-        </a>
-        <a href="shorts.html" class="nav-item active">
-            <svg viewBox="0 0 24 24"><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
-            <div>Shorts</div>
-        </a>
-        <a href="videos.html" class="nav-item">
-            <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
-            <div>Videos</div>
-        </a>
-        <a href="articles.html" class="nav-item">
-            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-            <div>Articles</div>
-        </a>
-    </nav>
+    <!-- ஸ்க்ரோல் செய்யும் ரீல்ஸ் முழுத்திரை பகுதி -->
+    <div class="reels-overlay" id="reelsOverlay">
+        <button class="close-reels-btn" onclick="closeReelsViewer()">&times;</button>
+        <div id="reels-feed-container">
+            <!-- அனைத்து ஷார்ட்ஸ் வீடியோக்களும் வரிசையாக இங்கே லோட் ஆகும் -->
+        </div>
+    </div>
 
     <script>
+        let allShortsData = [];
+
+        // content.json லிருந்து தரவுகளை எடுப்பது
         fetch('content.json')
             .then(res => res.json())
             .then(data => {
-                const container = document.getElementById('all-shorts');
-                data.shorts.forEach(item => {
-                    container.innerHTML += `
-                        <div class="short-item" onclick="window.location='short-player.html?id=${item.id}'">
-                            <img src="${item.thumbnail}" alt="Short">
-                        </div>
-                    `;
-                });
+                const container = document.getElementById('shorts-container');
+                if(data.shorts && data.shorts.length > 0) {
+                    allShortsData = data.shorts;
+                    container.innerHTML = '';
+                    
+                    data.shorts.forEach((short, index) => {
+                        container.innerHTML += `
+                            <div class="short-card" onclick="openReelsViewer(${index})">
+                                <div class="short-thumb-box">
+                                    <img src="${short.thumbnail}" class="short-thumb" alt="Short">
+                                </div>
+                                <div class="short-title">${short.title}</div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    container.innerHTML = "<p style='text-align:center; color:#94a3b8;'>ஷார்ட்ஸ் எதுவும் இல்லை.</p>";
+                }
             });
+
+        // கிளிக் செய்த குறிப்பிட்ட ஷார்ட்ஸிலிருந்து ரீல்ஸ் ஓடத் தொடங்கும்
+        function openReelsViewer(startIndex) {
+            const overlay = document.getElementById('reelsOverlay');
+            const feedContainer = document.getElementById('reels-feed-container');
+            
+            let feedHtml = '';
+            // அனைத்து ஷார்ட்ஸ்களையும் ஒന്നിன் பின் ஒன்றாக ஸ்க்ரோல் செய்யும் வகையில் உருவாக்குவது
+            allShortsData.forEach((short, index) => {
+                // கிளிக் செய்த வீடியோ மட்டும் உடனே ஒலிக்க (autoplay) செய்யும்
+                let autoplay = (index === startIndex) ? "?autoplay=1&loop=1&playlist=" + short.youtubeId : "?autoplay=0&loop=1&playlist=" + short.youtubeId;
+                
+                feedHtml += `
+                    <div class="reel-item" id="reel-${index}">
+                        <div class="reel-video-container">
+                            <iframe src="https://www.youtube.com/embed/${short.youtubeId}${autoplay}" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                `;
+            });
+
+            feedContainer.innerHTML = feedHtml;
+            overlay.style.display = 'block';
+
+            // பயன கிளிக் செய்த குறிப்பிட்ட ரீல்ஸ் பகுதிக்கு ஸ்க்ரோலை நேராக கொண்டு செல்வது
+            document.getElementById(`reel-${startIndex}`).scrollIntoView();
+        }
+
+        // ரீல்ஸ் பார்வையை மூடுவது
+        function closeReelsViewer() {
+            const overlay = document.getElementById('reelsOverlay');
+            const feedContainer = document.getElementById('reels-feed-container');
+            
+            overlay.style.display = 'none';
+            feedContainer.innerHTML = ''; // வீடியோக்களை நிறுத்துவதற்காக ஃபைலை காலி செய்வது
+        }
     </script>
 </body>
 </html>
