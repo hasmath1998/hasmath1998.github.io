@@ -168,6 +168,8 @@
             border: 1px solid var(--border);
             cursor: pointer;
             flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
         }
 
         .short-thumb {
@@ -177,11 +179,13 @@
             background: #000;
         }
 
+        /* தலைப்பு மறைவதைத் தடுத்து முழுமையாகத் தெரியும்படியான அமைப்பு */
         .short-title {
             font-size: 8pt;
             font-weight: 600;
             color: var(--text-main);
-            padding: 6px;
+            padding: 8px 6px;
+            height: 42px;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
@@ -196,7 +200,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: calc(100vh - 55px);
             background: rgba(0, 0, 0, 0.95);
             z-index: 2000;
             justify-content: center;
@@ -208,7 +212,6 @@
             width: 100%;
             max-width: 400px;
             height: 100%;
-            max-height: 800px;
             background: #000;
             display: flex;
             flex-direction: column;
@@ -295,7 +298,7 @@
             justify-content: space-around;
             padding: 8px 0;
             border-top: 1px solid var(--border);
-            z-index: 1000;
+            z-index: 2500;
             backdrop-filter: blur(10px);
         }
 
@@ -377,7 +380,6 @@
 
                 container.innerHTML = '';
 
-                // 1. முதல் சில வீடியோக்களைக் காட்டுதல்
                 let displayCount = Math.min(2, videos.length);
                 for (let i = 0; i < displayCount; i++) {
                     let item = videos[i];
@@ -397,14 +399,13 @@
                     `;
                 }
 
-                // 2. யூடியூப் போன்று நடுவில் ஷார்ட்ஸ் ஷெல்ஃப் (Shorts Shelf) சேர்ப்பது
                 if (globalShorts.length > 0) {
                     let shortsHtml = `
                         <div class="shorts-shelf-container">
                             <div class="shorts-shelf-title">⚡ Shorts</div>
                             <div class="shorts-scroll-row">
                     `;
-                    globalShorts.forEach((short, index) => {
+                    globalShorts.forEach((short) => {
                         shortsHtml += `
                             <div class="short-card-item" onclick="openShortsModal('${short.id}')">
                                 <img src="${short.thumbnail}" class="short-thumb" alt="Short">
@@ -416,7 +417,6 @@
                     container.innerHTML += shortsHtml;
                 }
 
-                // 3. மீதமுள்ள வீடியோக்கள் மற்றும் ஆர்டிகிள்களை இடைக்கிடையே காட்டுவது
                 let remainingVideos = videos.slice(displayCount);
                 let maxLength = Math.max(remainingVideos.length, articles.length);
 
@@ -465,7 +465,7 @@
                 document.getElementById('home-feed-container').innerHTML = "<p style='text-align:center; color:#ef4444;'>தரவுகளை ஏற்றுவதில் பிழை.</p>";
             });
 
-        // Open Modal and Jump to Clicked Short
+        // youtubeId ஐப் பயன்படுத்தி பாப்-அப் வீடியோவை சரியாக பிளே செய்தல்
         function openShortsModal(shortId) {
             const modal = document.getElementById('shorts-modal');
             const sliderWrapper = document.getElementById('shorts-slider-wrapper');
@@ -474,11 +474,8 @@
             
             globalShorts.forEach(short => {
                 let ytEmbedUrl = '';
-                if (short.url) {
-                    let match = short.url.match(/(?:shorts\/|v=|\/)([0-9A-Za-z_-]{11})/);
-                    if (match) {
-                        ytEmbedUrl = `https://www.youtube.com/embed/${match[1]}?autoplay=1&mute=0&loop=1&playlist=${match[1]}`;
-                    }
+                if (short.youtubeId) {
+                    ytEmbedUrl = `https://www.youtube.com/embed/${short.youtubeId}?autoplay=1&mute=0&loop=1&playlist=${short.youtubeId}`;
                 }
 
                 sliderWrapper.innerHTML += `
@@ -490,7 +487,6 @@
 
             modal.style.display = 'flex';
 
-            // Scroll to the selected short instantly
             setTimeout(() => {
                 const targetSlide = document.getElementById(`slide-${shortId}`);
                 if (targetSlide) {
@@ -499,14 +495,12 @@
             }, 50);
         }
 
-        // Close Modal
         function closeShortsModal() {
             const modal = document.getElementById('shorts-modal');
             const sliderWrapper = document.getElementById('shorts-slider-wrapper');
             modal.style.display = 'none';
-            sliderWrapper.innerHTML = ''; // Stop video playback on close
+            sliderWrapper.innerHTML = ''; 
         }
     </script>
 </body>
 </html>
-
