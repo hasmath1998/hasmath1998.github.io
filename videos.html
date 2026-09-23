@@ -62,7 +62,6 @@
             gap: 10px;
         }
 
-        /* YouTube List Style Card */
         .video-item-card {
             display: flex;
             gap: 10px;
@@ -119,7 +118,6 @@
             color: var(--text-muted);
         }
 
-        /* Footer Policy */
         .footer-policy {
             text-align: center;
             padding: 20px 16px;
@@ -131,7 +129,6 @@
         }
         .footer-policy a { color: var(--text-muted); text-decoration: none; margin: 0 5px; }
 
-        /* Bottom Nav */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -184,10 +181,10 @@
             .then(res => res.json())
             .then(data => {
                 const container = document.getElementById('videos-list');
-                const posts = data.posts || [];
-                if(posts.length > 0) {
+                const videos = data.videos || [];
+                if(videos.length > 0) {
                     container.innerHTML = '';
-                    posts.forEach(item => {
+                    videos.forEach(item => {
                         container.innerHTML += `
                             <div class="video-item-card" onclick="window.location='video-view.html?id=${item.id}'">
                                 <div class="video-thumb-box">
@@ -195,7 +192,7 @@
                                 </div>
                                 <div class="video-details">
                                     <div class="video-title">${item.title}</div>
-                                    <div class="video-meta">${item.views || '10K'} views • ${item.time || '1 day ago'}</div>
+                                    <div class="video-meta">10K views • 1 day ago</div>
                                 </div>
                             </div>
                         `;
