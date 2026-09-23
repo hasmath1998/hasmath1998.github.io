@@ -78,6 +78,7 @@
             gap: 8px;
         }
 
+        /* Normal Feed Card (Landscape Videos & Articles) */
         .feed-card {
             background: var(--card-bg);
             border-radius: 10px;
@@ -126,6 +127,67 @@
             color: var(--text-muted);
             display: flex;
             justify-content: space-between;
+        }
+
+        /* YouTube Style Horizontal Scrolling Shorts Shelf */
+        .shorts-shelf-container {
+            margin: 20px 0;
+            background: rgba(15, 23, 42, 0.6);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 0;
+        }
+
+        .shorts-shelf-title {
+            font-size: 11pt;
+            font-weight: 600;
+            color: var(--accent);
+            margin: 0 16px 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .shorts-scroll-row {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 0 16px 8px 16px;
+            scrollbar-width: none;
+        }
+
+        .shorts-scroll-row::-webkit-scrollbar {
+            display: none;
+        }
+
+        .short-card-item {
+            min-width: 125px;
+            width: 125px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .short-thumb {
+            width: 100%;
+            aspect-ratio: 9 / 16;
+            object-fit: cover;
+            background: #000;
+        }
+
+        .short-title {
+            font-size: 8pt;
+            font-weight: 600;
+            color: var(--text-main);
+            padding: 6px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.2;
         }
 
         .footer-policy {
@@ -225,11 +287,56 @@
                 const container = document.getElementById('home-feed-container');
                 const videos = data.videos || [];
                 const shorts = data.shorts || [];
-                const allItems = [...videos, ...shorts];
+                const articles = data.articles || [];
 
-                if(allItems.length > 0) {
-                    container.innerHTML = '';
-                    allItems.forEach(item => {
+                container.innerHTML = '';
+
+                // 1. முதல் சில வீடியோக்களைக் காட்டுதல்
+                let displayCount = Math.min(2, videos.length);
+                for (let i = 0; i < displayCount; i++) {
+                    let item = videos[i];
+                    container.innerHTML += `
+                        <div class="feed-card" onclick="window.location='video-view.html?id=${item.id}'">
+                            <div class="feed-thumb-container">
+                                <img src="${item.thumbnail}" class="feed-thumb" alt="Thumbnail">
+                            </div>
+                            <div class="feed-details">
+                                <div class="feed-title">${item.title}</div>
+                                <div class="feed-meta">
+                                    <span>${item.category || 'Martial Arts'}</span>
+                                    <span>1K views</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // 2. யூடியூப் போன்று நடுவில் ஷார்ட்ஸ் ஷெல்ஃப் (Shorts Shelf) சேர்ப்பது
+                if (shorts.length > 0) {
+                    let shortsHtml = `
+                        <div class="shorts-shelf-container">
+                            <div class="shorts-shelf-title">⚡ Shorts</div>
+                            <div class="shorts-scroll-row">
+                    `;
+                    shorts.forEach(short => {
+                        shortsHtml += `
+                            <div class="short-card-item" onclick="window.location='shorts.html'">
+                                <img src="${short.thumbnail}" class="short-thumb" alt="Short">
+                                <div class="short-title">${short.title}</div>
+                            </div>
+                        `;
+                    });
+                    shortsHtml += `</div></div>`;
+                    container.innerHTML += shortsHtml;
+                }
+
+                // 3. மீதமுள்ள வீடியோக்கள் மற்றும் ஆர்டிகிள்களை இடைக்கிடையே காட்டுவது
+                let remainingVideos = videos.slice(displayCount);
+                let maxLength = Math.max(remainingVideos.length, articles.length);
+
+                for (let i = 0; i < maxLength; i++) {
+                    if (remainingVideos[i]) {
+                        let item = remainingVideos[i];
                         container.innerHTML += `
                             <div class="feed-card" onclick="window.location='video-view.html?id=${item.id}'">
                                 <div class="feed-thumb-container">
@@ -244,8 +351,27 @@
                                 </div>
                             </div>
                         `;
-                    });
-                } else {
+                    }
+                    if (articles[i]) {
+                        let art = articles[i];
+                        container.innerHTML += `
+                            <div class="feed-card" onclick="window.location='article-view.html?id=${art.id}'">
+                                <div class="feed-thumb-container">
+                                    <img src="${art.thumbnail}" class="feed-thumb" alt="Thumbnail">
+                                </div>
+                                <div class="feed-details">
+                                    <div class="feed-title">${art.title}</div>
+                                    <div class="feed-meta">
+                                        <span>📖 Article</span>
+                                        <span>Read</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+
+                if (videos.length === 0 && shorts.length === 0 && articles.length === 0) {
                     container.innerHTML = "<p style='text-align:center; color:var(--text-muted);'>பதிவுகள் எதுவும் இல்லை.</p>";
                 }
             })
