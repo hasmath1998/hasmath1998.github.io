@@ -58,12 +58,27 @@
         .articles-container {
             padding: 0 16px;
         }
+        .category-section {
+            margin-bottom: 24px;
+        }
+        .category-title {
+            font-size: 11pt;
+            color: var(--accent);
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 4px;
+        }
         .article-card {
             background: var(--card-bg);
             border-radius: 10px;
             margin-bottom: 14px;
             overflow: hidden;
             border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .article-card:hover {
+            transform: scale(1.02);
         }
         .article-card img {
             width: 100%;
@@ -116,7 +131,7 @@
 
     <div class="page-heading">Articles Collection</div>
     <div class="articles-container" id="all-articles">
-        <!-- JSON மூலமாக ஆர்டிக்கிள் வரும் -->
+        <p style="text-align:center; color:#94a3b8;">கட்டுரைகள் ஏற்றப்படுகின்றன...</p>
     </div>
 
     <nav class="bottom-nav">
@@ -143,16 +158,49 @@
             .then(res => res.json())
             .then(data => {
                 const container = document.getElementById('all-articles');
-                data.posts.filter(item => item.type === 'article').forEach(item => {
-                    container.innerHTML += `
-                        <div class="article-card" onclick="window.location='article-view.html?id=${item.id}'">
-                            <img src="${item.thumbnail}" alt="Article">
-                            <div class="article-info">
-                                <div class="article-title">${item.title}</div>
-                            </div>
-                        </div>
-                    `;
-                });
+                
+                // உங்கள் ஜேசன் அமைப்பில் உள்ள 'articles' அல்லது 'posts'-ஐ கையாளுதல்
+                let articlesList = data.articles || (data.posts ? data.posts.filter(item => item.type === 'article') : []);
+
+                if (articlesList.length > 0) {
+                    container.innerHTML = '';
+                    
+                    // கேட்டகரி வாரியாகக் கட்டுரைகளைப் பிரித்தல்
+                    let categories = {};
+                    articlesList.forEach(article => {
+                        let cat = article.category || "General";
+                        if (!categories[cat]) {
+                            categories[cat] = [];
+                        }
+                        categories[cat].push(article);
+                    });
+
+                    // ஒவ்வொரு கேட்டகரியாகக் காட்டுதல்
+                    for (let cat in categories) {
+                        let sectionHtml = `
+                            <div class="category-section">
+                                <div class="category-title">${cat}</div>
+                        `;
+                        categories[cat].forEach(item => {
+                            sectionHtml += `
+                                <div class="article-card" onclick="window.location='article-view.html?id=${item.id}'">
+                                    <img src="${item.thumbnail}" alt="Article Thumbnail">
+                                    <div class="article-info">
+                                        <div class="article-title">${item.title}</div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        sectionHtml += `</div>`;
+                        container.innerHTML += sectionHtml;
+                    }
+                } else {
+                    container.innerHTML = '<p style="text-align:center; color:#94a3b8;">கட்டுரைகள் எதுவும் கிடைக்கவில்லை.</p>';
+                }
+            })
+            .catch(err => {
+                console.error('Error loading articles:', err);
+                document.getElementById('all-articles').innerHTML = '<p style="text-align:center; color:#ef4444;">தரவுகளை ஏற்றுவதில் பிழை.</p>';
             });
     </script>
 </body>
