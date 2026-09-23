@@ -22,12 +22,16 @@
     
   ],
   
+
   "articles": [
     {
       "id": 1,
-      "title": "தற்காப்புக் கலைகளின் அறிவியல்",
-      "thumbnail": "images/article1.jpg"
+      "title": "தற்காப்புக் கலைகளின் அறிவியல் முறைகள்",
+      "thumbnail": "images/article1.jpg",
+      "file": "article-1.html"
     }
   ]
+
+
 
 }
