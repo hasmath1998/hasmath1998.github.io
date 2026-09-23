@@ -9,7 +9,9 @@
             --bg-color: #0b0f19;
             --card-bg: #161e2e;
             --text-main: #f8fafc;
+            --text-muted: #94a3b8;
             --accent: #38bdf8;
+            --nav-bg: #070a12;
             --border-color: #1e293b;
         }
         body {
@@ -18,7 +20,7 @@
             color: var(--text-main);
             margin: 0;
             padding: 20px;
-            padding-bottom: 80px; /* கீழே உள்ள நேவிகேஷன் பாருக்கு இடம் ஒதுக்க */
+            padding-bottom: 80px; 
         }
         h1 {
             text-align: center;
@@ -26,7 +28,6 @@
             font-size: 18pt;
             margin-bottom: 20px;
         }
-        /* செங்குத்து கட்டமைப்பு (Reels Grid) */
         .shorts-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -48,7 +49,7 @@
         .short-thumb-box {
             position: relative;
             width: 100%;
-            padding-top: 177.77%; /* 9:16 Ratio */
+            padding-top: 177.77%; 
             background: #000;
         }
         .short-thumb {
@@ -68,7 +69,6 @@
             text-overflow: ellipsis;
         }
 
-        /* முழுத்திரை ரீல்ஸ் ஸ்க்ரோலிங் வியூ (Full Screen Reel Scroll View) */
         .reels-overlay {
             display: none;
             position: fixed;
@@ -124,31 +124,33 @@
             background: #ef4444;
         }
 
-        /* கீழிருக்கும் நேவிகேஷன் பார் (Bottom Navigation Bar Style) */
+        /* மற்ற பக்கங்களைப் போன்ற இயல்பான நேவிகேஷன் பார் */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 60px;
-            background: #0b0f19;
-            border-top: 1px solid var(--border-color);
+            background-color: var(--nav-bg);
             display: flex;
             justify-content: space-around;
-            align-items: center;
-            z-index: 999; /* ரீல்ஸ் ஓபன் ஆகும்போது இது உள்ளே மறைந்துவிடாமல் இருக்க z-index சரி செய்யப்பட்டுள்ளது */
+            padding: 10px 0;
+            border-top: 1px solid var(--border-color);
+            z-index: 999;
         }
         .nav-item {
-            color: #94a3b8;
+            text-align: center;
+            color: var(--text-muted);
             text-decoration: none;
-            font-size: 9pt;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
+            font-size: 8.5pt;
         }
-        .nav-item.active, .nav-item:hover {
+        .nav-item.active {
             color: var(--accent);
+        }
+        .nav-item svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+            margin-bottom: 2px;
         }
     </style>
 </head>
@@ -156,39 +158,37 @@
 
     <h1>Shorts & Reels</h1>
 
-    <!-- ஷார்ட்ஸ் பட்டியல் -->
     <div class="shorts-grid" id="shorts-container">
         <p style="text-align:center; color:#94a3b8;">ஏற்றப்படுகிறது...</p>
     </div>
 
-    <!-- ஸ்க்ரோல் செய்யும் ரீல்ஸ் முழுத்திரை பகுதி -->
     <div class="reels-overlay" id="reelsOverlay">
         <button class="close-reels-btn" onclick="closeReelsViewer()">&times;</button>
-        <div id="reels-feed-container">
-            <!-- அனைத்து ஷார்ட்ஸ் வீடியோக்களும் வரிசையாக இங்கே லோட் ஆகும் -->
-        </div>
+        <div id="reels-feed-container"></div>
     </div>
 
-    <!-- கீழிருக்கும் நிரந்தர நேவிகேஷன் பார் (Bottom Navigation Bar) -->
-    <div class="bottom-nav">
+    <nav class="bottom-nav">
         <a href="index.html" class="nav-item">
-            <span>🏠</span> Home
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <div>Home</div>
         </a>
         <a href="shorts.html" class="nav-item active">
-            <span>▶️</span> Shorts
+            <svg viewBox="0 0 24 24"><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+            <div>Shorts</div>
         </a>
         <a href="videos.html" class="nav-item">
-            <span>🎬</span> Videos
+            <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+            <div>Videos</div>
         </a>
         <a href="articles.html" class="nav-item">
-            <span>📄</span> Articles
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            <div>Articles</div>
         </a>
-    </div>
+    </nav>
 
     <script>
         let allShortsData = [];
 
-        // content.json லிருந்து தரவுகளை எடுப்பது
         fetch('content.json')
             .then(res => res.json())
             .then(data => {
@@ -210,9 +210,11 @@
                 } else {
                     container.innerHTML = "<p style='text-align:center; color:#94a3b8;'>ஷார்ட்ஸ் எதுவும் இல்லை.</p>";
                 }
+            })
+            .catch(err => {
+                document.getElementById('shorts-container').innerHTML = "<p style='text-align:center; color:#ef4444;'>தரவுகளை ஏற்றுவதில் பிழை.</p>";
             });
 
-        // கிளிக் செய்த குறிப்பிட்ட ஷார்ட்ஸிலிருந்து ரீல்ஸ் ஓடத் தொடங்கும்
         function openReelsViewer(startIndex) {
             const overlay = document.getElementById('reelsOverlay');
             const feedContainer = document.getElementById('reels-feed-container');
@@ -239,7 +241,6 @@
             document.getElementById(`reel-${startIndex}`).scrollIntoView();
         }
 
-        // ரீல்ஸ் பார்வையை மூடுவது
         function closeReelsViewer() {
             const overlay = document.getElementById('reelsOverlay');
             const feedContainer = document.getElementById('reels-feed-container');
