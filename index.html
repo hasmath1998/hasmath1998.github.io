@@ -78,7 +78,6 @@
             gap: 8px;
         }
 
-        /* Normal Feed Card (Landscape Videos & Articles) */
         .feed-card {
             background: var(--card-bg);
             border-radius: 10px;
@@ -190,6 +189,81 @@
             line-height: 1.2;
         }
 
+        /* Direct Instant Popup Modal for Shorts */
+        #shorts-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .shorts-modal-content {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            max-height: 800px;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .shorts-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            font-size: 16pt;
+            cursor: pointer;
+            z-index: 2010;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .shorts-player-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+        }
+
+        .shorts-player-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .short-slide-item {
+            min-width: 100%;
+            height: 100%;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            background: #000;
+        }
+
+        .short-slide-item iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
         .footer-policy {
             text-align: center;
             padding: 24px 16px;
@@ -256,6 +330,16 @@
         </div>
     </div>
 
+    <!-- Direct Instant Shorts Popup Modal -->
+    <div id="shorts-modal">
+        <div class="shorts-modal-content">
+            <button class="shorts-close-btn" onclick="closeShortsModal()">&times;</button>
+            <div class="shorts-player-container" id="shorts-slider-wrapper">
+                <!-- Shorts slides will be injected here dynamically -->
+            </div>
+        </div>
+    </div>
+
     <div class="footer-policy">
         <p style="margin-bottom: 8px;">&copy; 2026 Fighter Hasmathullah. All rights reserved.</p>
         <a href="about.html">About</a> | 
@@ -281,12 +365,14 @@
     </nav>
 
     <script>
+        let globalShorts = [];
+
         fetch('content.json')
             .then(res => res.json())
             .then(data => {
                 const container = document.getElementById('home-feed-container');
                 const videos = data.videos || [];
-                const shorts = data.shorts || [];
+                globalShorts = data.shorts || [];
                 const articles = data.articles || [];
 
                 container.innerHTML = '';
@@ -312,15 +398,15 @@
                 }
 
                 // 2. யூடியூப் போன்று நடுவில் ஷார்ட்ஸ் ஷெல்ஃப் (Shorts Shelf) சேர்ப்பது
-                if (shorts.length > 0) {
+                if (globalShorts.length > 0) {
                     let shortsHtml = `
                         <div class="shorts-shelf-container">
                             <div class="shorts-shelf-title">⚡ Shorts</div>
                             <div class="shorts-scroll-row">
                     `;
-                    shorts.forEach(short => {
+                    globalShorts.forEach((short, index) => {
                         shortsHtml += `
-                            <div class="short-card-item" onclick="window.location='shorts.html'">
+                            <div class="short-card-item" onclick="openShortsModal('${short.id}')">
                                 <img src="${short.thumbnail}" class="short-thumb" alt="Short">
                                 <div class="short-title">${short.title}</div>
                             </div>
@@ -371,13 +457,56 @@
                     }
                 }
 
-                if (videos.length === 0 && shorts.length === 0 && articles.length === 0) {
+                if (videos.length === 0 && globalShorts.length === 0 && articles.length === 0) {
                     container.innerHTML = "<p style='text-align:center; color:var(--text-muted);'>பதிவுகள் எதுவும் இல்லை.</p>";
                 }
             })
             .catch(err => {
                 document.getElementById('home-feed-container').innerHTML = "<p style='text-align:center; color:#ef4444;'>தரவுகளை ஏற்றுவதில் பிழை.</p>";
             });
+
+        // Open Modal and Jump to Clicked Short
+        function openShortsModal(shortId) {
+            const modal = document.getElementById('shorts-modal');
+            const sliderWrapper = document.getElementById('shorts-slider-wrapper');
+            
+            sliderWrapper.innerHTML = '';
+            
+            globalShorts.forEach(short => {
+                let ytEmbedUrl = '';
+                if (short.url) {
+                    let match = short.url.match(/(?:shorts\/|v=|\/)([0-9A-Za-z_-]{11})/);
+                    if (match) {
+                        ytEmbedUrl = `https://www.youtube.com/embed/${match[1]}?autoplay=1&mute=0&loop=1&playlist=${match[1]}`;
+                    }
+                }
+
+                sliderWrapper.innerHTML += `
+                    <div class="short-slide-item" id="slide-${short.id}">
+                        <iframe src="${ytEmbedUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                `;
+            });
+
+            modal.style.display = 'flex';
+
+            // Scroll to the selected short instantly
+            setTimeout(() => {
+                const targetSlide = document.getElementById(`slide-${shortId}`);
+                if (targetSlide) {
+                    targetSlide.scrollIntoView({ behavior: 'auto', inline: 'start' });
+                }
+            }, 50);
+        }
+
+        // Close Modal
+        function closeShortsModal() {
+            const modal = document.getElementById('shorts-modal');
+            const sliderWrapper = document.getElementById('shorts-slider-wrapper');
+            modal.style.display = 'none';
+            sliderWrapper.innerHTML = ''; // Stop video playback on close
+        }
     </script>
 </body>
 </html>
+
