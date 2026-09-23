@@ -1,0 +1,18 @@
+{
+  "videos": [
+    {
+      "id": "v1",
+      "title": "இரும்பு உடல் கண்டிஷனிங் செய்வது எப்படி?",
+      "desc": "Iron Body Conditioning tutorial and physical training methods.",
+      "embed": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "category": "martial-arts"
+    },
+    {
+      "id": "v2",
+      "title": "கொரிய மொழி அடிப்படை இலக்கணம்",
+      "desc": "Essential EPS-TOPIK Korean vocabulary rules.",
+      "embed": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "category": "korean"
+    }
+  ]
+}
