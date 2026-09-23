@@ -4,233 +4,174 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Articles - Fighter Hasmathullah</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --card-bg: #161e2e;
+            --bg-primary: #07090e;
+            --bg-secondary: #0f172a;
+            --card-bg: #1e293b;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --accent: #38bdf8;
-            --nav-bg: #070a12;
-            --border-color: #1e293b;
+            --border: #334155;
         }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            background-color: var(--bg-color);
+            background-color: var(--bg-primary);
             color: var(--text-main);
-            margin: 0;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             padding-bottom: 75px;
         }
-        .top-header {
+
+        .site-header {
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            padding: 10px 16px;
-            background: var(--card-bg);
-            border-bottom: 1px solid var(--border-color);
+            gap: 12px;
+            padding: 14px 16px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        .header-logo {
-            position: absolute;
-            left: 16px;
-            width: 32px;
-            height: 32px;
+
+        .site-logo {
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
-            border: 1.5px solid var(--accent);
             object-fit: cover;
+            border: 2px solid var(--accent);
         }
-        .header-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 10pt;
+
+        .site-title {
+            font-size: 11pt;
             font-weight: 700;
-            color: #ffffff;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin: 0;
+            color: var(--text-main);
         }
-        
-        /* மேலே ஸ்கிரோல் செய்யும் கேட்டகரி பட்டன்கள் */
-        .category-tabs {
-            display: flex;
-            overflow-x: auto;
-            gap: 8px;
-            padding: 12px 16px;
-            background: var(--bg-color);
-            white-space: nowrap;
-            scrollbar-width: none;
-        }
-        .category-tabs::-webkit-scrollbar {
-            display: none;
-        }
-        .cat-btn {
-            background: var(--card-bg);
-            color: var(--text-muted);
-            border: 1px solid var(--border-color);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 8.5pt;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .cat-btn.active {
-            background: var(--accent);
-            color: var(--bg-color);
-            font-weight: bold;
-            border-color: var(--accent);
-        }
+
+        .site-title span { color: var(--accent); }
 
         .articles-container {
-            padding: 0 16px;
-        }
-        .article-card {
-            background: var(--card-bg);
-            border-radius: 10px;
-            margin-bottom: 14px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .article-card:hover {
-            transform: scale(1.02);
-        }
-        .article-card img {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-        }
-        .article-info {
+            max-width: 600px;
+            margin: 0 auto;
             padding: 12px;
-        }
-        .article-title {
-            font-size: 11pt;
-            font-weight: bold;
-            color: #f1f5f9;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
-        /* Bottom Navigation Bar */
+        .article-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            padding: 12px;
+            transition: background 0.2s;
+        }
+
+        .article-card:active {
+            background: #273548;
+        }
+
+        .article-title {
+            font-size: 10.5pt;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .article-meta {
+            font-size: 8pt;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .footer-policy {
+            text-align: center;
+            padding: 20px 16px;
+            font-size: 8pt;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            margin-top: 20px;
+            background: var(--bg-secondary);
+        }
+        .footer-policy a { color: var(--text-muted); text-decoration: none; margin: 0 5px; }
+
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            background-color: var(--nav-bg);
+            background-color: var(--bg-secondary);
             display: flex;
             justify-content: space-around;
-            padding: 10px 0;
-            border-top: 1px solid var(--border-color);
+            padding: 8px 0;
+            border-top: 1px solid var(--border);
             z-index: 1000;
         }
         .nav-item {
             text-align: center;
             color: var(--text-muted);
             text-decoration: none;
-            font-size: 8.5pt;
+            font-size: 8pt;
+            font-weight: 500;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
         }
-        .nav-item.active {
-            color: var(--accent);
-        }
-        .nav-item svg {
-            width: 22px;
-            height: 22px;
-            fill: currentColor;
-            margin-bottom: 2px;
-        }
+        .nav-item.active { color: var(--accent); }
     </style>
 </head>
 <body>
-    <header class="top-header">
-        <img src="logo.jpg" alt="Logo" class="header-logo">
-        <h1 class="header-title">Fighter Hasmathullah</h1>
+
+    <header class="site-header">
+        <img src="image/logo.jpg" alt="Logo" class="site-logo">
+        <div class="site-title">Fighter <span>Hasmathullah</span></div>
     </header>
 
-    <div class="category-tabs" id="category-tabs"></div>
+    <div class="articles-container" id="articles-list">
+        <p style="text-align:center; color:var(--text-muted); padding:20px;">கட்டுரைகள் ஏற்றப்படுகின்றன...</p>
+    </div>
 
-    <div class="articles-container" id="all-articles">
-        <p style="text-align:center; color:#94a3b8;">கட்டுரைகள் ஏற்றப்படுகின்றன...</p>
+    <div class="footer-policy">
+        <a href="about.html">About</a> | <a href="contact.html">Contact</a> | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms</a> | <a href="disclaimer.html">Disclaimer</a>
     </div>
 
     <nav class="bottom-nav">
-        <a href="index.html" class="nav-item">
-            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            <div>Home</div>
-        </a>
-        <a href="shorts.html" class="nav-item">
-            <svg viewBox="0 0 24 24"><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
-            <div>Shorts</div>
-        </a>
-        <a href="videos.html" class="nav-item">
-            <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
-            <div>Videos</div>
-        </a>
-        <a href="articles.html" class="nav-item active">
-            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-            <div>Articles</div>
-        </a>
+        <a href="index.html" class="nav-item"><span>🏠</span> Home</a>
+        <a href="shorts.html" class="nav-item"><span>⚡</span> Shorts</a>
+        <a href="videos.html" class="nav-item"><span>▶️</span> Videos</a>
+        <a href="articles.html" class="nav-item active"><span>📖</span> Articles</a>
     </nav>
 
     <script>
-        let allArticlesData = [];
-
         fetch('content.json')
             .then(res => res.json())
             .then(data => {
-                allArticlesData = data.articles || (data.posts ? data.posts.filter(item => item.type === 'article') : []);
-                initCategories();
-                filterArticles('All');
-            })
-            .catch(err => {
-                console.error('Error loading articles:', err);
-                document.getElementById('all-articles').innerHTML = '<p style="text-align:center; color:#ef4444;">தரவுகளை ஏற்றுவதில் பிழை.</p>';
-            });
-
-        function initCategories() {
-            const tabsContainer = document.getElementById('category-tabs');
-            let categories = ['All'];
-            
-            allArticlesData.forEach(article => {
-                let cat = article.category || "General";
-                if (!categories.includes(cat)) {
-                    categories.push(cat);
+                const container = document.getElementById('articles-list');
+                const articles = data.articles || data.posts || [];
+                if(articles.length > 0) {
+                    container.innerHTML = '';
+                    articles.forEach(item => {
+                        container.innerHTML += `
+                            <div class="article-card" onclick="window.location='article-view.html?id=${item.id}'">
+                                <div class="article-title">${item.title}</div>
+                                <div class="article-meta">
+                                    <span>${item.category || 'Articles'}</span>
+                                    <span>${item.time || '1 week ago'}</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    container.innerHTML = "<p style='text-align:center; color:var(--text-muted);'>கட்டுரைகள் எதுவும் இல்லை.</p>";
                 }
             });
-
-            tabsContainer.innerHTML = '';
-            categories.forEach(cat => {
-                tabsContainer.innerHTML += `
-                    <button class="cat-btn ${cat === 'All' ? 'active' : ''}" onclick="filterArticles('${cat}', this)">${cat}</button>
-                `;
-            });
-        }
-
-        function filterArticles(categoryName, btnElement) {
-            if (btnElement) {
-                document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
-                btnElement.classList.add('active');
-            }
-
-            const container = document.getElementById('all-articles');
-            let filtered = categoryName === 'All' 
-                ? allArticlesData 
-                : allArticlesData.filter(a => (a.category || "General") === categoryName);
-
-            if (filtered.length > 0) {
-                container.innerHTML = '';
-                filtered.forEach(item => {
-                    container.innerHTML += `
-                        <div class="article-card" onclick="window.location='article-view.html?id=${item.id}'">
-                            <img src="${item.thumbnail}" alt="Article Thumbnail">
-                            <div class="article-info">
-                                <div class="article-title">${item.title}</div>
-                            </div>
-                        </div>
-                    `;
-                });
-            } else {
-                container.innerHTML = '<p style="text-align:center; color:#94a3b8;">இந்த கேட்டகரியில் கட்டுரைகள் இல்லை.</p>';
-            }
-        }
     </script>
 </body>
 </html>
