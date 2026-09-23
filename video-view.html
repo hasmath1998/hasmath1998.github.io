@@ -3,36 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Player - Fighter Hasmathullah</title>
+    <title>Watch - Fighter Hasmathullah</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #0b0f19; color: #f8fafc; margin: 0; padding: 15px; }
-        .video-box { width: 100%; height: 210px; background: #000; border-radius: 8px; margin-bottom: 15px; }
-        .video-title { font-size: 13pt; font-weight: bold; margin-bottom: 10px; }
-        .back-btn { background: #38bdf8; color: #0b0f19; border: none; padding: 8px 15px; border-radius: 5px; font-weight: bold; cursor: pointer; margin-bottom: 15px; }
+        :root {
+            --bg-primary: #07090e;
+            --bg-secondary: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --border: #334155;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            padding-bottom: 75px;
+        }
+
+        .site-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .site-logo {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+        }
+
+        .site-title {
+            font-size: 11pt;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .site-title span { color: var(--accent); }
+
+        .view-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 12px;
+        }
+
+        .media-box {
+            width: 100%;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 16 / 9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+        }
+
+        .media-box video, .media-box iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-info {
+            margin-top: 12px;
+            padding: 4px;
+        }
+
+        .video-title {
+            font-size: 11pt;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .video-meta {
+            font-size: 8.5pt;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: var(--card-bg);
+            color: var(--accent);
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 9pt;
+            border: 1px solid var(--border);
+        }
+
+        .footer-policy {
+            text-align: center;
+            padding: 20px 16px;
+            font-size: 8pt;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            margin-top: 20px;
+            background: var(--bg-secondary);
+        }
+        .footer-policy a { color: var(--text-muted); text-decoration: none; margin: 0 5px; }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--bg-secondary);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            border-top: 1px solid var(--border);
+            z-index: 1000;
+        }
+        .nav-item {
+            text-align: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 8pt;
+            font-weight: 500;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        .nav-item.active { color: var(--accent); }
     </style>
 </head>
 <body>
-    <button class="back-btn" onclick="history.back()">← Back</button>
-    <div id="player-container">
-        <!-- JS மூலம் வீடியோ விவரங்கள் இங்கே வரும் -->
+
+    <header class="site-header">
+        <img src="image/logo.jpg" alt="Logo" class="site-logo">
+        <div class="site-title">Fighter <span>Hasmathullah</span></div>
+    </header>
+
+    <div class="view-container">
+        <div class="media-box" id="media-player-box">
+            <p style="color:var(--text-muted); font-size:9pt;">வீடியோ ஏற்றப்படுகிறது...</p>
+        </div>
+        <div class="video-info" id="video-info-box">
+            <!-- Details will load via JS -->
+        </div>
+        <a href="index.html" class="back-btn">← முகப்புக்குத் திரும்பு</a>
     </div>
+
+    <div class="footer-policy">
+        <a href="about.html">About</a> | <a href="contact.html">Contact</a> | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms</a> | <a href="disclaimer.html">Disclaimer</a>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item"><span>🏠</span> Home</a>
+        <a href="shorts.html" class="nav-item"><span>⚡</span> Shorts</a>
+        <a href="videos.html" class="nav-item"><span>▶️</span> Videos</a>
+        <a href="articles.html" class="nav-item"><span>📖</span> Articles</a>
+    </nav>
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
-        const postId = urlParams.get('id');
+        const videoId = urlParams.get('id');
 
         fetch('content.json')
             .then(res => res.json())
             .then(data => {
-                const post = data.posts.find(p => p.id == postId);
-                if(post) {
-                    document.getElementById('player-container').innerHTML = `
-                        <div class="video-box">
-                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/${post.youtubeId || 'xxxxxx'}" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                        <div class="video-title">${post.title}</div>
-                        <p style="color: #94a3b8; font-size: 10pt;"> श्रेणी / Category: ${post.category || 'General'}</p>
+                const allItems = [...(data.posts || []), ...(data.shorts || [])];
+                const item = allItems.find(p => p.id == videoId);
+                
+                const playerBox = document.getElementById('media-player-box');
+                const infoBox = document.getElementById('video-info-box');
+
+                if(item) {
+                    playerBox.innerHTML = `<video src="${item.videoUrl || ''}" poster="${item.thumbnail}" controls autoplay style="width:100%; height:100%; object-fit:contain;"></video>`;
+                    infoBox.innerHTML = `
+                        <div class="video-title">${item.title}</div>
+                        <div class="video-meta">${item.views || '1K'} views • ${item.time || 'Recently'}</div>
                     `;
+                } else {
+                    playerBox.innerHTML = `<p style="color:#ef4444; font-size:9pt;">வீடியோ கிடைக்கவில்லை.</p>`;
                 }
             });
     </script>
