@@ -2,25 +2,27 @@
   "shorts": [
     {
       "id": 1,
+      "title": "Quick Self-Defense Tip",
       "thumbnail": "images/short1.jpg",
-      "videoUrl": "https://www.youtube.com/embed/xxxxxx"
+      "youtubeId": "xxxxxx"
     }
   ],
-  "posts": [
+  "videos": [
     {
       "id": 1,
-      "type": "video",
       "title": "3 Seconds Street Self-Defense Techniques",
       "thumbnail": "images/video1.jpg",
       "youtubeId": "xxxxxx",
       "category": "Martial Arts"
-    },
+    }
+  ],
+  "articles": [
     {
-      "id": 2,
-      "type": "article",
-      "title": "EPS-TOPIK கொரிய மொழித் தேர்வு வழிகாட்டி",
+      "id": 1,
+      "title": "தற்காப்புக் கலைகளின் அறிவியல் முறைகள்",
       "thumbnail": "images/article1.jpg",
-      "content": "கொரியா நாட்டிற்கு வேலைவாய்ப்பு பெற விரும்பும் பல இளைஞர்களுக்கு EPS-TOPIK தேர்வு மிக முக்கியமானது..."
+      "pageUrl": "article-1.html",
+      "category": "Fitness & Training"
     }
   ]
 }
