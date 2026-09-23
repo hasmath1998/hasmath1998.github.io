@@ -3,7 +3,7 @@
     {
       "id": "pillar-punch",
       "title": "Quick and powerful punches to concrete pillar",
-      "thumbnail": "images/pillar-punch.jpg",
+      "thumbnail": "image/pillar-punch.jpg",
       "youtubeId": "DE7nGEBcSKk"
     }
     
@@ -24,7 +24,7 @@
     {
       "id": 1,
       "title": "தற்காப்புக் கலைகளின் அறிவியல் முறைகள்",
-      "thumbnail": "images/article1.jpg",
+      "thumbnail": "image/article1.jpg",
       "file": "article-1.html",
       "category": "Fitness & Training"
     }
