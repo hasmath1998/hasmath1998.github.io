@@ -11,10 +11,10 @@
   
   "videos": [
     {
-      "id": 1,
-      "title": "3 Seconds Street Self-Defense",
-      "thumbnail": "images/video1.jpg",
-      "youtubeId": "உங்களது_யூடியூப்_வீடியோ_ஐடி",
+      "id": "wall-punch",
+      "title": "சுவற்றில் குத்தினால் கைகளுக்கு என்ன நடக்கும்? | Knuckle Conditioning Benefits & Side Effects Tamil",
+      "thumbnail": "image/wallpunch.jpg",
+      "youtubeId": "nvXiAX-XJtA",
       "category": "Martial Arts"
     }
     
