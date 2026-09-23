@@ -3,128 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shorts Reels - Fighter Hasmathullah</title>
+    <title>Shorts - Fighter Hasmathullah</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --card-bg: #161e2e;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent: #38bdf8;
-            --nav-bg: #070a12;
-            --border-color: #1e293b;
+            --bg-color: #0f0f0f;
+            --card-bg: #212121;
+            --text-main: #f1f1f1;
+            --text-muted: #aaa;
+            --nav-bg: #0f0f0f;
+            --border-color: #272727;
         }
         body {
             font-family: 'Segoe UI', Tahoma, sans-serif;
-            background: var(--bg-color);
+            background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
-            padding: 20px;
-            padding-bottom: 80px; 
+            padding-bottom: 70px;
         }
-        h1 {
-            text-align: center;
-            color: var(--accent);
-            font-size: 18pt;
-            margin-bottom: 20px;
+
+        /* Top Filter Bar */
+        .filter-bar {
+            display: flex;
+            gap: 8px;
+            padding: 8px 6px 12px 6px;
+            overflow-x: auto;
+            scrollbar-width: none;
         }
+        .filter-bar::-webkit-scrollbar { display: none; }
+        
+        .filter-chip {
+            background: #272727;
+            color: var(--text-main);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 8.5pt;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            white-space: nowrap;
+        }
+        .filter-chip.active {
+            background: #f1f1f1;
+            color: #0f0f0f;
+        }
+
+        /* 3-Column Shorts Grid (Exact size as screenshot) */
         .shorts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 16px;
-            max-width: 800px;
-            margin: 0 auto;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3px;
+            padding: 0 2px;
         }
+
         .short-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .short-card:hover {
-            transform: scale(1.03);
-        }
-        .short-thumb-box {
             position: relative;
-            width: 100%;
-            padding-top: 177.77%; 
-            background: #000;
+            aspect-ratio: 9 / 16;
+            background: var(--card-bg);
+            cursor: pointer;
+            overflow: hidden;
+            border-radius: 2px;
         }
-        .short-thumb {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+
+        .short-card img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
         }
-        .short-title {
-            padding: 10px;
-            font-size: 9.5pt;
-            color: var(--text-main);
-            font-weight: bold;
-            text-align: center;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
 
-        .reels-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: #000;
-            z-index: 1000;
-            overflow-y: scroll;
-            scroll-snap-type: y mandatory;
-        }
-        .reel-item {
-            width: 100%;
-            height: 100vh;
-            scroll-snap-align: start;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #0b0f19;
-        }
-        .reel-video-container {
-            width: 100%;
-            max-width: 400px;
-            height: 100%;
-            max-height: 85vh;
-            background: #000;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-        }
-        .reel-video-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        .close-reels-btn {
-            position: fixed;
-            top: 20px; right: 20px;
-            background: rgba(255,255,255,0.2);
+        .short-views {
+            position: absolute;
+            bottom: 6px;
+            left: 6px;
+            font-size: 7pt;
             color: #fff;
-            border: none;
-            font-size: 16pt;
-            width: 40px; height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 1010;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-        }
-        .close-reels-btn:hover {
-            background: #ef4444;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-weight: bold;
         }
 
-        /* மற்ற பக்கங்களைப் போன்ற இயல்பான நேவிகேஷன் பார் */
+        /* Bottom Navigation Bar */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -133,18 +92,18 @@
             background-color: var(--nav-bg);
             display: flex;
             justify-content: space-around;
-            padding: 10px 0;
+            padding: 8px 0;
             border-top: 1px solid var(--border-color);
-            z-index: 999;
+            z-index: 1000;
         }
         .nav-item {
             text-align: center;
             color: var(--text-muted);
             text-decoration: none;
-            font-size: 8.5pt;
+            font-size: 8pt;
         }
         .nav-item.active {
-            color: var(--accent);
+            color: #fff;
         }
         .nav-item svg {
             width: 22px;
@@ -156,17 +115,19 @@
 </head>
 <body>
 
-    <h1>Shorts & Reels</h1>
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <button class="filter-chip active">Latest</button>
+        <button class="filter-chip">Popular</button>
+        <button class="filter-chip">Oldest</button>
+    </div>
 
+    <!-- 3-Column Shorts Grid -->
     <div class="shorts-grid" id="shorts-container">
-        <p style="text-align:center; color:#94a3b8;">ஏற்றப்படுகிறது...</p>
+        <p style="grid-column: 1 / -1; text-align:center; color:var(--text-muted); padding:20px;">ஏற்றப்படுகிறது...</p>
     </div>
 
-    <div class="reels-overlay" id="reelsOverlay">
-        <button class="close-reels-btn" onclick="closeReelsViewer()">&times;</button>
-        <div id="reels-feed-container"></div>
-    </div>
-
+    <!-- Bottom Navigation Bar -->
     <nav class="bottom-nav">
         <a href="index.html" class="nav-item">
             <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -187,67 +148,27 @@
     </nav>
 
     <script>
-        let allShortsData = [];
-
         fetch('content.json')
             .then(res => res.json())
             .then(data => {
                 const container = document.getElementById('shorts-container');
                 if(data.shorts && data.shorts.length > 0) {
-                    allShortsData = data.shorts;
                     container.innerHTML = '';
-                    
-                    data.shorts.forEach((short, index) => {
+                    data.shorts.forEach(item => {
                         container.innerHTML += `
-                            <div class="short-card" onclick="openReelsViewer(${index})">
-                                <div class="short-thumb-box">
-                                    <img src="${short.thumbnail}" class="short-thumb" alt="Short">
-                                </div>
-                                <div class="short-title">${short.title}</div>
+                            <div class="short-card" onclick="window.location='short-player.html?id=${item.id}'">
+                                <img src="${item.thumbnail}" alt="Short">
+                                <div class="short-views">${item.views || '1K'} views</div>
                             </div>
                         `;
                     });
                 } else {
-                    container.innerHTML = "<p style='text-align:center; color:#94a3b8;'>ஷார்ட்ஸ் எதுவும் இல்லை.</p>";
+                    container.innerHTML = "<p style='grid-column: 1 / -1; text-align:center; color:var(--text-muted);'>ஷார்ட்ஸ் எதுவும் இல்லை.</p>";
                 }
             })
             .catch(err => {
-                document.getElementById('shorts-container').innerHTML = "<p style='text-align:center; color:#ef4444;'>தரவுகளை ஏற்றுவதில் பிழை.</p>";
+                document.getElementById('shorts-container').innerHTML = "<p style='grid-column: 1 / -1; text-align:center; color:#ef4444;'>பிழை ஏற்பட்டது.</p>";
             });
-
-        function openReelsViewer(startIndex) {
-            const overlay = document.getElementById('reelsOverlay');
-            const feedContainer = document.getElementById('reels-feed-container');
-            
-            let feedHtml = '';
-            allShortsData.forEach((short, index) => {
-                let autoplay = (index === startIndex) ? "?autoplay=1&loop=1&playlist=" + short.youtubeId : "?autoplay=0&loop=1&playlist=" + short.youtubeId;
-                
-                feedHtml += `
-                    <div class="reel-item" id="reel-${index}">
-                        <div class="reel-video-container">
-                            <iframe src="https://www.youtube.com/embed/${short.youtubeId}${autoplay}" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
-                        </div>
-                    </div>
-                `;
-            });
-
-            feedContainer.innerHTML = feedHtml;
-            overlay.style.display = 'block';
-
-            document.getElementById(`reel-${startIndex}`).scrollIntoView();
-        }
-
-        function closeReelsViewer() {
-            const overlay = document.getElementById('reelsOverlay');
-            const feedContainer = document.getElementById('reels-feed-container');
-            
-            overlay.style.display = 'none';
-            feedContainer.innerHTML = '';
-        }
     </script>
 </body>
 </html>
