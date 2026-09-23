@@ -4,30 +4,130 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy - Fighter Hasmathullah</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #07090e;
+            --bg-secondary: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --border: #334155;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            padding-bottom: 75px;
+        }
+
+        .site-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .site-logo {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+        }
+
+        .site-title {
+            font-size: 11pt;
+            font-weight: 700;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .site-title span { color: var(--accent); }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        .page-header {
+            font-size: 13pt;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .content-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid var(--border);
+            font-size: 10pt;
+            line-height: 1.6;
+            color: var(--text-main);
+        }
+
+        .content-card h2, .content-card h3 {
+            color: var(--accent);
+            margin-top: 10px;
+            margin-bottom: 6px;
+        }
+
+        .footer-policy {
+            text-align: center;
+            padding: 20px 16px;
+            font-size: 8pt;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            margin-top: 20px;
+            background: var(--bg-secondary);
+        }
+        .footer-policy a { color: var(--text-muted); text-decoration: none; margin: 0 5px; }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--bg-secondary);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            border-top: 1px solid var(--border);
+            z-index: 1000;
+        }
+        .nav-item {
+            text-align: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 8pt;
+            font-weight: 500;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        .nav-item.active { color: var(--accent); }
+    </style>
 </head>
 <body>
+
     <header class="site-header">
-        <div class="logo">
-            <a href="index.html"><i class="fa-solid fa-shield-halved"></i> Fighter Hasmath</a>
-        </div>
-        <nav class="desktop-nav">
-            <a href="index.html">Home</a>
-            <a href="videos.html">Videos</a>
-            <a href="shorts.html">Shorts</a>
-            <a href="articles.html">Articles</a>
-            <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
-        </nav>
+        <img src="image/logo.jpg" alt="Logo" class="site-logo">
+        <a href="index.html" class="site-title">Fighter <span>Hasmathullah</span></a>
     </header>
 
-    <main class="container">
-        <section class="page-header">
-            <h1>Privacy Policy</h1>
-            <p>How we handle and protect your personal information</p>
-        </section>
-        
+    <div class="container">
+        <div class="page-header">Privacy Policy</div>
         <div class="content-card">
             <h2>Information Collection</h2>
             <p>At Fighter Hasmathullah, accessible from our official platform, we value your privacy. This Privacy Policy document outlines the types of information collected and recorded by us and how we use it.</p>
@@ -35,14 +135,17 @@
             <h3>Log Files</h3>
             <p>Like many standard websites, we utilize log files. These files log visitors when they visit websites. The information collected includes internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks.</p>
         </div>
-    </main>
+    </div>
+
+    <div class="footer-policy">
+        <a href="about.html">About</a> | <a href="contact.html">Contact</a> | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms</a> | <a href="disclaimer.html">Disclaimer</a>
+    </div>
 
     <nav class="bottom-nav">
-        <a href="index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
-        <a href="videos.html"><i class="fa-solid fa-video"></i><span>Videos</span></a>
-        <a href="shorts.html"><i class="fa-solid fa-bolt"></i><span>Shorts</span></a>
-        <a href="articles.html"><i class="fa-solid fa-newspaper"></i><span>Articles</span></a>
-        <a href="about.html"><i class="fa-solid fa-user"></i><span>About</span></a>
+        <a href="index.html" class="nav-item"><span>🏠</span> Home</a>
+        <a href="shorts.html" class="nav-item"><span>⚡</span> Shorts</a>
+        <a href="videos.html" class="nav-item"><span>▶️</span> Videos</a>
+        <a href="articles.html" class="nav-item"><span>📖</span> Articles</a>
     </nav>
 </body>
 </html>
