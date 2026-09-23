@@ -64,6 +64,11 @@
             margin-bottom: 14px;
             overflow: hidden;
             border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .video-card:hover {
+            transform: scale(1.02);
         }
         .video-card img {
             width: 100%;
@@ -116,7 +121,7 @@
 
     <div class="page-heading">All Videos & Playlists</div>
     <div class="videos-container" id="all-videos">
-        <!-- JSON மூலமாக வீடியோக்கள் வரும் -->
+        <p style="text-align:center; color:#94a3b8;">வீடியோக்கள் ஏற்றப்படுகின்றன...</p>
     </div>
 
     <nav class="bottom-nav">
@@ -143,16 +148,26 @@
             .then(res => res.json())
             .then(data => {
                 const container = document.getElementById('all-videos');
-                data.posts.filter(item => item.type === 'video').forEach(item => {
-                    container.innerHTML += `
-                        <div class="video-card" onclick="window.location='video-view.html?id=${item.id}'">
-                            <img src="${item.thumbnail}" alt="Video">
-                            <div class="video-info">
-                                <div class="video-title">${item.title}</div>
+                // உங்களது content.json அமைப்பில் உள்ள 'videos' பகுதியிலிருந்து தரவுகளை எடுக்கிறது
+                if (data.videos && data.videos.length > 0) {
+                    container.innerHTML = '';
+                    data.videos.forEach(item => {
+                        container.innerHTML += `
+                            <div class="video-card" onclick="window.location='video-view.html?id=${item.id}'">
+                                <img src="${item.thumbnail}" alt="Video Thumbnail">
+                                <div class="video-info">
+                                    <div class="video-title">${item.title}</div>
+                                </div>
                             </div>
-                        </div>
-                    `;
-                });
+                        `;
+                    });
+                } else {
+                    container.innerHTML = '<p style="text-align:center; color:#94a3b8;">வீடியோக்கள் எதுவும் கிடைக்கவில்லை.</p>';
+                }
+            })
+            .catch(err => {
+                console.error('Error loading videos:', err);
+                document.getElementById('all-videos').innerHTML = '<p style="text-align:center; color:#ef4444;">தரவுகளை ஏற்றுவதில் பிழை.</p>';
             });
     </script>
 </body>
