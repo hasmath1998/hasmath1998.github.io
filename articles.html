@@ -49,24 +49,39 @@
             text-transform: uppercase;
             margin: 0;
         }
-        .page-heading {
-            font-size: 12pt;
-            margin: 16px;
-            color: var(--accent);
-            font-weight: bold;
+        
+        /* மேலே ஸ்கிரோல் செய்யும் கேட்டகரி பட்டன்கள் */
+        .category-tabs {
+            display: flex;
+            overflow-x: auto;
+            gap: 8px;
+            padding: 12px 16px;
+            background: var(--bg-color);
+            white-space: nowrap;
+            scrollbar-width: none;
         }
+        .category-tabs::-webkit-scrollbar {
+            display: none;
+        }
+        .cat-btn {
+            background: var(--card-bg);
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 8.5pt;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .cat-btn.active {
+            background: var(--accent);
+            color: var(--bg-color);
+            font-weight: bold;
+            border-color: var(--accent);
+        }
+
         .articles-container {
             padding: 0 16px;
-        }
-        .category-section {
-            margin-bottom: 24px;
-        }
-        .category-title {
-            font-size: 11pt;
-            color: var(--accent);
-            margin-bottom: 10px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 4px;
         }
         .article-card {
             background: var(--card-bg);
@@ -93,6 +108,7 @@
             font-weight: bold;
             color: #f1f5f9;
         }
+
         /* Bottom Navigation Bar */
         .bottom-nav {
             position: fixed;
@@ -129,7 +145,8 @@
         <h1 class="header-title">Fighter Hasmathullah</h1>
     </header>
 
-    <div class="page-heading">Articles Collection</div>
+    <div class="category-tabs" id="category-tabs"></div>
+
     <div class="articles-container" id="all-articles">
         <p style="text-align:center; color:#94a3b8;">கட்டுரைகள் ஏற்றப்படுகின்றன...</p>
     </div>
@@ -154,54 +171,66 @@
     </nav>
 
     <script>
+        let allArticlesData = [];
+
         fetch('content.json')
             .then(res => res.json())
             .then(data => {
-                const container = document.getElementById('all-articles');
-                
-                // உங்கள் ஜேசன் அமைப்பில் உள்ள 'articles' அல்லது 'posts'-ஐ கையாளுதல்
-                let articlesList = data.articles || (data.posts ? data.posts.filter(item => item.type === 'article') : []);
-
-                if (articlesList.length > 0) {
-                    container.innerHTML = '';
-                    
-                    // கேட்டகரி வாரியாகக் கட்டுரைகளைப் பிரித்தல்
-                    let categories = {};
-                    articlesList.forEach(article => {
-                        let cat = article.category || "General";
-                        if (!categories[cat]) {
-                            categories[cat] = [];
-                        }
-                        categories[cat].push(article);
-                    });
-
-                    // ஒவ்வொரு கேட்டகரியாகக் காட்டுதல்
-                    for (let cat in categories) {
-                        let sectionHtml = `
-                            <div class="category-section">
-                                <div class="category-title">${cat}</div>
-                        `;
-                        categories[cat].forEach(item => {
-                            sectionHtml += `
-                                <div class="article-card" onclick="window.location='article-view.html?id=${item.id}'">
-                                    <img src="${item.thumbnail}" alt="Article Thumbnail">
-                                    <div class="article-info">
-                                        <div class="article-title">${item.title}</div>
-                                    </div>
-                                </div>
-                            `;
-                        });
-                        sectionHtml += `</div>`;
-                        container.innerHTML += sectionHtml;
-                    }
-                } else {
-                    container.innerHTML = '<p style="text-align:center; color:#94a3b8;">கட்டுரைகள் எதுவும் கிடைக்கவில்லை.</p>';
-                }
+                allArticlesData = data.articles || (data.posts ? data.posts.filter(item => item.type === 'article') : []);
+                initCategories();
+                filterArticles('All');
             })
             .catch(err => {
                 console.error('Error loading articles:', err);
                 document.getElementById('all-articles').innerHTML = '<p style="text-align:center; color:#ef4444;">தரவுகளை ஏற்றுவதில் பிழை.</p>';
             });
+
+        function initCategories() {
+            const tabsContainer = document.getElementById('category-tabs');
+            let categories = ['All'];
+            
+            allArticlesData.forEach(article => {
+                let cat = article.category || "General";
+                if (!categories.includes(cat)) {
+                    categories.push(cat);
+                }
+            });
+
+            tabsContainer.innerHTML = '';
+            categories.forEach(cat => {
+                tabsContainer.innerHTML += `
+                    <button class="cat-btn ${cat === 'All' ? 'active' : ''}" onclick="filterArticles('${cat}', this)">${cat}</button>
+                `;
+            });
+        }
+
+        function filterArticles(categoryName, btnElement) {
+            if (btnElement) {
+                document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+                btnElement.classList.add('active');
+            }
+
+            const container = document.getElementById('all-articles');
+            let filtered = categoryName === 'All' 
+                ? allArticlesData 
+                : allArticlesData.filter(a => (a.category || "General") === categoryName);
+
+            if (filtered.length > 0) {
+                container.innerHTML = '';
+                filtered.forEach(item => {
+                    container.innerHTML += `
+                        <div class="article-card" onclick="window.location='article-view.html?id=${item.id}'">
+                            <img src="${item.thumbnail}" alt="Article Thumbnail">
+                            <div class="article-info">
+                                <div class="article-title">${item.title}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                container.innerHTML = '<p style="text-align:center; color:#94a3b8;">இந்த கேட்டகரியில் கட்டுரைகள் இல்லை.</p>';
+            }
+        }
     </script>
 </body>
 </html>
