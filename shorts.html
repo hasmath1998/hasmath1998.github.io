@@ -90,14 +90,14 @@
             backdrop-filter: blur(4px);
         }
 
-        /* Reels Fullscreen Overlay View */
+        /* Reels Fullscreen Overlay View - நேவிகேஷன் பாருக்கு இடம் விட்டு திறக்கும்படி அமைப்பு */
         #reels-overlay {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: calc(100vh - 55px);
             background-color: #000;
             z-index: 2000;
             overflow-y: scroll;
@@ -107,7 +107,7 @@
 
         .reel-item {
             width: 100%;
-            height: 100vh;
+            height: 100%;
             scroll-snap-align: start;
             position: relative;
             display: flex;
@@ -158,7 +158,8 @@
             justify-content: space-around;
             padding: 8px 0;
             border-top: 1px solid var(--border);
-            z-index: 1000;
+            z-index: 2500;
+            backdrop-filter: blur(10px);
         }
         .nav-item {
             text-align: center;
@@ -176,7 +177,7 @@
 <body>
 
     <header class="site-header">
-        <img src="image/logo.jpg" alt="Logo" class="site-logo">
+        <img src="image/site-logo.png" alt="Logo" class="site-logo">
         <div class="site-title">Fighter <span>Hasmathullah</span></div>
     </header>
 
@@ -187,7 +188,7 @@
     <!-- Reels Fullscreen Viewer Container -->
     <div id="reels-overlay">
         <button class="reels-back-btn" onclick="closeReels()">← Back</button>
-        <div id="reels-feed-container"></div>
+        <div id="reels-feed-container" style="width:100%; height:100%;"></div>
     </div>
 
     <div class="footer-policy">
@@ -230,9 +231,7 @@
             
             reelsFeed.innerHTML = '';
             
-            // Generate vertical snap items for all shorts
             allShorts.forEach((item, index) => {
-                // Autoplay only the selected video, others load when scrolled
                 let autoplay = (index === startIndex) ? '?autoplay=1' : '';
                 reelsFeed.innerHTML += `
                     <div class="reel-item">
@@ -243,7 +242,6 @@
 
             overlay.style.display = 'block';
 
-            // Scroll smoothly to the clicked video index
             setTimeout(() => {
                 const reelItems = document.querySelectorAll('.reel-item');
                 if(reelItems[startIndex]) {
@@ -256,7 +254,7 @@
             const overlay = document.getElementById('reels-overlay');
             const reelsFeed = document.getElementById('reels-feed-container');
             overlay.style.display = 'none';
-            reelsFeed.innerHTML = ''; // Stop video playback on close
+            reelsFeed.innerHTML = ''; 
         }
     </script>
 </body>
