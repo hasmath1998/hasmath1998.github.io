@@ -4,82 +4,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Videos - Fighter Hasmathullah</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0f0f0f;
-            --card-bg: #0f0f0f;
-            --text-main: #f1f1f1;
-            --text-muted: #aaa;
+            --bg-primary: #07090e;
+            --bg-secondary: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
             --accent: #38bdf8;
-            --nav-bg: #0f0f0f;
-            --border-color: #272727;
+            --border: #334155;
         }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            background-color: var(--bg-color);
+            background-color: var(--bg-primary);
             color: var(--text-main);
-            margin: 0;
-            padding: 8px;
-            padding-bottom: 70px;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            padding-bottom: 75px;
         }
 
-        /* Top Filter Bar (Latest, Popular, etc.) */
-        .filter-bar {
+        .site-header {
             display: flex;
-            gap: 8px;
-            padding: 8px 4px 12px 4px;
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
-        .filter-bar::-webkit-scrollbar { display: none; }
-        
-        .filter-chip {
-            background: #272727;
-            color: var(--text-main);
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-size: 8.5pt;
-            font-weight: 500;
-            cursor: pointer;
-            border: none;
-            white-space: nowrap;
-        }
-        .filter-chip.active {
-            background: #f1f1f1;
-            color: #0f0f0f;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        /* YouTube Style Vertical Video List */
-        .videos-list-container {
+        .site-logo {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+        }
+
+        .site-title {
+            font-size: 11pt;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .site-title span { color: var(--accent); }
+
+        .videos-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 12px;
             display: flex;
             flex-direction: column;
             gap: 10px;
-            max-width: 600px;
-            margin: 0 auto;
         }
 
+        /* YouTube List Style Card */
         .video-item-card {
             display: flex;
             gap: 10px;
             background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
             cursor: pointer;
-            padding: 4px;
-            border-radius: 6px;
+            padding: 6px;
             transition: background 0.2s;
         }
-        .video-item-card:hover {
-            background: #1f1f1f;
+
+        .video-item-card:active {
+            background: #273548;
         }
 
-        /* Thumbnail Size exact like YouTube List */
         .video-thumb-box {
             position: relative;
-            width: 130px;
-            min-width: 130px;
-            height: 73px;
+            width: 125px;
+            min-width: 125px;
+            height: 70px;
             background: #000;
-            border-radius: 8px;
+            border-radius: 6px;
             overflow: hidden;
         }
 
@@ -89,57 +95,53 @@
             object-fit: cover;
         }
 
-        /* Duration badge on thumbnail */
-        .video-duration {
-            position: absolute;
-            bottom: 4px;
-            right: 4px;
-            background: rgba(0, 0, 0, 0.8);
-            color: #fff;
-            font-size: 7.5pt;
-            padding: 1px 4px;
-            border-radius: 4px;
-            font-weight: 500;
-        }
-
-        /* Details */
         .video-details {
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
+            justify-content: center;
             flex-grow: 1;
-            padding-right: 4px;
         }
 
         .video-title {
             font-size: 9.5pt;
-            font-weight: 500;
-            color: #f1f1f1;
-            margin: 0 0 4px 0;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 4px;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            line-height: 1.35;
+            line-height: 1.3;
         }
 
         .video-meta {
             font-size: 8pt;
             color: var(--text-muted);
-            line-height: 1.2;
         }
 
-        /* Bottom Navigation Bar */
+        /* Footer Policy */
+        .footer-policy {
+            text-align: center;
+            padding: 20px 16px;
+            font-size: 8pt;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            margin-top: 20px;
+            background: var(--bg-secondary);
+        }
+        .footer-policy a { color: var(--text-muted); text-decoration: none; margin: 0 5px; }
+
+        /* Bottom Nav */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            background-color: var(--nav-bg);
+            background-color: var(--bg-secondary);
             display: flex;
             justify-content: space-around;
             padding: 8px 0;
-            border-top: 1px solid var(--border-color);
+            border-top: 1px solid var(--border);
             z-index: 1000;
         }
         .nav-item {
@@ -147,71 +149,53 @@
             color: var(--text-muted);
             text-decoration: none;
             font-size: 8pt;
+            font-weight: 500;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
         }
-        .nav-item.active {
-            color: #fff;
-        }
-        .nav-item svg {
-            width: 22px;
-            height: 22px;
-            fill: currentColor;
-            margin-bottom: 2px;
-        }
+        .nav-item.active { color: var(--accent); }
     </style>
 </head>
 <body>
 
-    <!-- Filter Bar -->
-    <div class="filter-bar">
-        <button class="filter-chip active">Latest</button>
-        <button class="filter-chip">Popular</button>
-        <button class="filter-chip">Oldest</button>
+    <header class="site-header">
+        <img src="image/logo.jpg" alt="Logo" class="site-logo">
+        <div class="site-title">Fighter <span>Hasmathullah</span></div>
+    </header>
+
+    <div class="videos-container" id="videos-list">
+        <p style="text-align:center; color:var(--text-muted); padding:20px;">வீடியோக்கள் ஏற்றப்படுகின்றன...</p>
     </div>
 
-    <!-- Video List Container -->
-    <div class="videos-list-container" id="videos-container">
-        <p style="text-align:center; color:var(--text-muted);">ஏற்றப்படுகிறது...</p>
+    <div class="footer-policy">
+        <a href="about.html">About</a> | <a href="contact.html">Contact</a> | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms</a> | <a href="disclaimer.html">Disclaimer</a>
     </div>
 
-    <!-- Bottom Navigation Bar -->
     <nav class="bottom-nav">
-        <a href="index.html" class="nav-item">
-            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            <div>Home</div>
-        </a>
-        <a href="shorts.html" class="nav-item">
-            <svg viewBox="0 0 24 24"><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
-            <div>Shorts</div>
-        </a>
-        <a href="videos.html" class="nav-item active">
-            <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
-            <div>Videos</div>
-        </a>
-        <a href="articles.html" class="nav-item">
-            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-            <div>Articles</div>
-        </a>
+        <a href="index.html" class="nav-item"><span>🏠</span> Home</a>
+        <a href="shorts.html" class="nav-item"><span>⚡</span> Shorts</a>
+        <a href="videos.html" class="nav-item active"><span>▶️</span> Videos</a>
+        <a href="articles.html" class="nav-item"><span>📖</span> Articles</a>
     </nav>
 
     <script>
         fetch('content.json')
             .then(res => res.json())
             .then(data => {
-                const container = document.getElementById('videos-container');
-                const videoList = data.posts ? data.posts.filter(item => item.type === 'video' || !item.type) : [];
-
-                if(videoList.length > 0) {
+                const container = document.getElementById('videos-list');
+                const posts = data.posts || [];
+                if(posts.length > 0) {
                     container.innerHTML = '';
-                    videoList.forEach(item => {
+                    posts.forEach(item => {
                         container.innerHTML += `
                             <div class="video-item-card" onclick="window.location='video-view.html?id=${item.id}'">
                                 <div class="video-thumb-box">
                                     <img src="${item.thumbnail}" class="video-thumb" alt="Thumbnail">
-                                    <div class="video-duration">${item.duration || '2:30'}</div>
                                 </div>
                                 <div class="video-details">
                                     <div class="video-title">${item.title}</div>
-                                    <div class="video-meta">${item.views || '123'} views • ${item.time || '2 days ago'}</div>
+                                    <div class="video-meta">${item.views || '10K'} views • ${item.time || '1 day ago'}</div>
                                 </div>
                             </div>
                         `;
@@ -219,9 +203,6 @@
                 } else {
                     container.innerHTML = "<p style='text-align:center; color:var(--text-muted);'>வீடியோக்கள் எதுவும் இல்லை.</p>";
                 }
-            })
-            .catch(err => {
-                document.getElementById('videos-container').innerHTML = "<p style='text-align:center; color:#ef4444;'>பிழை ஏற்பட்டது.</p>";
             });
     </script>
 </body>
