@@ -20,35 +20,26 @@
     </style>
 </head>
 <body>
-
-    <header>
-        <h1 onclick="window.location.href='videos.html'">← Back to Videos</h1>
-    </header>
-
+    <header><h1 onclick="window.location.href='videos.html'">← Back to Videos</h1></header>
     <div class="container">
-        <div class="player-container">
-            <iframe id="main-video" src="" allowfullscreen></iframe>
-        </div>
+        <div class="player-container"><iframe id="main-video" src="" allowfullscreen></iframe></div>
         <div class="video-info">
             <h2 id="video-title">Loading...</h2>
             <p id="video-desc"></p>
         </div>
-
         <div class="related-section">
             <div class="related-title">Related Videos</div>
             <div id="related-list"></div>
         </div>
     </div>
-
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const videoId = urlParams.get('id');
 
         fetch('data.json')
-            .then(response => response.json())
+            .then(res => res.json())
             .then(data => {
                 const currentVideo = data.videos.find(v => v.id === videoId) || data.videos[0];
-                
                 document.getElementById('main-video').src = currentVideo.embed;
                 document.getElementById('video-title').innerText = currentVideo.title;
                 document.getElementById('video-desc').innerText = currentVideo.desc;
@@ -56,11 +47,7 @@
                 let relatedHtml = '';
                 data.videos.forEach(video => {
                     if(video.id !== currentVideo.id) {
-                        relatedHtml += `
-                            <div class="related-card" onclick="window.location.href='watch.html?id=${video.id}'">
-                                <div>${video.title}</div>
-                            </div>
-                        `;
+                        relatedHtml += `<div class="related-card" onclick="window.location.href='watch.html?id=${video.id}'"><div>${video.title}</div></div>`;
                     }
                 });
                 document.getElementById('related-list').innerHTML = relatedHtml;
