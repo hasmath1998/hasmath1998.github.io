@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="ta">
 <head>
+
+    <link rel="icon" type="image/png" href="image/site-logo.png">
+<link rel="shortcut icon" type="image/png" href="image/site-logo.png">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Watch - Fighter Hasmathullah</title>
@@ -198,20 +202,20 @@
 <body>
 
     <header class="site-header">
-        <img src="image/logo.jpg" alt="Logo" class="site-logo">
+        <img src="image/site-logo.png" alt="Logo" class="site-logo">
         <div class="site-title">Fighter <span>Hasmathullah</span></div>
     </header>
 
     <div class="view-container">
         <div class="media-box" id="media-player-box">
-            <p style="color:var(--text-muted); font-size:9pt;">வீடியோ ஏற்றப்படுகிறது...</p>
+            <p style="color:var(--text-muted); font-size:9pt;">Please Wait...</p>
         </div>
         <div class="video-info" id="video-info-box"></div>
 
-        <div class="related-section-title">மற்ற வீடியோக்கள் (More Videos)</div>
+        <div class="related-section-title">More Videos</div>
         <div class="related-list" id="related-videos-container"></div>
 
-        <a href="index.html" class="back-btn">← முகப்புக்குத் திரும்பு</a>
+        <a href="index.html" class="back-btn">← Return Home</a>
     </div>
 
     <div class="footer-policy">
@@ -265,11 +269,11 @@
                             `;
                         });
                     } else {
-                        relatedContainer.innerHTML = "<p style='font-size:8.5pt; color:var(--text-muted);'>வேறு வீடியோக்கள் இல்லை.</p>";
+                        relatedContainer.innerHTML = "<p style='font-size:8.5pt; color:var(--text-muted);'>No Videos.</p>";
                     }
 
                 } else {
-                    playerBox.innerHTML = `<p style="color:#ef4444; font-size:9pt;">வீடியோ கிடைக்கவில்லை.</p>`;
+                    playerBox.innerHTML = `<p style="color:#ef4444; font-size:9pt;">No Videos.</p>`;
                 }
             });
     </script>
