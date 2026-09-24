@@ -10,14 +10,50 @@
   ],
   
   "videos": [
+
+    {
+      "id": "vid-chall",
+      "title": "vidyut jammwal iron hand conditioning pushup",
+      "thumbnail": "image/vid-chall.jpg",
+      "youtubeId": "xRubi43r0tU",
+      "category": "Challenge"
+    },
+    
+    {
+      "id": "siu-old",
+      "title": "Wing Chun Siu Nim Tao Fast Demonstrate",
+      "thumbnail": "image/siu-old.jpg",
+      "youtubeId": "BT5mfTOgs6Y",
+      "category": "Martial Arts"
+    },
+    {
+      "id": "fatt-lose",
+      "title": "வயிற்றை குறைக்க இதை செய்ங்க | how to reduce your belly fat ",
+      "thumbnail": "image/fatt-lose.jpg",
+      "youtubeId": "CLde5pp5O0w",
+      "category": "Fitness"
+    },
     {
       "id": "wall-punch",
       "title": "சுவற்றில் குத்தினால் கைகளுக்கு என்ன நடக்கும்? | Knuckle Conditioning Benefits & Side Effects Tamil",
       "thumbnail": "image/wallpunch.jpg",
       "youtubeId": "nvXiAX-XJtA",
       "category": "Martial Arts"
+    },
+    {
+      "id": "knife-def",
+      "title": "கத்தி தாக்குதலை தடுப்பது எப்படி? | how to defend against a knife attack ",
+      "thumbnail": "image/knife-def.jpg",
+      "youtubeId": "GIY4XPb8fQI",
+      "category": "Martial Arts"
+    },
+    {
+      "id": "musc-gro",
+      "title": "தசை வளர்ச்சிக்கு பின்னால் உள்ள அறிவியல் | behind science of muscle growth",
+      "thumbnail": "image/musc-gro.jpg",
+      "youtubeId": "2c_nPZWN3SE",
+      "category": "Fitness"
     }
-    
   ],
   
   "articles": [
