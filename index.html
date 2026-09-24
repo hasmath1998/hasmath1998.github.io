@@ -333,7 +333,7 @@
     <div class="container">
         <div class="section-header">Posts</div>
         <div id="home-feed-container">
-            <p style="text-align:center; color:var(--text-muted); padding:20px;">ஏற்றப்படுகிறது...</p>
+            <p style="text-align:center; color:var(--text-muted); padding:20px;">Wait...</p>
         </div>
     </div>
 
@@ -462,11 +462,11 @@
                 }
 
                 if (videos.length === 0 && globalShorts.length === 0 && articles.length === 0) {
-                    container.innerHTML = "<p style='text-align:center; color:var(--text-muted);'>பதிவுகள் எதுவும் இல்லை.</p>";
+                    container.innerHTML = "<p style='text-align:center; color:var(--text-muted);'>Posts Not Available.</p>";
                 }
             })
             .catch(err => {
-                document.getElementById('home-feed-container').innerHTML = "<p style='text-align:center; color:#ef4444;'>தரவுகளை ஏற்றுவதில் பிழை.</p>";
+                document.getElementById('home-feed-container').innerHTML = "<p style='text-align:center; color:#ef4444;'>.Connection Error.</p>";
             });
 
         // youtubeId ஐப் பயன்படுத்தி பாப்-அப் வீடியோவை சரியாக பிளே செய்தல்
