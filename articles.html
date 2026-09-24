@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="ta">
 <head>
+    <link rel="icon" type="image/png" href="image/site-logo.png">
+    <link rel="shortcut icon" type="image/png" href="image/site-logo.png">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Articles - Fighter Hasmathullah</title>
@@ -35,6 +38,8 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            cursor: pointer;
+            text-decoration: none;
         }
 
         .site-logo {
@@ -53,10 +58,42 @@
 
         .site-title span { color: var(--accent); }
 
+        /* கேட்டகிரி ஃபில்டர் பட்டன்களுக்கான ஸ்டைல் */
+        .category-filters {
+            display: flex;
+            gap: 8px;
+            padding: 12px;
+            max-width: 600px;
+            margin: 0 auto;
+            overflow-x: auto;
+            white-space: nowrap;
+            scrollbar-width: none;
+        }
+        .category-filters::-webkit-scrollbar { display: none; }
+
+        .filter-btn {
+            background: var(--card-bg);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 8.5pt;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn.active {
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-color: var(--accent);
+            font-weight: 600;
+        }
+
         .articles-container {
             max-width: 600px;
             margin: 0 auto;
-            padding: 12px;
+            padding: 0 12px 12px 12px;
             display: flex;
             flex-direction: column;
             gap: 12px;
@@ -129,10 +166,15 @@
 </head>
 <body>
 
-    <header class="site-header">
-        <img src="image/logo.jpg" alt="Logo" class="site-logo">
+    <a href="index.html" class="site-header">
+        <img src="image/site-logo.png" alt="Logo" class="site-logo">
         <div class="site-title">Fighter <span>Hasmathullah</span></div>
-    </header>
+    </a>
+
+    <!-- கேட்டகிரி பட்டன்கள் -->
+    <div class="category-filters" id="category-filters">
+        <button class="filter-btn active" onclick="filterArticles('All', this)">All</button>
+    </div>
 
     <div class="articles-container" id="articles-list">
         <p style="text-align:center; color:var(--text-muted); padding:20px;">கட்டுரைகள் ஏற்றப்படுகின்றன...</p>
@@ -150,28 +192,60 @@
     </nav>
 
     <script>
+        let allArticles = [];
+
         fetch('content.json')
             .then(res => res.json())
             .then(data => {
-                const container = document.getElementById('articles-list');
-                const articles = data.articles || data.posts || [];
-                if(articles.length > 0) {
-                    container.innerHTML = '';
-                    articles.forEach(item => {
-                        container.innerHTML += `
-                            <div class="article-card" onclick="window.location='article-view.html?id=${item.id}'">
-                                <div class="article-title">${item.title}</div>
-                                <div class="article-meta">
-                                    <span>${item.category || 'Articles'}</span>
-                                    <span>${item.time || '1 week ago'}</span>
-                                </div>
-                            </div>
+                allArticles = data.articles || data.posts || [];
+                const filtersContainer = document.getElementById('category-filters');
+                
+                // தனித்த கேட்டகிரிகளை கண்டறிதல்
+                const categories = ['All', ...new Set(allArticles.map(a => a.category).filter(Boolean))];
+                
+                if(categories.length > 1) {
+                    filtersContainer.innerHTML = '';
+                    categories.forEach((cat, index) => {
+                        filtersContainer.innerHTML += `
+                            <button class="filter-btn ${index === 0 ? 'active' : ''}" onclick="filterArticles('${cat}', this)">${cat}</button>
                         `;
                     });
-                } else {
-                    container.innerHTML = "<p style='text-align:center; color:var(--text-muted);'>கட்டுரைகள் எதுவும் இல்லை.</p>";
                 }
+
+                renderArticles(allArticles);
             });
+
+        function renderArticles(articles) {
+            const container = document.getElementById('articles-list');
+            if(articles.length > 0) {
+                container.innerHTML = '';
+                articles.forEach(item => {
+                    container.innerHTML += `
+                        <div class="article-card" onclick="window.location='article-view.html?id=${item.id}'">
+                            <div class="article-title">${item.title}</div>
+                            <div class="article-meta">
+                                <span>${item.category || 'Articles'}</span>
+                                <span>${item.time || '1 week ago'}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                container.innerHTML = "<p style='text-align:center; color:var(--text-muted);'>கட்டுரைகள் எதுவும் இல்லை.</p>";
+            }
+        }
+
+        function filterArticles(category, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            if(category === 'All') {
+                renderArticles(allArticles);
+            } else {
+                const filtered = allArticles.filter(a => a.category === category);
+                renderArticles(filtered);
+            }
+        }
     </script>
 </body>
 </html>
