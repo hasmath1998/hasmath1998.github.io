@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="ta">
 <head>
-
     <link rel="icon" type="image/png" href="image/site-logo.png">
-<link rel="shortcut icon" type="image/png" href="image/site-logo.png">
+    <link rel="shortcut icon" type="image/png" href="image/site-logo.png">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,6 +38,8 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            cursor: pointer;
+            text-decoration: none;
         }
 
         .site-logo {
@@ -57,10 +58,42 @@
 
         .site-title span { color: var(--accent); }
 
+        /* கேட்டகிரி ஃபில்டர் பட்டன்களுக்கான ஸ்டைல் */
+        .category-filters {
+            display: flex;
+            gap: 8px;
+            padding: 12px;
+            max-width: 600px;
+            margin: 0 auto;
+            overflow-x: auto;
+            white-space: nowrap;
+            scrollbar-width: none;
+        }
+        .category-filters::-webkit-scrollbar { display: none; }
+
+        .filter-btn {
+            background: var(--card-bg);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 8.5pt;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn.active {
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-color: var(--accent);
+            font-weight: 600;
+        }
+
         .videos-container {
             max-width: 600px;
             margin: 0 auto;
-            padding: 12px;
+            padding: 0 12px 12px 12px;
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -160,10 +193,15 @@
 </head>
 <body>
 
-    <header class="site-header">
+    <a href="index.html" class="site-header">
         <img src="image/site-logo.png" alt="Logo" class="site-logo">
         <div class="site-title">Fighter <span>Hasmathullah</span></div>
-    </header>
+    </a>
+
+    <!-- கேட்டகிரி பட்டன்கள் -->
+    <div class="category-filters" id="category-filters">
+        <button class="filter-btn active" onclick="filterVideos('All', this)">All</button>
+    </div>
 
     <div class="videos-container" id="videos-list">
         <p style="text-align:center; color:var(--text-muted); padding:20px;">Please Wait...</p>
@@ -181,30 +219,62 @@
     </nav>
 
     <script>
+        let allVideos = [];
+
         fetch('content.json')
             .then(res => res.json())
             .then(data => {
-                const container = document.getElementById('videos-list');
-                const videos = data.videos || [];
-                if(videos.length > 0) {
-                    container.innerHTML = '';
-                    videos.forEach(item => {
-                        container.innerHTML += `
-                            <div class="video-item-card" onclick="window.location='video-view.html?id=${item.id}'">
-                                <div class="video-thumb-box">
-                                    <img src="${item.thumbnail}" class="video-thumb" alt="Thumbnail">
-                                </div>
-                                <div class="video-details">
-                                    <div class="video-title">${item.title}</div>
-                                    <div class="video-meta">10K views • 1 day ago</div>
-                                </div>
-                            </div>
+                allVideos = data.videos || [];
+                const filtersContainer = document.getElementById('category-filters');
+                
+                // தனித்த கேட்டகிரிகளை கண்டறிதல்
+                const categories = ['All', ...new Set(allVideos.map(v => v.category).filter(Boolean))];
+                
+                if(categories.length > 1) {
+                    filtersContainer.innerHTML = '';
+                    categories.forEach((cat, index) => {
+                        filtersContainer.innerHTML += `
+                            <button class="filter-btn ${index === 0 ? 'active' : ''}" onclick="filterVideos('${cat}', this)">${cat}</button>
                         `;
                     });
-                } else {
-                    container.innerHTML = "<p style='text-align:center; color:var(--text-muted);'>No Videos.</p>";
                 }
+
+                renderVideos(allVideos);
             });
+
+        function renderVideos(videos) {
+            const container = document.getElementById('videos-list');
+            if(videos.length > 0) {
+                container.innerHTML = '';
+                videos.forEach(item => {
+                    container.innerHTML += `
+                        <div class="video-item-card" onclick="window.location='video-view.html?id=${item.id}'">
+                            <div class="video-thumb-box">
+                                <img src="${item.thumbnail}" class="video-thumb" alt="Thumbnail">
+                            </div>
+                            <div class="video-details">
+                                <div class="video-title">${item.title}</div>
+                                <div class="video-meta">10K views • 1 day ago</div>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                container.innerHTML = "<p style='text-align:center; color:var(--text-muted);'>No Videos.</p>";
+            }
+        }
+
+        function filterVideos(category, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            if(category === 'All') {
+                renderVideos(allVideos);
+            } else {
+                const filtered = allVideos.filter(v => v.category === category);
+                renderVideos(filtered);
+            }
+        }
     </script>
 </body>
 </html>
