@@ -3,7 +3,7 @@
 <head>
 
     <link rel="icon" type="image/png" href="image/site-logo.png">
-<link rel="shortcut icon" type="image/png" href="image/site-logo.png">
+    <link rel="shortcut icon" type="image/png" href="image/site-logo.png">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,6 +39,8 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            cursor: pointer;
+            text-decoration: none;
         }
 
         .site-logo {
@@ -73,6 +75,14 @@
             align-items: center;
             justify-content: center;
             border: 1px solid var(--border);
+        }
+
+        /* ஷார்ட்ஸ் வீடியோக்களுக்கு மட்டும் பிளேயரை செங்குத்தாக மாற்றும் வசதி */
+        .media-box.short-media-box {
+            aspect-ratio: 9 / 16;
+            max-height: 500px;
+            margin: 0 auto;
+            width: auto;
         }
 
         .media-box iframe {
@@ -124,14 +134,26 @@
             border: 1px solid var(--border);
             cursor: pointer;
             padding: 4px;
+            align-items: center;
         }
 
+        /* சாதாரண வீடியோ থাম்ப்நெயில் (16:9) */
         .related-thumb {
             width: 100px;
             min-width: 100px;
             height: 56px;
             object-fit: cover;
             border-radius: 4px;
+        }
+
+        /* ஷார்ட்ஸ் வீடியோக்களுக்குரிய செங்குத்து থাম்ப்நெயில் அளவு (9:16) */
+        .related-thumb.short-thumb {
+            width: 45px;
+            min-width: 45px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin: 0 auto;
         }
 
         .related-details {
@@ -201,10 +223,10 @@
 </head>
 <body>
 
-    <header class="site-header">
+    <a href="index.html" class="site-header">
         <img src="image/site-logo.png" alt="Logo" class="site-logo">
         <div class="site-title">Fighter <span>Hasmathullah</span></div>
-    </header>
+    </a>
 
     <div class="view-container">
         <div class="media-box" id="media-player-box">
@@ -238,6 +260,9 @@
             .then(data => {
                 const videos = data.videos || [];
                 const shorts = data.shorts || [];
+                
+                // எந்தப் பட்டியல் மூலம் திறக்கப்பட்டது என்பதைக் கண்டறிய தனித்தனியாகப் பிரித்துக்கொள்ளலாம்
+                const isShort = shorts.some(s => s.id == videoId);
                 const allItems = [...videos, ...shorts];
                 const item = allItems.find(p => p.id == videoId);
                 
@@ -246,6 +271,13 @@
                 const relatedContainer = document.getElementById('related-videos-container');
 
                 if(item) {
+                    // ஷார்ட்ஸ் வீடியோவாக இருந்தால் பிளேயரை செங்குத்தாக (9:16) மாற்றுவது
+                    if(shorts.some(s => s.id == item.id)) {
+                        playerBox.classList.add('short-media-box');
+                    } else {
+                        playerBox.classList.remove('short-media-box');
+                    }
+
                     // YouTube Iframe Embed
                     playerBox.innerHTML = `<iframe src="https://www.youtube.com/embed/${item.youtubeId}?autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
                     
@@ -254,14 +286,18 @@
                         <div class="video-meta">1K views • Recently</div>
                     `;
 
-                    // Render Other Videos Below (YouTube style)
+                    // கீழே உள்ள தொடர்பான வீடியோக்கள் பட்டியலில் ஷார்ட்ஸ் மற்றும் சாதாரண வீடியோக்களைச் சேர்த்தல்
                     const otherItems = allItems.filter(p => p.id != videoId);
                     if(otherItems.length > 0) {
                         relatedContainer.innerHTML = '';
                         otherItems.forEach(oth => {
+                            // இது ஷார்ட்ஸா எனச் சரிபார்த்து அதற்கேற்ப செங்குத்து அளவு கிளாஸைச் சேர்த்தல்
+                            const isOthShort = shorts.some(s => s.id == oth.id);
+                            const thumbClass = isOthShort ? 'related-thumb short-thumb' : 'related-thumb';
+
                             relatedContainer.innerHTML += `
                                 <div class="related-item" onclick="window.location='video-view.html?id=${oth.id}'">
-                                    <img src="${oth.thumbnail}" class="related-thumb" alt="Thumbnail">
+                                    <img src="${oth.thumbnail}" class="${thumbClass}" alt="Thumbnail">
                                     <div class="related-details">
                                         <div class="related-title">${oth.title}</div>
                                     </div>
