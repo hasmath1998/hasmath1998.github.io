@@ -1,5 +1,70 @@
 {
   "shorts": [
+
+    {
+      "id": "Nunchaku",
+      "title": "Nunchaku",
+      "thumbnail": "image/Nunchaku.jpg",
+      "youtubeId": "1_5rREbLxgA"
+    },
+    {
+      "id": "powerful-crescent-kick",
+      "title": "powerful crescent kick",
+      "thumbnail": "image/powerful-crescent-kick.jpg",
+      "youtubeId": "mfYqtqfwGTk"
+    },
+    {
+      "id": "One-arm-pushups",
+      "title": "One arm pushups",
+      "thumbnail": "image/One-arm-pushups.jpg",
+      "youtubeId": "PiAu8xVPudk"
+    },
+    {
+      "id": "powerfull-kicks",
+      "title": "powerfull kicks",
+      "thumbnail": "image/powerfull-kicks.jpg",
+      "youtubeId": "iZpWZdwG2eI"
+    },
+    
+    {
+      "id": "Quick-and-powerful-nunchacku",
+      "title": "Quick and powerful nunchacku",
+      "thumbnail": "image/Quick-and-powerful-nunchacku.jpg",
+      "youtubeId": "VWItJ0bYO68"
+    },
+    
+    {
+      "id": "Quick-punches-Demo",
+      "title": "Quick punches Demo",
+      "thumbnail": "image/Quick-punches-Demo.jpg",
+      "youtubeId": "v1ByLeGoxh0"
+    },
+    
+    {
+      "id": "Bruce-Lee-Jumping-Snap-Kick",
+      "title": "Bruce Lee Jumping Snap Kick",
+      "thumbnail": "image/Bruce-Lee-Jumping-Snap-Kick.jpg",
+      "youtubeId": "3VHIqwONqsI"
+    },
+    
+    {
+      "id": "Fastest-Wall-Punches",
+      "title": "Fastest Wall Punches",
+      "thumbnail": "image/Fastest-Wall-Punches.jpg",
+      "youtubeId": "2xsL51UK7Zc"
+    },
+    {
+      "id": "Powerful-Kicks",
+      "title": "Powerful Kicks",
+      "thumbnail": "image/Powerful-Kicks.jpg",
+      "youtubeId": "4KlTzGlo6X0"
+    },
+    {
+      "id": "Powerful-Taekwondo-Kicks",
+      "title": "Powerful Taekwondo Kicks",
+      "thumbnail": "image/Powerful-Taekwondo-Kicks.jpg",
+      "youtubeId": "VZWfrWaRzYE"
+    },
     {
       "id": "pillar-punch",
       "title": "Quick and powerful punches to concrete pillar",
@@ -8,6 +73,8 @@
     }
     
   ],
+
+  
   
   "videos": [
 
