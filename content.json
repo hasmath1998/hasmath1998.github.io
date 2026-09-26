@@ -125,10 +125,10 @@
   
   "articles": [
     {
-      "id": 1,
+      "id": Ghhh,
       "title": "தற்காப்புக் கலைகளின் அறிவியல் முறைகள்",
       "thumbnail": "image/article1.jpg",
-      "file": "article-1.html",
+      "id": "Ghhh",
       "category": "Fitness & Training"
     }
 
