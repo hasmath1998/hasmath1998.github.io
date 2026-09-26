@@ -125,11 +125,11 @@
   
   "articles": [
     {
-      "id": Ghhh,
-      "title": "தற்காப்புக் கலைகளின் அறிவியல் முறைகள்",
+      "id": "wall-punch-tamil",
+      "title": "என்னால் எவ்வாறு வெறும் கைகளால் சுவற்றை தாக்க முடிகிறது",
       "thumbnail": "image/article1.jpg",
-      "id": "Ghhh",
-      "category": "Fitness & Training"
+      "link": "wall-punch-tamil",
+      "category": "Martial Arts Tamil"
     }
 
     
