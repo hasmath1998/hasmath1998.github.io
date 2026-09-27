@@ -85,7 +85,7 @@
             padding: 12px;
         }
 
-        /* ஷார்ட்ஸ் வீடியோக்களுக்குரிய செங்குத்து மற்றும் சற்றுச் சிறிய பிளேயர் அளவு */
+        /* ஷார்ட்ஸ் பிளேயர்: மிக நீளமாக இல்லாமல், சாதாரண வீடியோவை விட கொஞ்சம் மட்டும் உயரம் கூடுதலான அளவு */
         .sticky-player-wrapper {
             position: sticky;
             top: 65px;
@@ -101,9 +101,9 @@
             background: #000;
             border-radius: 8px;
             overflow: hidden;
-            aspect-ratio: 9 / 16;
-            max-height: 420px;
-            max-width: 235px;
+            aspect-ratio: 4 / 5;
+            max-height: 360px;
+            max-width: 288px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -337,7 +337,7 @@
             position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000;
         }
         .related-thumb-container.short-thumb-container {
-            aspect-ratio: 9 / 16; max-height: 240px; margin: 0 auto;
+            aspect-ratio: 4 / 5; max-height: 180px; margin: 0 auto;
         }
         .related-thumb { width: 100%; height: 100%; object-fit: cover; }
         .related-details { padding: 8px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; }
@@ -417,7 +417,6 @@
                 const relatedContainer = document.getElementById('related-videos-container');
 
                 if(item) {
-                    // ஷார்ட்ஸ் பிளேயர் வடிவம்
                     playerBox.innerHTML = `<iframe src="https://www.youtube.com/embed/${item.youtubeId}?autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
                     
                     const descriptionText = item.description ? item.description : "No description available for this short.";
@@ -473,12 +472,11 @@
                         </div>
                     `;
 
-                    // பரிந்துரைக்கப்பட்ட வீடியோக்கள் (முதலில் ஷார்ட்ஸ் வீடியோக்கள் வருமாறு வரிசைப்படுத்தப்பட்டுள்ளது)
+                    // ஷார்ட்ஸ் வீடியோக்கள் முதலில் பரிந்துரைக்கப்படும் அமைப்பு
                     const otherItems = allItems.filter(p => p.id != videoId);
                     const otherShorts = otherItems.filter(s => shorts.some(sh => sh.id == s.id));
                     const normalVideos = otherItems.filter(v => !shorts.some(sh => sh.id == v.id));
                     
-                    // ஷார்ட்ஸ் வீடியோக்கள் முதலில் ரெக்கமெண்ட் செய்யப்படும்
                     const sortedRelatedItems = [...otherShorts, ...normalVideos];
 
                     if(sortedRelatedItems.length > 0) {
@@ -508,7 +506,6 @@
                 }
             });
 
-        // Like பட்டன் மற்றும் கவுண்ட்
         let isLiked = false;
         let baseLikes = 142;
         function toggleLike() {
@@ -531,7 +528,6 @@
             }
         }
 
-        // கமெண்ட் டேட்டா பட்டியல்
         let commentsData = [
             { id: 1, author: "Viewer", text: "Awesome short! 🔥" },
             { id: 2, author: "Fighter", text: "Thanks for watching! 💪" }
@@ -545,7 +541,6 @@
             document.getElementById('commentsModal').classList.remove('active');
         }
 
-        // மினிமைஸ் செய்ய
         function toggleMinimizeComments() {
             const wrap = document.getElementById('comments-content-wrap');
             const btn = document.getElementById('minimize-btn');
