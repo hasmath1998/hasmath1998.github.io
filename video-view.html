@@ -577,15 +577,23 @@
                 
                 listEl.innerHTML = '';
                 commentsData.forEach((c, index) => {
-                    listEl.innerHTML += `
-                        <div class="modal-comment-item">
-                            <div style="flex-grow:1; margin-right:8px;">
-                                <b>${c.author}:</b> <span id="c-text-${index}">${c.text}</span>
-                            </div>
+                    // நீங்கள் (You) எழுதிய கமெண்டுகளுக்கு மட்டும் எடிட்/டெலிட் பட்டன் வரும்
+                    let actionButtons = '';
+                    if (c.author === "You") {
+                        actionButtons = `
                             <div class="comment-actions">
                                 <button class="comment-action-btn" onclick="editComment(${index})">Edit</button>
                                 <button class="comment-action-btn" style="color:#ef4444;" onclick="deleteComment(${index})">Delete</button>
                             </div>
+                        `;
+                    }
+
+                    listEl.innerHTML += `
+                        <div class="modal-comment-item">
+                            <div style="flex-grow:1; margin-right:8px;">
+                                <b>${c.author}:</b> <span>${c.text}</span>
+                            </div>
+                            ${actionButtons}
                         </div>
                     `;
                 });
@@ -604,7 +612,6 @@
             }
         }
 
-        // கமெண்டை எடிட் செய்ய (நேரடியாக இன்டர்பேஸில் திருத்தும் வசதி)
         function editComment(index) {
             const currentText = commentsData[index].text;
             const newText = prompt("Edit your comment:", currentText);
