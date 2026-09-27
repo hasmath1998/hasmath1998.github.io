@@ -12,7 +12,6 @@
   gtag('config', 'G-EWLS6CJ90N');
 </script>
     
-
     <link rel="icon" type="image/png" href="image/site-logo.png">
     <link rel="shortcut icon" type="image/png" href="image/site-logo.png">
 
@@ -98,12 +97,12 @@
             border: 1px solid var(--border);
         }
 
-        /* ஷார்ட்ஸ் வீடியோக்களுக்கு மட்டும் பிளேயரை செங்குத்தாக மாற்றும் வசதி */
+        /* ஷார்ட்ஸ் வீடியோக்களுக்கு ஏற்றவாறு செங்குத்து பிளேயர் அளவு */
         .media-box.short-media-box {
             aspect-ratio: 9 / 16;
-            max-height: 500px;
+            max-height: 420px;
+            max-width: 250px;
             margin: 0 auto;
-            width: auto;
         }
 
         .media-box iframe {
@@ -115,20 +114,57 @@
         .video-info {
             margin-top: 12px;
             padding: 4px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px;
         }
 
         .video-title {
             font-size: 11pt;
             font-weight: 600;
             color: var(--text-main);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             line-height: 1.4;
         }
 
         .video-meta {
             font-size: 8.5pt;
             color: var(--text-muted);
-            margin-bottom: 16px;
+            margin-bottom: 8px;
+        }
+
+        /* YouTube ஸ்டைல் Description (More / Less வசதியுடன்) */
+        .video-desc-box {
+            font-size: 9pt;
+            color: var(--text-muted);
+            line-height: 1.4;
+            background: var(--card-bg);
+            padding: 8px;
+            border-radius: 6px;
+            margin-top: 6px;
+        }
+
+        .video-desc {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .video-desc.expanded {
+            display: block;
+        }
+
+        .desc-toggle-btn {
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-size: 8.5pt;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 4px;
+            padding: 0;
         }
 
         .related-section-title {
@@ -140,47 +176,61 @@
             padding-top: 12px;
         }
 
+        /* கட்டமைப்பு (Grid Layout) - சுத்தமான வடிவம் */
         .related-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        @media (min-width: 500px) {
+            .related-list {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
 
         .related-item {
-            display: flex;
-            gap: 8px;
             background: var(--card-bg);
-            border-radius: 6px;
+            border-radius: 8px;
             overflow: hidden;
             border: 1px solid var(--border);
             cursor: pointer;
-            padding: 4px;
-            align-items: center;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease;
         }
 
-        /* சாதாரண வீடியோ থাম்ப்நெயில் (16:9) */
-        .related-thumb {
-            width: 100px;
-            min-width: 100px;
-            height: 56px;
-            object-fit: cover;
-            border-radius: 4px;
+        .related-item:active {
+            transform: scale(0.98);
         }
 
-        /* ஷார்ட்ஸ் வீடியோக்களுக்குரிய செங்குத்து থাম்ப்நெயில் அளவு (9:16) */
-        .related-thumb.short-thumb {
-            width: 45px;
-            min-width: 45px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 4px;
+        /* சாதாரண வீடியோக்களுக்குரிய அகலமான থাম்ப்நெயில் வடிவம் (16:9) */
+        .related-thumb-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #000;
+        }
+
+        /* ஷார்ட்ஸ் வீடியோக்களுக்குரிய செங்குத்தான சிறிய பாக்ஸ் வடிவம் (9:16) */
+        .related-thumb-container.short-thumb-container {
+            aspect-ratio: 9 / 16;
+            max-height: 180px;
             margin: 0 auto;
         }
 
+        .related-thumb {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         .related-details {
+            padding: 8px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
+            flex-grow: 1;
         }
 
         .related-title {
@@ -203,7 +253,7 @@
             text-decoration: none;
             font-size: 9pt;
             border: 1px solid var(--border);
-            margin-top: 16px;
+            margin-top: 20px;
         }
 
         .footer-policy {
@@ -255,7 +305,7 @@
         </div>
         <div class="video-info" id="video-info-box"></div>
 
-        <div class="related-section-title">More Videos</div>
+        <div class="related-section-title">Related Videos</div>
         <div class="related-list" id="related-videos-container"></div>
 
         <a href="index.html" class="back-btn">← Return Home</a>
@@ -282,8 +332,6 @@
                 const videos = data.videos || [];
                 const shorts = data.shorts || [];
                 
-                // எந்தப் பட்டியல் மூலம் திறக்கப்பட்டது என்பதைக் கண்டறிய தனித்தனியாகப் பிரித்துக்கொள்ளலாம்
-                const isShort = shorts.some(s => s.id == videoId);
                 const allItems = [...videos, ...shorts];
                 const item = allItems.find(p => p.id == videoId);
                 
@@ -292,8 +340,9 @@
                 const relatedContainer = document.getElementById('related-videos-container');
 
                 if(item) {
-                    // ஷார்ட்ஸ் வீடியோவாக இருந்தால் பிளேயரை செங்குத்தாக (9:16) மாற்றுவது
-                    if(shorts.some(s => s.id == item.id)) {
+                    const isCurrentShort = shorts.some(s => s.id == item.id);
+
+                    if(isCurrentShort) {
                         playerBox.classList.add('short-media-box');
                     } else {
                         playerBox.classList.remove('short-media-box');
@@ -302,23 +351,37 @@
                     // YouTube Iframe Embed
                     playerBox.innerHTML = `<iframe src="https://www.youtube.com/embed/${item.youtubeId}?autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
                     
+                    // Description மற்றும் More/Less வசதிக்கான பகுதி
+                    const descriptionText = item.description ? item.description : "No description available for this video.";
+                    
                     infoBox.innerHTML = `
                         <div class="video-title">${item.title}</div>
-                        <div class="video-meta">1K views • Recently</div>
+                        <div class="video-meta">${item.category || 'Martial Arts'} • Recently</div>
+                        <div class="video-desc-box">
+                            <div class="video-desc" id="desc-text">${descriptionText}</div>
+                            <button class="desc-toggle-btn" id="desc-btn" onclick="toggleDescription()">...more</button>
+                        </div>
                     `;
 
-                    // கீழே உள்ள தொடர்பான வீடியோக்கள் பட்டியலில் ஷார்ட்ஸ் மற்றும் சாதாரண வீடியோக்களைச் சேர்த்தல்
+                    // கேட்டகிரி (Category) அடிப்படையில் தொடர்புடைய வீடியோக்களை முதலில் வரிசைப்படுத்துதல்
                     const otherItems = allItems.filter(p => p.id != videoId);
-                    if(otherItems.length > 0) {
+                    
+                    const sameCategoryItems = otherItems.filter(p => p.category && item.category && p.category.toLowerCase() === item.category.toLowerCase());
+                    const otherCategoryItems = otherItems.filter(p => !p.category || !item.category || p.category.toLowerCase() !== item.category.toLowerCase());
+                    
+                    const sortedRelatedItems = [...sameCategoryItems, ...otherCategoryItems];
+
+                    if(sortedRelatedItems.length > 0) {
                         relatedContainer.innerHTML = '';
-                        otherItems.forEach(oth => {
-                            // இது ஷார்ட்ஸா எனச் சரிபார்த்து அதற்கேற்ப செங்குத்து அளவு கிளாஸைச் சேர்த்தல்
+                        sortedRelatedItems.forEach(oth => {
                             const isOthShort = shorts.some(s => s.id == oth.id);
-                            const thumbClass = isOthShort ? 'related-thumb short-thumb' : 'related-thumb';
+                            const thumbContainerClass = isOthShort ? 'related-thumb-container short-thumb-container' : 'related-thumb-container';
 
                             relatedContainer.innerHTML += `
                                 <div class="related-item" onclick="window.location='video-view.html?id=${oth.id}'">
-                                    <img src="${oth.thumbnail}" class="${thumbClass}" alt="Thumbnail">
+                                    <div class="${thumbContainerClass}">
+                                        <img src="${oth.thumbnail}" class="related-thumb" alt="Thumbnail">
+                                    </div>
                                     <div class="related-details">
                                         <div class="related-title">${oth.title}</div>
                                     </div>
@@ -326,13 +389,26 @@
                             `;
                         });
                     } else {
-                        relatedContainer.innerHTML = "<p style='font-size:8.5pt; color:var(--text-muted);'>No Videos.</p>";
+                        relatedContainer.innerHTML = "<p style='font-size:8.5pt; color:var(--text-muted); grid-column: span 3;'>No Related Videos.</p>";
                     }
 
                 } else {
-                    playerBox.innerHTML = `<p style="color:#ef4444; font-size:9pt;">No Videos.</p>`;
+                    playerBox.innerHTML = `<p style="color:#ef4444; font-size:9pt;">Video Not Found.</p>`;
                 }
             });
+
+        // Description விரிவுபடுத்தும் / சுருக்கும் ஜாவாஸ்கிரிப்ட் பங்க்ஷன்
+        function toggleDescription() {
+            const desc = document.getElementById('desc-text');
+            const btn = document.getElementById('desc-btn');
+            if(desc.classList.contains('expanded')) {
+                desc.classList.remove('expanded');
+                btn.innerText = "...more";
+            } else {
+                desc.classList.add('expanded');
+                btn.innerText = "Show less";
+            }
+        }
     </script>
 </body>
 </html>
