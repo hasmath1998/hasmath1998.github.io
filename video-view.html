@@ -106,11 +106,11 @@
             border: 1px solid var(--border);
         }
 
-        /* ஷார்ட்ஸ் வீடியோக்களுக்குரிய செங்குத்து பிளேயர் அளவு */
+        /* ஷார்ட்ஸ் வீடியோக்களுக்குரிய செங்குத்து பிளேயர் அளவு (இப்போது இன்னும் கொஞ்சம் நீளமாக மாற்றப்பட்டுள்ளது) */
         .media-box.short-media-box {
             aspect-ratio: 9 / 16;
-            max-height: 400px;
-            max-width: 230px;
+            max-height: 480px;
+            max-width: 270px;
             margin: 0 auto;
         }
 
@@ -142,7 +142,7 @@
             margin-bottom: 10px;
         }
 
-        /* YouTube ஸ்டைல் Action Buttons (Like, Share, etc.) */
+        /* Like, Share பட்டன்கள் மற்றும் கவுண்ட் */
         .action-buttons {
             display: flex;
             gap: 8px;
@@ -155,14 +155,14 @@
             background: var(--card-bg);
             border: 1px solid var(--border);
             color: var(--text-main);
-            padding: 6px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 8pt;
+            font-size: 8.5pt;
             font-weight: 600;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             white-space: nowrap;
             transition: background 0.2s;
         }
@@ -207,6 +207,66 @@
             cursor: pointer;
             margin-top: 4px;
             padding: 0;
+        }
+
+        /* கமெண்ட் செக்ஷன் (Comment Section) பகுதி */
+        .comments-section {
+            margin-top: 15px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .comments-title {
+            font-size: 9.5pt;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .comment-input-box {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .comment-input {
+            flex-grow: 1;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 6px 10px;
+            color: var(--text-main);
+            font-size: 8.5pt;
+        }
+
+        .comment-submit-btn {
+            background: var(--accent);
+            color: var(--bg-primary);
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 8.5pt;
+            cursor: pointer;
+        }
+
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .comment-item {
+            background: var(--bg-primary);
+            padding: 6px 8px;
+            border-radius: 6px;
+            font-size: 8.5pt;
+            color: var(--text-main);
+            border: 1px solid var(--border);
         }
 
         .related-section-title {
@@ -254,10 +314,10 @@
             background: #000;
         }
 
-        /* ஷார்ட்ஸ் வீடியோக்களுக்குரிய செங்குத்தான நீளக் கட்டமைப்பு வடிவம் (9:16) */
+        /* ஷார்ட்ஸ் வீடியோக்களுக்குரிய செங்குத்தான நீளக் கட்டமைப்பு வடிவம் (9:16 - இப்போது இன்னும் நீளமாக நேர்த்தியாக) */
         .related-thumb-container.short-thumb-container {
             aspect-ratio: 9 / 16;
-            max-height: 220px;
+            max-height: 260px;
             margin: 0 auto;
         }
 
@@ -397,29 +457,39 @@
                     // YouTube Iframe Embed
                     playerBox.innerHTML = `<iframe src="https://www.youtube.com/embed/${item.youtubeId}?autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
                     
-                    // Description மற்றும் Action Buttons பகுதி
                     const descriptionText = item.description ? item.description : "No description available for this video.";
                     
+                    // Info Box உடன் Like கோப்பகங்கள், Description மற்றும் Comments செக்ஷன்
                     infoBox.innerHTML = `
                         <div class="video-title">${item.title}</div>
                         <div class="video-meta">${item.category || 'Martial Arts'} • Recently</div>
                         
-                        <!-- Like, Share பட்டன்கள் -->
+                        <!-- Like மற்றும் Share பட்டன்கள் (கவுண்டுடன்) -->
                         <div class="action-buttons">
                             <button class="action-btn" id="like-btn" onclick="toggleLike()">
-                                <span id="like-icon">👍</span> <span id="like-text">Like</span>
+                                <span id="like-icon">👍</span> <span id="like-text">Like</span> (<span id="like-count">142</span>)
                             </button>
                             <button class="action-btn" onclick="shareVideo()">
                                 <span>↗️</span> Share
                             </button>
-                            <a href="https://www.youtube.com/watch?v=${item.youtubeId}" target="_blank" class="action-btn" style="text-decoration:none;">
-                                <span>▶️</span> Watch on YouTube
-                            </a>
                         </div>
 
                         <div class="video-desc-box">
                             <div class="video-desc" id="desc-text">${descriptionText}</div>
                             <button class="desc-toggle-btn" id="desc-btn" onclick="toggleDescription()">...more</button>
+                        </div>
+
+                        <!-- கமெண்ட் பகுதி (Comment Section) -->
+                        <div class="comments-section">
+                            <div class="comments-title">Comments</div>
+                            <div class="comment-input-box">
+                                <input type="text" id="comment-input" class="comment-input" placeholder="Add a comment...">
+                                <button class="comment-submit-btn" onclick="addComment()">Post</button>
+                            </div>
+                            <div class="comments-list" id="comments-list">
+                                <div class="comment-item"><b>Viewer:</b> Great tutorial, very helpful! 🔥</div>
+                                <div class="comment-item"><b>Fighter:</b> Thank you! Keep practicing. 💪</div>
+                            </div>
                         </div>
                     `;
 
@@ -457,26 +527,43 @@
                 }
             });
 
-        // Like பட்டன் வேலை செய்யும் விதம்
+        // Like பட்டன் மற்றும் கவுண்ட் வேலை செய்யும் விதம்
         let isLiked = false;
+        let baseLikes = 142;
         function toggleLike() {
             const btn = document.getElementById('like-btn');
             const icon = document.getElementById('like-icon');
             const text = document.getElementById('like-text');
+            const countSpan = document.getElementById('like-count');
             
             isLiked = !isLiked;
             if(isLiked) {
                 btn.classList.add('liked');
                 icon.innerText = "❤️";
                 text.innerText = "Liked";
+                countSpan.innerText = baseLikes + 1;
             } else {
                 btn.classList.remove('liked');
                 icon.innerText = "👍";
                 text.innerText = "Like";
+                countSpan.innerText = baseLikes;
             }
         }
 
-        // Share வசதி (மொபைலில் நேزரமாக ஷேர் மெனு திறக்கும்)
+        // கமெண்ட் சேர்க்கும் பங்க்ஷன்
+        function addComment() {
+            const input = document.getElementById('comment-input');
+            const list = document.getElementById('comments-list');
+            if(input.value.trim() !== "") {
+                const newComment = document.createElement('div');
+                newComment.className = 'comment-item';
+                newComment.innerHTML = `<b>You:</b> ${input.value}`;
+                list.prepend(newComment);
+                input.value = "";
+            }
+        }
+
+        // Share வசதி
         function shareVideo() {
             if (navigator.share) {
                 navigator.share({
