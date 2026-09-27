@@ -85,6 +85,15 @@
             padding: 12px;
         }
 
+        /* யூடியூப் போல வீடியோ பிளேயர் ஸ்க்ரோல் ஆகாமல் நிலையாக (Sticky) இருக்க வழிவகை */
+        .sticky-player-wrapper {
+            position: sticky;
+            top: 65px; /* ஹெடருக்கு கீழே நிலைத்து நிற்கும் */
+            z-index: 99;
+            background: var(--bg-primary);
+            padding-bottom: 4px;
+        }
+
         .media-box {
             width: 100%;
             background: #000;
@@ -97,11 +106,11 @@
             border: 1px solid var(--border);
         }
 
-        /* ஷார்ட்ஸ் வீடியோக்களுக்கு ஏற்றவாறு செங்குத்து பிளேயர் அளவு */
+        /* ஷார்ட்ஸ் வீடியோக்களுக்குரிய செங்குத்து பிளேயர் அளவு (தலைப்புகள் மறையாதவாறு சரியான விகிதம்) */
         .media-box.short-media-box {
             aspect-ratio: 9 / 16;
-            max-height: 420px;
-            max-width: 250px;
+            max-height: 400px;
+            max-width: 230px;
             margin: 0 auto;
         }
 
@@ -113,11 +122,10 @@
 
         .video-info {
             margin-top: 12px;
-            padding: 4px;
             background: var(--bg-secondary);
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 10px;
+            padding: 12px;
         }
 
         .video-title {
@@ -176,7 +184,7 @@
             padding-top: 12px;
         }
 
-        /* கட்டமைப்பு (Grid Layout) - சுத்தமான வடிவம் */
+        /* கட்டமைப்பு (Grid Layout) - சாதாரண வீடியோக்களுக்கு அகலமான பாக்ஸ்கள் */
         .related-list {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -300,9 +308,13 @@
     </a>
 
     <div class="view-container">
-        <div class="media-box" id="media-player-box">
-            <p style="color:var(--text-muted); font-size:9pt;">Please Wait...</p>
+        <!-- யூடியூப் போல பிளேயர் மேலே நிலைத்து நிற்க ஸ்டிக்கி வார்பர் (Sticky Player Wrapper) -->
+        <div class="sticky-player-wrapper">
+            <div class="media-box" id="media-player-box">
+                <p style="color:var(--text-muted); font-size:9pt;">Please Wait...</p>
+            </div>
         </div>
+
         <div class="video-info" id="video-info-box"></div>
 
         <div class="related-section-title">Related Videos</div>
@@ -393,7 +405,7 @@
                     }
 
                 } else {
-                    playerBox.innerHTML = `<p style="color:#ef4444; font-size:9pt;">Video Not Found.</p>`;
+                    playerBox.innerHTML = `<p style="color:#ef4444; font-size:9pt;">Video Not Found.</p>";
                 }
             });
 
