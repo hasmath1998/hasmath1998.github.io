@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ta">
 <head>
@@ -85,10 +86,10 @@
             padding: 12px;
         }
 
-        /* யூடியூப் போல வீடியோ பிளேயர் ஸ்க்ரோல் ஆகாமல் நிலையாக (Sticky) இருக்க வழிவகை */
+        /* யூடியூப் போல பிளேயர் ஸ்க்ரோல் ஆகாமல் நிலையாக நிற்பதற்கான பகுதி */
         .sticky-player-wrapper {
             position: sticky;
-            top: 65px; /* ஹெடருக்கு கீழே நிலைத்து நிற்கும் */
+            top: 65px;
             z-index: 99;
             background: var(--bg-primary);
             padding-bottom: 4px;
@@ -106,7 +107,7 @@
             border: 1px solid var(--border);
         }
 
-        /* ஷார்ட்ஸ் வீடியோக்களுக்குரிய செங்குத்து பிளேயர் அளவு (தலைப்புகள் மறையாதவாறு சரியான விகிதம்) */
+        /* ஷார்ட்ஸ் வீடியோக்களுக்குரிய செங்குத்து பிளேயர் அளவு */
         .media-box.short-media-box {
             aspect-ratio: 9 / 16;
             max-height: 400px;
@@ -184,7 +185,7 @@
             padding-top: 12px;
         }
 
-        /* கட்டமைப்பு (Grid Layout) - சாதாரண வீடியோக்களுக்கு அகலமான பாக்ஸ்கள் */
+        /* தொடர்புடைய வீடியோக்களுக்கான கட்டமைப்பு (Grid Layout) */
         .related-list {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -220,10 +221,10 @@
             background: #000;
         }
 
-        /* ஷார்ட்ஸ் வீடியோக்களுக்குரிய செங்குத்தான சிறிய பாக்ஸ் வடிவம் (9:16) */
+        /* ஷார்ட்ஸ் வீடியோக்களுக்குரிய செங்குத்தான நீளக் கட்டமைப்பு வடிவம் (9:16) */
         .related-thumb-container.short-thumb-container {
             aspect-ratio: 9 / 16;
-            max-height: 180px;
+            max-height: 220px;
             margin: 0 auto;
         }
 
@@ -308,7 +309,7 @@
     </a>
 
     <div class="view-container">
-        <!-- யூடியூப் போல பிளேயர் மேலே நிலைத்து நிற்க ஸ்டிக்கி வார்பர் (Sticky Player Wrapper) -->
+        <!-- பிளேயர் மேலே நிலைத்து நிற்கும் பகுதி -->
         <div class="sticky-player-wrapper">
             <div class="media-box" id="media-player-box">
                 <p style="color:var(--text-muted); font-size:9pt;">Please Wait...</p>
@@ -375,7 +376,7 @@
                         </div>
                     `;
 
-                    // கேட்டகிரி (Category) அடிப்படையில் தொடர்புடைய வீடியோக்களை முதலில் வரிசைப்படுத்துதல்
+                    // அதே கேட்டகிரி (Category) சார்ந்த வீடியோக்களை முதலில் வரிசைப்படுத்திவிட்டு, மற்றவற்றைப் பின்னால் காட்டுவது
                     const otherItems = allItems.filter(p => p.id != videoId);
                     
                     const sameCategoryItems = otherItems.filter(p => p.category && item.category && p.category.toLowerCase() === item.category.toLowerCase());
@@ -405,7 +406,7 @@
                     }
 
                 } else {
-                    playerBox.innerHTML = `<p style="color:#ef4444; font-size:9pt;">Video Not Found.</p>";
+                    playerBox.innerHTML = `<p style="color:#ef4444; font-size:9pt;">Video Not Found.</p>`;
                 }
             });
 
