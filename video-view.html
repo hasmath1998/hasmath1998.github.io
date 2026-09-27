@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ta">
 <head>
@@ -86,7 +85,7 @@
             padding: 12px;
         }
 
-        /* யூடியூப் போல பிளேயர் ஸ்க்ரோல் ஆகாமல் நிலையாக நிற்பதற்கான பகுதி */
+        /* பிளேயர் மேலே நிலைத்து நிற்கும் பகுதி */
         .sticky-player-wrapper {
             position: sticky;
             top: 65px;
@@ -140,7 +139,41 @@
         .video-meta {
             font-size: 8.5pt;
             color: var(--text-muted);
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+        }
+
+        /* YouTube ஸ்டைல் Action Buttons (Like, Share, etc.) */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .action-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 8pt;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+
+        .action-btn:hover {
+            background: var(--border);
+        }
+
+        .action-btn.liked {
+            color: #ef4444;
+            border-color: #ef4444;
         }
 
         /* YouTube ஸ்டைல் Description (More / Less வசதியுடன்) */
@@ -364,19 +397,33 @@
                     // YouTube Iframe Embed
                     playerBox.innerHTML = `<iframe src="https://www.youtube.com/embed/${item.youtubeId}?autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
                     
-                    // Description மற்றும் More/Less வசதிக்கான பகுதி
+                    // Description மற்றும் Action Buttons பகுதி
                     const descriptionText = item.description ? item.description : "No description available for this video.";
                     
                     infoBox.innerHTML = `
                         <div class="video-title">${item.title}</div>
                         <div class="video-meta">${item.category || 'Martial Arts'} • Recently</div>
+                        
+                        <!-- Like, Share பட்டன்கள் -->
+                        <div class="action-buttons">
+                            <button class="action-btn" id="like-btn" onclick="toggleLike()">
+                                <span id="like-icon">👍</span> <span id="like-text">Like</span>
+                            </button>
+                            <button class="action-btn" onclick="shareVideo()">
+                                <span>↗️</span> Share
+                            </button>
+                            <a href="https://www.youtube.com/watch?v=${item.youtubeId}" target="_blank" class="action-btn" style="text-decoration:none;">
+                                <span>▶️</span> Watch on YouTube
+                            </a>
+                        </div>
+
                         <div class="video-desc-box">
                             <div class="video-desc" id="desc-text">${descriptionText}</div>
                             <button class="desc-toggle-btn" id="desc-btn" onclick="toggleDescription()">...more</button>
                         </div>
                     `;
 
-                    // அதே கேட்டகிரி (Category) சார்ந்த வீடியோக்களை முதலில் வரிசைப்படுத்திவிட்டு, மற்றவற்றைப் பின்னால் காட்டுவது
+                    // அதே கேட்டகிரி சார்ந்த வீடியோக்களை முதலில் காட்டுவது
                     const otherItems = allItems.filter(p => p.id != videoId);
                     
                     const sameCategoryItems = otherItems.filter(p => p.category && item.category && p.category.toLowerCase() === item.category.toLowerCase());
@@ -410,7 +457,39 @@
                 }
             });
 
-        // Description விரிவுபடுத்தும் / சுருக்கும் ஜாவாஸ்கிரிப்ட் பங்க்ஷன்
+        // Like பட்டன் வேலை செய்யும் விதம்
+        let isLiked = false;
+        function toggleLike() {
+            const btn = document.getElementById('like-btn');
+            const icon = document.getElementById('like-icon');
+            const text = document.getElementById('like-text');
+            
+            isLiked = !isLiked;
+            if(isLiked) {
+                btn.classList.add('liked');
+                icon.innerText = "❤️";
+                text.innerText = "Liked";
+            } else {
+                btn.classList.remove('liked');
+                icon.innerText = "👍";
+                text.innerText = "Like";
+            }
+        }
+
+        // Share வசதி (மொபைலில் நேزரமாக ஷேர் மெனு திறக்கும்)
+        function shareVideo() {
+            if (navigator.share) {
+                navigator.share({
+                    title: document.title,
+                    url: window.location.href
+                }).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert("Link copied to clipboard!");
+            }
+        }
+
+        // Description விரிவுபடுத்தும் / சுருக்கும் பங்க்ஷன்
         function toggleDescription() {
             const desc = document.getElementById('desc-text');
             const btn = document.getElementById('desc-btn');
