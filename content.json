@@ -118,10 +118,10 @@
   
   "articles": [
     {
-      "id": "wall-punch-tamil",
+      "id": "articles/tamil/wall-punch-tamil",
       "title": "என்னால் எவ்வாறு வெறும் கைகளால் சுவற்றை தாக்க முடிகிறது",
-      "thumbnail": "image/article1.jpg",
-      "link": "https://hasmath1998.github.io/article-view.html?id=wall-punch-tamil",
+      "thumbnail": "image/wall-punch-article.jpg",
+      "link": "https://hasmath1998.github.io/article-view.html?id=articles/tamil/wall-punch-tamil",
       "category": "Martial Arts Tamil"
     }
   ]
