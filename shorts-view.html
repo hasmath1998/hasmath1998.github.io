@@ -85,15 +85,13 @@
             padding: 12px;
         }
 
-        /* ஷார்ட்ஸ் பிளேயர்: மிக நீளமாக இல்லாமல், சாதாரண வீடியோவை விட கொஞ்சம் மட்டும் உயரம் கூடுதலான அளவு */
+        /* பிளேயர் மேலே நிலைத்து நிற்கும் பகுதி */
         .sticky-player-wrapper {
             position: sticky;
             top: 65px;
             z-index: 99;
             background: var(--bg-primary);
             padding-bottom: 4px;
-            display: flex;
-            justify-content: center;
         }
 
         .media-box {
@@ -101,18 +99,24 @@
             background: #000;
             border-radius: 8px;
             overflow: hidden;
-            aspect-ratio: 4 / 5;
-            max-height: 250px;
-            max-width: 288px;
+            aspect-ratio: 16 / 9;
             display: flex;
             align-items: center;
             justify-content: center;
             border: 1px solid var(--border);
         }
 
+        /* ஷார்ட்ஸ் வீடியோக்களுக்குரிய செங்குத்து பிளேயர் அளவு (video-view.html போன்றே மாற்றப்பட்டுள்ளது) */
+        .media-box.short-media-box {
+            aspect-ratio: 9 / 16;
+            max-height: 480px;
+            max-width: 270px;
+            margin: 0 auto;
+        }
+
         .media-box iframe {
             width: 100%;
-            height: 50%;
+            height: 100%;
             border: none;
         }
 
@@ -337,7 +341,7 @@
             position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000;
         }
         .related-thumb-container.short-thumb-container {
-            aspect-ratio: 4 / 5; max-height: 180px; margin: 0 auto;
+            aspect-ratio: 9 / 16; max-height: 260px; margin: 0 auto;
         }
         .related-thumb { width: 100%; height: 100%; object-fit: cover; }
         .related-details { padding: 8px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; }
@@ -376,7 +380,7 @@
 
     <div class="view-container">
         <div class="sticky-player-wrapper">
-            <div class="media-box" id="media-player-box">
+            <div class="media-box short-media-box" id="media-player-box">
                 <p style="color:var(--text-muted); font-size:9pt;">Please Wait...</p>
             </div>
         </div>
@@ -430,7 +434,7 @@
                                 <span id="like-icon">👍</span> <span id="like-text">Like</span> (<span id="like-count">142</span>)
                             </button>
                             <button class="action-btn" onclick="shareVideo()">
-                                <span>↗️</span> Share
+                                <span>↗️️</span> Share
                             </button>
                         </div>
 
