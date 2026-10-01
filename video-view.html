@@ -17,16 +17,29 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Watch - Fighter Hasmathullah</title>
+    <title id="page-title">Watch - Fighter Hasmathullah</title>
 
-    <meta name="description" content="Watch martial arts tutorials and training videos on Fighter Hasmathullah.">
+    <!-- SEO Meta Tags -->
+    <meta name="description" id="meta-description" content="Watch martial arts tutorials, training sessions, and combat techniques on Fighter Hasmathullah.">
+    <meta name="keywords" content="Martial Arts, Fighter Hasmathullah, Combat Training, Karate, Boxing, Wing Chun, Self Defense, Tamil Tutorials">
+    <meta name="author" content="Ak Hasmathullah">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://hasmath1998.github.io/video-view.html">
+    <link rel="canonical" id="meta-canonical" href="https://hasmath1998.github.io/video-view.html">
     
-    <meta property="og:title" content="Watch - Fighter Hasmathullah">
-    <meta property="og:description" content="Watch martial arts tutorials and training videos on Fighter Hasmathullah.">
-    <meta property="og:url" content="https://hasmath1998.github.io/video-view.html">
+    <!-- Open Graph / Social Media Meta Tags (Facebook, WhatsApp, LinkedIn) -->
+    <meta property="og:site_name" content="Fighter Hasmathullah">
     <meta property="og:type" content="video.other">
+    <meta property="og:title" id="meta-og-title" content="Watch - Fighter Hasmathullah">
+    <meta property="og:description" id="meta-og-desc" content="Watch martial arts tutorials and training videos on Fighter Hasmathullah.">
+    <meta property="og:url" id="meta-og-url" content="https://hasmath1998.github.io/video-view.html">
+    <meta property="og:image" id="meta-og-image" content="https://hasmath1998.github.io/image/site-logo.png">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Hasmathullah">
+    <meta name="twitter:title" id="meta-twitter-title" content="Watch - Fighter Hasmathullah">
+    <meta name="twitter:description" id="meta-twitter-desc" content="Watch martial arts tutorials and training videos on Fighter Hasmathullah.">
+    <meta name="twitter:image" id="meta-twitter-image" content="https://hasmath1998.github.io/image/site-logo.png">
 
     <style>
         :root {
@@ -85,7 +98,6 @@
             padding: 12px;
         }
 
-        /* பிளேயர் மேலே நிலைத்து நிற்கும் பகுதி */
         .sticky-player-wrapper {
             position: sticky;
             top: 65px;
@@ -104,14 +116,6 @@
             align-items: center;
             justify-content: center;
             border: 1px solid var(--border);
-        }
-
-        /* ஷார்ட்ஸ் வீடியோக்களுக்குரிய செங்குத்து பிளேயர் அளவு */
-        .media-box.short-media-box {
-            aspect-ratio: 9 / 16;
-            max-height: 480px;
-            max-width: 270px;
-            margin: 0 auto;
         }
 
         .media-box iframe {
@@ -142,7 +146,6 @@
             margin-bottom: 10px;
         }
 
-        /* Like, Share பட்டன்கள் */
         .action-buttons {
             display: flex;
             gap: 8px;
@@ -170,7 +173,6 @@
         .action-btn:hover { background: var(--border); }
         .action-btn.liked { color: #ef4444; border-color: #ef4444; }
 
-        /* Description பகுதி */
         .video-desc-box {
             font-size: 9pt;
             color: var(--text-muted);
@@ -198,7 +200,6 @@
             padding: 0;
         }
 
-        /* கமெண்ட் செக்ஷன் மற்றும் மினிமைஸ் வசதி */
         .comments-section {
             margin-top: 15px;
             background: var(--card-bg);
@@ -250,7 +251,6 @@
             display: none;
         }
 
-        /* கமெண்ட் பாப்-அப் மோடல் (Popup Modal) */
         .comments-modal {
             display: none;
             position: fixed;
@@ -340,9 +340,6 @@
         .related-thumb-container {
             position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000;
         }
-        .related-thumb-container.short-thumb-container {
-            aspect-ratio: 9 / 16; max-height: 260px; margin: 0 auto;
-        }
         .related-thumb { width: 100%; height: 100%; object-fit: cover; }
         .related-details { padding: 8px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; }
         .related-title {
@@ -421,13 +418,26 @@
                 const relatedContainer = document.getElementById('related-videos-container');
 
                 if(item) {
-                    const isCurrentShort = shorts.some(s => s.id == item.id);
-                    if(isCurrentShort) {
-                        playerBox.classList.add('short-media-box');
-                    } else {
-                        playerBox.classList.remove('short-media-box');
-                    }
+                    // SEO மற்றும் சமூக வலைத்தள மேட்டா டேக்குகளை டைனமிக்காக மாற்றுதல்
+                    const pageTitle = `${item.title} - Fighter Hasmathullah`;
+                    const pageDesc = item.description ? item.description : "Watch martial arts tutorials and training videos on Fighter Hasmathullah.";
+                    const pageUrl = window.location.href;
+                    const pageImage = item.thumbnail ? item.thumbnail : "https://hasmath1998.github.io/image/site-logo.png";
 
+                    document.getElementById('page-title').innerText = pageTitle;
+                    document.getElementById('meta-description').setAttribute('content', pageDesc);
+                    document.getElementById('meta-canonical').setAttribute('href', pageUrl);
+                    
+                    document.getElementById('meta-og-title').setAttribute('content', pageTitle);
+                    document.getElementById('meta-og-desc').setAttribute('content', pageDesc);
+                    document.getElementById('meta-og-url').setAttribute('content', pageUrl);
+                    document.getElementById('meta-og-image').setAttribute('content', pageImage);
+
+                    document.getElementById('meta-twitter-title').setAttribute('content', pageTitle);
+                    document.getElementById('meta-twitter-desc').setAttribute('content', pageDesc);
+                    document.getElementById('meta-twitter-image').setAttribute('content', pageImage);
+
+                    // பிளேயர் மற்றும் விவரங்களை அமைத்தல்
                     playerBox.innerHTML = `<iframe src="https://www.youtube.com/embed/${item.youtubeId}?autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
                     
                     const descriptionText = item.description ? item.description : "No description available for this video.";
@@ -450,7 +460,6 @@
                             <button class="desc-toggle-btn" id="desc-btn" onclick="toggleDescription()">...more</button>
                         </div>
 
-                        <!-- கமெண்ட் பகுதி (மினிமைஸ் மற்றும் யூடியூப் ஸ்டைல் பாப்-அப் வசதியுடன்) -->
                         <div class="comments-section" id="comments-section-box">
                             <div class="comments-header-row">
                                 <div class="comments-title">Comments</div>
@@ -465,7 +474,6 @@
                             </div>
                         </div>
 
-                        <!-- முழு கமெண்ட் பாப்-அப் விண்டோ (Modal) -->
                         <div class="comments-modal" id="commentsModal">
                             <div class="comments-modal-content">
                                 <div class="modal-header">
@@ -483,6 +491,7 @@
                         </div>
                     `;
 
+                    // கேட்டகரி அடிப்படையில் தொடர்புடைய வீடியோக்களை வரிசைப்படுத்துதல்
                     const otherItems = allItems.filter(p => p.id != videoId);
                     const sameCategoryItems = otherItems.filter(p => p.category && item.category && p.category.toLowerCase() === item.category.toLowerCase());
                     const otherCategoryItems = otherItems.filter(p => !p.category || !item.category || p.category.toLowerCase() !== item.category.toLowerCase());
@@ -491,12 +500,9 @@
                     if(sortedRelatedItems.length > 0) {
                         relatedContainer.innerHTML = '';
                         sortedRelatedItems.forEach(oth => {
-                            const isOthShort = shorts.some(s => s.id == oth.id);
-                            const thumbContainerClass = isOthShort ? 'related-thumb-container short-thumb-container' : 'related-thumb-container';
-
                             relatedContainer.innerHTML += `
                                 <div class="related-item" onclick="window.location='video-view.html?id=${oth.id}'">
-                                    <div class="${thumbContainerClass}">
+                                    <div class="related-thumb-container">
                                         <img src="${oth.thumbnail}" class="related-thumb" alt="Thumbnail">
                                     </div>
                                     <div class="related-details">
@@ -514,7 +520,6 @@
                 }
             });
 
-        // Like பட்டன் மற்றும் கவுண்ட்
         let isLiked = false;
         let baseLikes = 142;
         function toggleLike() {
@@ -537,7 +542,6 @@
             }
         }
 
-        // கமெண்ட் டேட்டா பட்டியல்
         let commentsData = [
             { id: 1, author: "Viewer", text: "Great tutorial, very helpful! 🔥" },
             { id: 2, author: "Fighter", text: "Thank you! Keep practicing. 💪" }
@@ -551,7 +555,6 @@
             document.getElementById('commentsModal').classList.remove('active');
         }
 
-        // கமெண்ட் செக்ஷனை மினிமைஸ் / மேக்ஸிமைஸ் செய்ய
         function toggleMinimizeComments() {
             const wrap = document.getElementById('comments-content-wrap');
             const btn = document.getElementById('minimize-btn');
@@ -577,7 +580,6 @@
                 
                 listEl.innerHTML = '';
                 commentsData.forEach((c, index) => {
-                    // நீங்கள் (You) எழுதிய கமெண்டுகளுக்கு மட்டும் எடிட்/டெலிட் பட்டன் வரும்
                     let actionButtons = '';
                     if (c.author === "You") {
                         actionButtons = `
@@ -599,7 +601,7 @@
                 });
             } else {
                 previewEl.innerHTML = `<i>No comments yet. Be the first to comment!</i>`;
-                listEl.innerHTML = `<p style="font-size:8.5pt; color:var(--text-muted); text-align:center;">No comments available.</p>`;
+                listEl.innerHTML = `<p style='font-size:8.5pt; color:var(--text-muted); text-align:center;'>No comments available.</p>`;
             }
         }
 
