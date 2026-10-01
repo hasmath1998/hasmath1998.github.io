@@ -207,7 +207,6 @@
             background: #000;
         }
 
-        /* தலைப்பு மறைவதைத் தடுத்து முழுமையாகத் தெரியும்படியான அமைப்பு */
         .short-title {
             font-size: 8pt;
             font-weight: 600;
@@ -219,80 +218,6 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
             line-height: 1.2;
-        }
-
-        /* Direct Instant Popup Modal for Shorts */
-        #shorts-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: calc(100vh - 55px);
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .shorts-modal-content {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            height: 100%;
-            background: #000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .shorts-close-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255,255,255,0.2);
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            font-size: 16pt;
-            cursor: pointer;
-            z-index: 2010;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .shorts-player-container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scrollbar-width: none;
-        }
-
-        .shorts-player-container::-webkit-scrollbar {
-            display: none;
-        }
-
-        .short-slide-item {
-            min-width: 100%;
-            height: 100%;
-            scroll-snap-align: start;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-            background: #000;
-        }
-
-        .short-slide-item iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
         }
 
         .footer-policy {
@@ -350,46 +275,23 @@
             text-decoration: none !important;
             color: inherit;
         }
-
-        .title-link:hover {
-            text-decoration: none !important;
-        }
-
-   
-
-      
     </style>
 </head>
 <body>
 
-
-  
-        <header class="site-header">
-    <a href="index.html">
-        <img src="image/site-logo.png" alt="Logo" class="site-logo">
-    </a>
-    <a href="index.html" class="title-link">
-        <div class="site-title">Fighter <span>Hasmathullah</span></div>
-    </a>
-</header>
-
-
-  
+    <header class="site-header">
+        <a href="index.html">
+            <img src="image/site-logo.png" alt="Logo" class="site-logo">
+        </a>
+        <a href="index.html" class="title-link">
+            <div class="site-title">Fighter <span>Hasmathullah</span></div>
+        </a>
+    </header>
 
     <div class="container">
         <div class="section-header">Posts</div>
         <div id="home-feed-container">
             <p style="text-align:center; color:var(--text-muted); padding:20px;">Wait...</p>
-        </div>
-    </div>
-
-    <!-- Direct Instant Shorts Popup Modal -->
-    <div id="shorts-modal">
-        <div class="shorts-modal-content">
-            <button class="shorts-close-btn" onclick="closeShortsModal()">&times;</button>
-            <div class="shorts-player-container" id="shorts-slider-wrapper">
-                <!-- Shorts slides will be injected here dynamically -->
-            </div>
         </div>
     </div>
 
@@ -457,7 +359,7 @@
                     `;
                     globalShorts.forEach((short) => {
                         shortsHtml += `
-                            <div class="short-card-item" onclick="openShortsModal('${short.id}')">
+                            <div class="short-card-item" onclick="window.location='video-view.html?id=${short.id}'">
                                 <img src="${short.thumbnail}" class="short-thumb" alt="Short">
                                 <div class="short-title">${short.title}</div>
                             </div>
@@ -514,43 +416,6 @@
             .catch(err => {
                 document.getElementById('home-feed-container').innerHTML = "<p style='text-align:center; color:#ef4444;'>.Connection Error.</p>";
             });
-
-        // youtubeId ஐப் பயன்படுத்தி பாப்-அப் வீடியோவை சரியாக பிளே செய்தல்
-        function openShortsModal(shortId) {
-            const modal = document.getElementById('shorts-modal');
-            const sliderWrapper = document.getElementById('shorts-slider-wrapper');
-            
-            sliderWrapper.innerHTML = '';
-            
-            globalShorts.forEach(short => {
-                let ytEmbedUrl = '';
-                if (short.youtubeId) {
-                    ytEmbedUrl = `https://www.youtube.com/embed/${short.youtubeId}?autoplay=1&mute=0&loop=1&playlist=${short.youtubeId}`;
-                }
-
-                sliderWrapper.innerHTML += `
-                    <div class="short-slide-item" id="slide-${short.id}">
-                        <iframe src="${ytEmbedUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                `;
-            });
-
-            modal.style.display = 'flex';
-
-            setTimeout(() => {
-                const targetSlide = document.getElementById(`slide-${shortId}`);
-                if (targetSlide) {
-                    targetSlide.scrollIntoView({ behavior: 'auto', inline: 'start' });
-                }
-            }, 50);
-        }
-
-        function closeShortsModal() {
-            const modal = document.getElementById('shorts-modal');
-            const sliderWrapper = document.getElementById('shorts-slider-wrapper');
-            modal.style.display = 'none';
-            sliderWrapper.innerHTML = ''; 
-        }
     </script>
 </body>
 </html>
