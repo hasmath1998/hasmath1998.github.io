@@ -94,6 +94,7 @@
             padding-bottom: 4px;
         }
 
+        /* ஷார்ட்ஸ் வீடியோவாக இருந்தாலும் சாதாரண 16:9 அளவிலேயே பிளேயர் இருக்கும் */
         .media-box {
             width: 100%;
             background: #000;
@@ -104,14 +105,6 @@
             align-items: center;
             justify-content: center;
             border: 1px solid var(--border);
-        }
-
-        /* ஷார்ட்ஸ் வீடியோக்களுக்குரிய செங்குத்து பிளேயர் அளவு (video-view.html போன்றே மாற்றப்பட்டுள்ளது) */
-        .media-box.short-media-box {
-            aspect-ratio: 9 / 16;
-            max-height: 480px;
-            max-width: 270px;
-            margin: 0 auto;
         }
 
         .media-box iframe {
@@ -340,9 +333,6 @@
         .related-thumb-container {
             position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000;
         }
-        .related-thumb-container.short-thumb-container {
-            aspect-ratio: 9 / 16; max-height: 260px; margin: 0 auto;
-        }
         .related-thumb { width: 100%; height: 100%; object-fit: cover; }
         .related-details { padding: 8px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; }
         .related-title {
@@ -380,7 +370,7 @@
 
     <div class="view-container">
         <div class="sticky-player-wrapper">
-            <div class="media-box short-media-box" id="media-player-box">
+            <div class="media-box" id="media-player-box">
                 <p style="color:var(--text-muted); font-size:9pt;">Please Wait...</p>
             </div>
         </div>
@@ -434,7 +424,7 @@
                                 <span id="like-icon">👍</span> <span id="like-text">Like</span> (<span id="like-count">142</span>)
                             </button>
                             <button class="action-btn" onclick="shareVideo()">
-                                <span>↗️️</span> Share
+                                <span>↗️</span> Share
                             </button>
                         </div>
 
@@ -476,7 +466,7 @@
                         </div>
                     `;
 
-                    // ஷார்ட்ஸ் வீடியோக்கள் முதலில் பரிந்துரைக்கப்படும் அமைப்பு
+                    // பரிந்துரைக்கப்பட்ட வீடியோக்கள் பட்டியல் (அனைத்தும் 16:9 தம்பनेल அளவுடன்)
                     const otherItems = allItems.filter(p => p.id != videoId);
                     const otherShorts = otherItems.filter(s => shorts.some(sh => sh.id == s.id));
                     const normalVideos = otherItems.filter(v => !shorts.some(sh => sh.id == v.id));
@@ -487,12 +477,11 @@
                         relatedContainer.innerHTML = '';
                         sortedRelatedItems.forEach(oth => {
                             const isOthShort = shorts.some(s => s.id == oth.id);
-                            const thumbContainerClass = isOthShort ? 'related-thumb-container short-thumb-container' : 'related-thumb-container';
                             const targetPage = isOthShort ? 'shorts-view.html' : 'video-view.html';
 
                             relatedContainer.innerHTML += `
                                 <div class="related-item" onclick="window.location='${targetPage}?id=${oth.id}'">
-                                    <div class="${thumbContainerClass}">
+                                    <div class="related-thumb-container">
                                         <img src="${oth.thumbnail}" class="related-thumb" alt="Thumbnail">
                                     </div>
                                     <div class="related-details">
@@ -604,6 +593,7 @@
             }
         }
 
+        ,
         function editComment(index) {
             const currentText = commentsData[index].text;
             const newText = prompt("Edit your comment:", currentText);
