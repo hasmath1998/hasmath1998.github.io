@@ -1,6 +1,5 @@
 {
   "shorts": [
-
     {
       "id": "Nunchaku",
       "title": "Nunchaku",
@@ -25,28 +24,24 @@
       "thumbnail": "image/powerfull-kicks.jpg",
       "youtubeId": "iZpWZdwG2eI"
     },
-    
     {
       "id": "Quick-and-powerful-nunchacku",
       "title": "Quick and powerful nunchacku",
       "thumbnail": "image/Quick-and-powerful-nunchacku.jpg",
       "youtubeId": "VWItJ0bYO68"
     },
-    
     {
       "id": "Quick-punches-Demo",
       "title": "Quick punches Demo",
       "thumbnail": "image/Quick-punches-Demo.jpg",
       "youtubeId": "v1ByLeGoxh0"
     },
-    
     {
       "id": "Bruce-Lee-Jumping-Snap-Kick",
       "title": "Bruce Lee Jumping Snap Kick",
       "thumbnail": "image/Bruce-Lee-Jumping-Snap-Kick.jpg",
       "youtubeId": "3VHIqwONqsI"
     },
-    
     {
       "id": "Fastest-Wall-Punches",
       "title": "Fastest Wall Punches",
@@ -71,13 +66,8 @@
       "thumbnail": "image/pillar-punch.jpg",
       "youtubeId": "DE7nGEBcSKk"
     }
-    
   ],
-
-  
-  
   "videos": [
-
     {
       "id": "vid-chall",
       "title": "vidyut jammwal iron hand conditioning pushup",
@@ -85,7 +75,6 @@
       "youtubeId": "xRubi43r0tU",
       "category": "Challenge"
     },
-    
     {
       "id": "siu-old",
       "title": "Wing Chun Siu Nim Tao Fast Demonstrate",
@@ -122,17 +111,13 @@
       "category": "Fitness"
     }
   ],
-  
   "articles": [
     {
       "id": "wall-punch-tamil",
       "title": "என்னால் எவ்வாறு வெறும் கைகளால் சுவற்றை தாக்க முடிகிறது",
       "thumbnail": "image/article1.jpg",
-      "link": "https://hasmath1998.github.io/wall-punch-tamil",
-      "category": "Martial Arts Tamil"
+      "category": "Martial Arts Tamil",
+      "time": "1 week ago"
     }
-
-    
   ]
-  
 }
