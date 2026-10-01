@@ -153,7 +153,6 @@
         }
         .nav-item.active { color: var(--accent); }
 
-
        .title-link {
             text-decoration: none !important;
             color: inherit;
@@ -162,14 +161,10 @@
         .title-link:hover {
             text-decoration: none !important;
         }
-
-        
     </style>
 </head>
 <body>
 
-
-    
 <header class="site-header">
     <a href="index.html">
         <img src="image/site-logo.png" alt="Logo" class="site-logo">
@@ -197,25 +192,42 @@
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const articleId = urlParams.get('id');
+        const container = document.getElementById('article-content-box');
 
-        fetch('content.json')
-            .then(res => res.json())
-            .then(data => {
-                const articles = data.articles || data.posts || [];
-                const item = articles.find(p => p.id == articleId);
-                const container = document.getElementById('article-content-box');
-
-                if(item) {
-                    container.innerHTML = `
-                        <div class="article-title">${item.title}</div>
-                        <div class="article-meta">Category: ${item.category || 'General'} • ${item.time || 'Recently'}</div>
-                        <div class="article-body">${item.content || item.description || 'Full Articles Soon.'}</div>
-                        <a href="articles.html" class="back-btn">← Back to Articles</a>
-                    `;
-                } else {
-                    container.innerHTML = `<p style="color:#ef4444; text-align:center;">No Articles.</p>`;
-                }
-            });
+        if (articleId) {
+            fetch('content.json')
+                .then(res => res.json())
+                .then(data => {
+                    const articles = data.articles || data.posts || [];
+                    const item = articles.find(p => p.id == articleId);
+                    
+                    if (item) {
+                        fetch(articleId + '.html')
+                            .then(res => {
+                                if (!res.ok) throw new Error('File not found');
+                                return res.text();
+                            })
+                            .then(htmlContent => {
+                                container.innerHTML = `
+                                    <div class="article-title">${item.title}</div>
+                                    <div class="article-meta">Category: ${item.category || 'General'} • ${item.time || 'Recently'}</div>
+                                    <div class="article-body">${htmlContent}</div>
+                                    <a href="articles.html" class="back-btn">← Back to Articles</a>
+                                `;
+                            })
+                            .catch(err => {
+                                container.innerHTML = `<p style="color:#ef4444; text-align:center;">கட்டுரை கோப்பு கிடைக்கவில்லை.</p>`;
+                            });
+                    } else {
+                        container.innerHTML = `<p style="color:#ef4444; text-align:center;">No Articles Found.</p>`;
+                    }
+                })
+                .catch(err => {
+                    container.innerHTML = `<p style="color:#ef4444; text-align:center;">Connection Error.</p>`;
+                });
+        } else {
+            container.innerHTML = `<p style="color:#ef4444; text-align:center;">Invalid Article ID.</p>`;
+        }
     </script>
 </body>
 </html>
