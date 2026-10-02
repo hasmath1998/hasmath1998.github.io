@@ -65,6 +65,8 @@ jobs:
               'privacy.html', 'about.html', 'contact.html', 'disclaimer.html', 'terms.html'
           )
 
+          urls_to_index = set()
+
           for file in changed_files:
               file = file.strip()
               if not file:
@@ -72,29 +74,61 @@ jobs:
 
               file_name = os.path.basename(file)
 
+              # .html ஃபைல் மாற்றங்கள்
               if file.endswith('.html'):
-                  # ஒரிஜினல் பக்கங்கள் எனில் அப்படியே அசல் முகவரியை அனுப்பும்
                   if file_name in original_pages:
                       target_url = f"{base_domain}/{file_name}"
                   else:
-                      # 2. கட்டுரைகள் (articles/ ஃபோல்டருக்குள் இருப்பவை)
                       path_without_ext = file[:-5]
                       if path_without_ext.startswith("articles/"):
                           target_url = f"{base_domain}/article-view.html?id={path_without_ext}"
                       else:
-                          # 3. மற்ற வீடியோ அல்லது ஷார்ட்ஸ் போஸ்ட்கள் எனில்
                           target_url = f"{base_domain}/video-view.html?id={path_without_ext}"
-                  
-                  print(f"Submitting URL to Google: {target_url}")
+                  urls_to_index.add(target_url)
 
-                  body = {
-                      "url": target_url,
-                      "type": "URL_UPDATED"
-                  }
+              # content.json மாற்றப்பட்டால், அதில் உள்ள புதிய வீடியோ மற்றும் ஷார்ட்ஸ் ஐடிக்களைக் கண்டறிந்து இன்டெக்ஸ் செய்ய
+              elif file_name == 'content.json':
+                  try:
+                      # முந்தைய கமிட்டில் (HEAD^) இருந்த content.json ஃபைலைப் படித்தல்
+                      prev_content_process = subprocess.run(['git', 'show', 'HEAD^:content.json'], stdout=subprocess.PIPE, text=True, check=True)
+                      prev_data = json.loads(prev_content_process.stdout)
+                  except Exception:
+                      prev_data = {"videos": [], "shorts": [], "articles": []}
 
                   try:
-                      response = service.urlNotifications().publish(body=body).execute()
-                      print(f"Successfully notified: {response}")
+                      # தற்போதைய கமிட்டில் உள்ள content.json ஃபைலைப் படித்தல்
+                      with open('content.json', 'r', encoding='utf-8') as f:
+                          curr_data = json.load(f)
                   except Exception as e:
-                      print(f"Failed to index {target_url}: {e}")
+                      print(f"Error reading current content.json: {e}")
+                      curr_data = {"videos": [], "shorts": [], "articles": []}
+
+                  # பழைய ஐடிக்களின் பட்டியல் (Set)
+                  prev_video_ids = {v.get('id') for v in prev_data.get('videos', []) if v.get('id')}
+                  prev_short_ids = {s.get('id') for s in prev_data.get('shorts', []) if s.get('id')}
+
+                  # புதிய வீடியோ மற்றும் ஷார்ட்ஸ் ஐடிக்களைச் சோதித்து புதியவற்றை மட்டும் எடுத்தல்
+                  for v in curr_data.get('videos', []):
+                      v_id = v.get('id')
+                      if v_id and v_id not in prev_video_ids:
+                          urls_to_index.add(f"{base_domain}/video-view.html?id={v_id}")
+
+                  for s in curr_data.get('shorts', []):
+                      s_id = s.get('id')
+                      if s_id and s_id not in prev_short_ids:
+                          urls_to_index.add(f"{base_domain}/video-view.html?id={s_id}")
+
+          # சேகரிக்கப்பட்ட அனைத்து யூஆர்எம்களையும் கூகுளுக்கு அனுப்புதல்
+          for target_url in urls_to_index:
+              print(f"Submitting URL to Google: {target_url}")
+              body = {
+                  "url": target_url,
+                  "type": "URL_UPDATED"
+              }
+
+              try:
+                  response = service.urlNotifications().publish(body=body).execute()
+                  print(f"Successfully notified: {response}")
+              except Exception as e:
+                  print(f"Failed to index {target_url}: {e}")
           EOF
