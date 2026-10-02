@@ -22,7 +22,7 @@
 
     <meta name="description" content="Read full martial arts and fitness articles on Fighter Hasmathullah.">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://hasmath1998.github.io/article-view.html">
+    <!-- Static canonical removed and replaced with Dynamic Canonical script below -->
     
     <meta property="og:title" content="Article - Fighter Hasmathullah">
     <meta property="og:description" content="Read full martial arts and fitness articles on Fighter Hasmathullah.">
@@ -162,6 +162,22 @@
             text-decoration: none !important;
         }
     </style>
+
+    <!-- Dynamic Canonical Tag Generator for Articles -->
+    <script>
+        const articleParams = new URLSearchParams(window.location.search);
+        const currentArticleId = articleParams.get('id');
+
+        let dynamicCanonical = document.createElement('link');
+        dynamicCanonical.setAttribute('rel', 'canonical');
+
+        if (currentArticleId) {
+            dynamicCanonical.setAttribute('href', `https://hasmath1998.github.io/article-view.html?id=${currentArticleId}`);
+        } else {
+            dynamicCanonical.setAttribute('href', 'https://hasmath1998.github.io/article-view.html');
+        }
+        document.head.appendChild(dynamicCanonical);
+    </script>
 </head>
 <body>
 
