@@ -1,0 +1,100 @@
+name: Auto Indexing
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  index-posts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install google-api-python-client oauth2client
+
+      - name: Run Indexing Script
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+        run: |
+          python - << 'EOF'
+          import os
+          import subprocess
+          import json
+          from googleapiclient.discovery import build
+          from oauth2client.service_account import ServiceAccountCredentials
+
+          creds_json = os.environ.get('GOOGLE_CREDENTIALS')
+          if not creds_json:
+              print("Error: GOOGLE_CREDENTIALS secret not found.")
+              exit(1)
+
+          try:
+              creds_dict = json.loads(creds_json)
+          except Exception as e:
+              print(f"Error parsing GOOGLE_CREDENTIALS JSON: {e}")
+              exit(1)
+
+          SCOPES = ["https://www.googleapis.com/auth/indexing"]
+          credentials = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, SCOPES)
+          service = build('indexing', 'v3', credentials=credentials)
+
+          try:
+              result = subprocess.run(['git', 'diff', '--name-only', 'HEAD^', 'HEAD'], stdout=subprocess.PIPE, text=True, check=True)
+              changed_files = result.stdout.splitlines()
+          except Exception as e:
+              print(f"Warning: Could not run git diff. Error: {e}")
+              changed_files = []
+
+          base_domain = "https://hasmath1998.github.io"
+
+          # 1. ஒரிஜினல் பக்கங்கள் (இவை எப்போது எடிட் ஆனாலும் ஐடி இல்லாமல் அசல் லிங்க்காகவே செல்லும்)
+          original_pages = (
+              'index.html', 'shorts.html', 'videos.html', 'articles.html', 
+              'video-view.html', 'article-view.html', 'search.html', 
+              'privacy.html', 'about.html', 'contact.html', 'disclaimer.html', 'terms.html'
+          )
+
+          for file in changed_files:
+              file = file.strip()
+              if not file:
+                  continue
+
+              file_name = os.path.basename(file)
+
+              if file.endswith('.html'):
+                  # ஒரிஜினல் பக்கங்கள் எனில் அப்படியே அசல் முகவரியை அனுப்பும்
+                  if file_name in original_pages:
+                      target_url = f"{base_domain}/{file_name}"
+                  else:
+                      # 2. கட்டுரைகள் (articles/ ஃபோல்டருக்குள் இருப்பவை)
+                      path_without_ext = file[:-5]
+                      if path_without_ext.startswith("articles/"):
+                          target_url = f"{base_domain}/article-view.html?id={path_without_ext}"
+                      else:
+                          # 3. மற்ற வீடியோ அல்லது ஷார்ட்ஸ் போஸ்ட்கள் எனில்
+                          target_url = f"{base_domain}/video-view.html?id={path_without_ext}"
+                  
+                  print(f"Submitting URL to Google: {target_url}")
+
+                  body = {
+                      "url": target_url,
+                      "type": "URL_UPDATED"
+                  }
+
+                  try:
+                      response = service.urlNotifications().publish(body=body).execute()
+                      print(f"Successfully notified: {response}")
+                  except Exception as e:
+                      print(f"Failed to index {target_url}: {e}")
+          EOF
