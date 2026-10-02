@@ -24,7 +24,7 @@
     <meta name="keywords" content="Martial Arts, Fighter Hasmathullah, Combat Training, Karate, Boxing, Wing Chun, Self Defense, Tamil Tutorials">
     <meta name="author" content="Ak Hasmathullah">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" id="meta-canonical" href="https://hasmath1998.github.io/video-view.html">
+    <!-- Static canonical removed and replaced with Dynamic Canonical script below -->
     
     <!-- Open Graph / Social Media Meta Tags (Facebook, WhatsApp, LinkedIn) -->
     <meta property="og:site_name" content="Fighter Hasmathullah">
@@ -367,6 +367,22 @@
         }
         .nav-item.active { color: var(--accent); }
     </style>
+
+    <!-- Dynamic Canonical Tag Generator for Videos & Shorts -->
+    <script>
+        const videoParams = new URLSearchParams(window.location.search);
+        const currentVideoId = videoParams.get('id');
+
+        let dynamicVideoCanonical = document.createElement('link');
+        dynamicVideoCanonical.setAttribute('rel', 'canonical');
+
+        if (currentVideoId) {
+            dynamicVideoCanonical.setAttribute('href', `https://hasmath1998.github.io/video-view.html?id=${currentVideoId}`);
+        } else {
+            dynamicVideoCanonical.setAttribute('href', 'https://hasmath1998.github.io/video-view.html');
+        }
+        document.head.appendChild(dynamicVideoCanonical);
+    </script>
 </head>
 <body>
 
@@ -426,7 +442,6 @@
 
                     document.getElementById('page-title').innerText = pageTitle;
                     document.getElementById('meta-description').setAttribute('content', pageDesc);
-                    document.getElementById('meta-canonical').setAttribute('href', pageUrl);
                     
                     document.getElementById('meta-og-title').setAttribute('content', pageTitle);
                     document.getElementById('meta-og-desc').setAttribute('content', pageDesc);
@@ -451,7 +466,7 @@
                                 <span id="like-icon">👍</span> <span id="like-text">Like</span> (<span id="like-count">142</span>)
                             </button>
                             <button class="action-btn" onclick="shareVideo()">
-                                <span>↗️</span> Share
+                                <span>↗️️</span> Share
                             </button>
                         </div>
 
@@ -625,7 +640,7 @@
 
         function deleteComment(index) {
             if(confirm("Are you sure you want to delete this comment?")) {
-                commentsData.splice(index, 1);
+                commentsData.commentsData?.splice(index, 1);
                 renderComments();
             }
         }
