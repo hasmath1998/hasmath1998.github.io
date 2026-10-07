@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ta">
 <head>
@@ -93,9 +94,9 @@
         .site-title span { color: var(--accent); }
 
         .view-container {
-            max-width: 600px;
+            max-width: 100%; /* அகலத்தை முழுமையாகப் பெற */
             margin: 0 auto;
-            padding: 12px;
+            padding: 0; /* பக்கவாட்டு இடைவெளிகளை நீக்கி பெரிதாக்க */
         }
 
         .sticky-player-wrapper {
@@ -103,19 +104,21 @@
             top: 65px;
             z-index: 99;
             background: var(--bg-primary);
-            padding-bottom: 4px;
+            padding-bottom: 0;
         }
 
+        /* யூடியூப் போல பிளேயரை பெரிதாக்க CSS மாற்றம் */
         .media-box {
             width: 100%;
             background: #000;
-            border-radius: 8px;
+            border-radius: 0; /* யூடியூப் போல முனைகளை நேராக்க */
             overflow: hidden;
             aspect-ratio: 16 / 9;
+            min-height: 280px; /* மொபைலில் பிளேயர் சிறியதாகாமல் இருக்க குறைந்தபட்ச உயரம் */
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
         }
 
         .media-box iframe {
@@ -125,10 +128,11 @@
         }
 
         .video-info {
-            margin-top: 12px;
+            margin-top: 0; /* பிளேயருடன் ஒட்டியிருக்க */
             background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 8px;
+            border: none;
+            border-bottom: 1px solid var(--border);
+            border-radius: 0;
             padding: 12px;
         }
 
@@ -322,13 +326,14 @@
 
         .related-section-title {
             font-size: 10pt; font-weight: 600; color: var(--accent);
-            margin: 20px 0 10px 0; border-top: 1px solid var(--border); padding-top: 12px;
+            margin: 20px 12px 10px 12px; border-top: 1px solid var(--border); padding-top: 12px;
         }
 
         .related-list {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 10px;
+            padding: 0 12px;
         }
         @media (min-width: 500px) {
             .related-list { grid-template-columns: repeat(3, 1fr); }
@@ -349,7 +354,7 @@
         .back-btn {
             display: inline-block; background: var(--card-bg); color: var(--accent);
             padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 9pt;
-            border: 1px solid var(--border); margin-top: 20px;
+            border: 1px solid var(--border); margin: 20px 12px;
         }
         .footer-policy {
             text-align: center; padding: 20px 16px; font-size: 8pt; color: var(--text-muted);
@@ -398,7 +403,9 @@
             </div>
         </div>
 
-        <div class="video-info" id="video-info-box"></div>
+        <div style="padding: 0 12px;">
+            <div class="video-info" id="video-info-box"></div>
+        </div>
 
         <div class="related-section-title">Related Videos</div>
         <div class="related-list" id="related-videos-container"></div>
@@ -452,7 +459,7 @@
                     document.getElementById('meta-twitter-desc').setAttribute('content', pageDesc);
                     document.getElementById('meta-twitter-image').setAttribute('content', pageImage);
 
-                    // பிளேயர் மற்றும் விவரங்களை அமைத்தல் (யூடியூப் போன்ற சரியான அளவு மற்றும் மறைப்புகளைத் தவிர்க்க rel=0, playsinline=1 சேர்க்கப்பட்டுள்ளது)
+                    // யூடியூப் போல பெரிய அளவில் பிளேயர் தெரிய மற்றும் மறைப்புகளைத் தவிர்க்க பராமீட்டர்களுடன் அமைத்தல்
                     playerBox.innerHTML = `<iframe src="https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&rel=0&playsinline=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
                     
                     const descriptionText = item.description ? item.description : "No description available for this video.";
@@ -527,7 +534,7 @@
                             `;
                         });
                     } else {
-                        relatedContainer.innerHTML = "<p style='font-size:8.5pt; color:var(--text-muted); grid-column: span 3;'>No Related Videos.</p>";
+                        relatedContainer.innerHTML = "<p style='font-size:8.5pt; color:var(--text-muted); grid-column: span 3; padding-left: 12px;'>No Related Videos.</p>";
                     }
 
                 } else {
@@ -633,7 +640,7 @@
             const currentText = commentsData[index].text;
             const newText = prompt("Edit your comment:", currentText);
             if(newText !== null && newText.trim() !== "") {
-                commentsData.[span_0](start_span)[span_0](end_span)index.text = newText.trim();
+                commentsData[index].text = newText.trim();
                 renderComments();
             }
         }
