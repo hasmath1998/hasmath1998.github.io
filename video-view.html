@@ -452,8 +452,8 @@
                     document.getElementById('meta-twitter-desc').setAttribute('content', pageDesc);
                     document.getElementById('meta-twitter-image').setAttribute('content', pageImage);
 
-                    // பிளேயர் மற்றும் விவரங்களை அமைத்தல்
-                    playerBox.innerHTML = `<iframe src="https://www.youtube.com/embed/${item.youtubeId}?autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+                    // பிளேயர் மற்றும் விவரங்களை அமைத்தல் (யூடியூப் போன்ற சரியான அளவு மற்றும் மறைப்புகளைத் தவிர்க்க rel=0, playsinline=1 சேர்க்கப்பட்டுள்ளது)
+                    playerBox.innerHTML = `<iframe src="https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&rel=0&playsinline=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
                     
                     const descriptionText = item.description ? item.description : "No description available for this video.";
                     
@@ -466,7 +466,7 @@
                                 <span id="like-icon">👍</span> <span id="like-text">Like</span> (<span id="like-count">142</span>)
                             </button>
                             <button class="action-btn" onclick="shareVideo()">
-                                <span>↗️️</span> Share
+                                <span>↗</span> Share
                             </button>
                         </div>
 
@@ -633,7 +633,7 @@
             const currentText = commentsData[index].text;
             const newText = prompt("Edit your comment:", currentText);
             if(newText !== null && newText.trim() !== "") {
-                commentsData[index].text = newText.trim();
+                commentsData.[span_0](start_span)[span_0](end_span)index.text = newText.trim();
                 renderComments();
             }
         }
@@ -671,3 +671,4 @@
     </script>
 </body>
 </html>
+
